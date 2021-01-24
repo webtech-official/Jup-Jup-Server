@@ -34,27 +34,26 @@ public class SignController {
 
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
     @PostMapping(value = "/signin")
-    public SingleResult<String> signin(@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String id,
+    public SingleResult<String> signin(@ApiParam(value = "회원 이메일", required = true) @RequestParam String email,
                                        @ApiParam(value = "비밀번호", required = true) @RequestParam String password) {
-        Admin admin = adminRepo.findByEmail(id).orElseThrow(CEmailSigninFailedException::new);
+        Admin admin = adminRepo.findByEmail(email).orElseThrow(CEmailSigninFailedException::new);
         if (!passwordEncoder.matches(password, admin.getPassword()))
             throw new CEmailSigninFailedException();
 
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(admin.getEmail()), admin.getRoles()));
-
     }
 
     @ApiOperation(value = "가입", notes = "회원가입을 한다.")
     @PostMapping(value = "/signup")
-    public CommonResult signin(@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String id,
+    public CommonResult signin(@ApiParam(value = "회원 이메일", required = true) @RequestParam String email,
                                @ApiParam(value = "비밀번호", required = true) @RequestParam String password,
                                @ApiParam(value = "이름", required = true) @RequestParam String name,
-                               @ApiParam(value = "클래스", required = true) @RequestParam String classNumber) {
+                               @ApiParam(value = "학번", required = true) @RequestParam String classNumber) {
         //이메일 중복
-        Optional<Admin> admin = adminRepo.findByEmail(id);
+        Optional<Admin> admin = adminRepo.findByEmail(email);
         if(admin.isEmpty()){
             adminRepo.save(Admin.builder()
-                    .email(id)
+                    .email(email)
                     .password(passwordEncoder.encode(password))
                     .name(name)
                     .classNumber(classNumber)
