@@ -1,6 +1,7 @@
 package com.gsm.jupjup.controller.exception;
 
 import com.gsm.jupjup.advice.exception.CAuthenticationEntryPointException;
+import com.gsm.jupjup.advice.exception.CDuplicateEmailException;
 import com.gsm.jupjup.model.response.CommonResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -21,5 +22,10 @@ public class ExceptionController {
     @GetMapping(value = "/accessdenied")
     public CommonResult accessdeniedException() {
         throw new AccessDeniedException("");
+    }
+
+    @GetMapping(value = "/duplicateemail")
+    public CommonResult duplicateemailException() {
+        throw new CDuplicateEmailException();
     }
 }

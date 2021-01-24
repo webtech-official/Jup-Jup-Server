@@ -1,6 +1,7 @@
 package com.gsm.jupjup.advice;
 
 import com.gsm.jupjup.advice.exception.CAuthenticationEntryPointException;
+import com.gsm.jupjup.advice.exception.CDuplicateEmailException;
 import com.gsm.jupjup.advice.exception.CEmailSigninFailedException;
 import com.gsm.jupjup.advice.exception.CUserNotFoundException;
 import com.gsm.jupjup.model.response.CommonResult;
@@ -60,5 +61,10 @@ public class ExceptionAdvice {
     @ExceptionHandler(AccessDeniedException.class)
     public CommonResult AccessDeniedException(HttpServletRequest request, AccessDeniedException e) {
         return responseService.getFailResult(Integer.valueOf(getMessage("accessDenied.code")), getMessage("accessDenied.msg"));
+    }
+
+    @ExceptionHandler(CDuplicateEmailException.class)
+    public CommonResult CDuplicateEmailException(HttpServletRequest request, CDuplicateEmailException e) {
+        return responseService.getFailResult(Integer.valueOf(getMessage("DuplicateEmail.code")), getMessage("DuplicateEmail.msg"));
     }
 }

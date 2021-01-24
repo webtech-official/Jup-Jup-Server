@@ -1,5 +1,6 @@
 package com.gsm.jupjup.controller.v1;
 
+import com.gsm.jupjup.advice.exception.CDuplicateEmailException;
 import com.gsm.jupjup.advice.exception.CEmailSigninFailedException;
 import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.model.Admin;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Api(tags = {"1. Sign"})
 @RequiredArgsConstructor
@@ -48,14 +50,19 @@ public class SignController {
                                @ApiParam(value = "비밀번호", required = true) @RequestParam String password,
                                @ApiParam(value = "이름", required = true) @RequestParam String name,
                                @ApiParam(value = "클래스", required = true) @RequestParam String classNumber) {
-
-        adminRepo.save(Admin.builder()
-                .email(id)
-                .password(passwordEncoder.encode(password))
-                .name(name)
-                .classNumber(classNumber)
-                .roles(Collections.singletonList("ROLE_USER"))
-                .build());
+        //이메일 중복
+        Optional<Admin> admin = adminRepo.findByEmail(id);
+        if(admin.isEmpty()){
+            adminRepo.save(Admin.builder()
+                    .email(id)
+                    .password(passwordEncoder.encode(password))
+                    .name(name)
+                    .classNumber(classNumber)
+                    .roles(Collections.singletonList("ROLE_USER"))
+                    .build());
+        } else {
+            throw new CDuplicateEmailException();
+        }
         return responseService.getSuccessResult();
     }
 }
