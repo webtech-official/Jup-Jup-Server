@@ -19,18 +19,20 @@ public class EquipmentAllowService {
 
     @Transactional
     public void save(String NameOfEquipment, EquipmentAllowSaveDto equipmentAllowSaveDto) throws Exception {
+        //신청할 기자제 수량 0체크
+        zeroChk(equipmentAllowSaveDto.getAmount());
         //기자제 이름으로 equipment 테이블을 조회
         Equipment equipment = equipmentService.equipmentFindBy(NameOfEquipment);
-        //equipment 조회해서 dto에 넣어줌
+
+        equipmentAmountCount(equipment.getCount(), equipmentAllowSaveDto.getAmount());
+        //equipment 조회해서 equipmentALlowSaveDto 에 값을 주입하여
         equipmentAllowSaveDto.setEquipment(equipment);
+        //toEntity로 연관관계가 맻여진 equipmentAllow생
         EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity();
-        //기자제 남은 수량 계산
-        //int equipmentAmount = equipment.getCount() - equipmentAllow.getAmount();
 
         equipmentAllowRepo.save(equipmentAllow);
-        //기자재 수량 업데이트
-        //equipment.updateAmount(equipmentAmount);
     }
+
 
     @Transactional
     public void update(Long eqa_idx, EquipmentAllowSaveDto equipmentAllowSaveDto){
@@ -38,26 +40,34 @@ public class EquipmentAllowService {
         int equipmentCount = equipmentAllow.getAmount();
         int equipmentAllowAmount = equipmentAllow.getAmount();
 
-        if(equipmentAmountCountChk(equipmentCount, equipmentAllowAmount))
-            equipmentAllow.update(equipmentAllow.getAmount(), equipmentAllow.getReason());
-        else
-            throw new IllegalArgumentException("현제 신청할 수 있는 기자제를 초과 했습니다.")
-
+        equipmentAmountCount(equipmentCount, equipmentAllowAmount);
 
         //equipmentAllow.update(newEquipmentAllowAmount, equipmentAllowSaveDto.getReason(), UpdateEquipmentCount);
     }
+
 
     public EquipmentAllow equipmentAllowFindBy(Long idx){
         return equipmentAllowRepo.findById(idx).orElseThrow(IllegalAccessError::new);
     }
 
-    //equipmentAllow
-    public boolean equipmentAmountCountChk(int equipmentCount, int newEquipmentAllowAmount){
-        if(equipmentCount >= newEquipmentAllowAmount)
-            return true;
-        else
-            return false;
+    public void zeroChk(int num){
+        if(num == 0) throw new IllegalArgumentException("신청이 0입니다");
     }
+
+    /** 기자재를 신청할 수 있는지 계산해주는 함수
+     * 신청하면 남은 기자제를 반환함
+     * 신청할 수 있는 수량이 아니면(결과가 음수라면) 예외 발
+     * @param equipmentCount   //신청할 수 있는 기자재의 양
+     * @param equipmentAllowAmount  //사용자가 신청하려고 하는 기자재의 양
+     * @return 남은 기자재 양
+     */
+    public int equipmentAmountCount(int equipmentCount, int equipmentAllowAmount){
+        int result = equipmentCount - equipmentAllowAmount;
+        if(result >= 0)
+            return result;
+        else
+            throw new IllegalArgumentException("현제 신청할 수 있는 기자제를 초과 했습니다.")
+    };
 
 
 }
