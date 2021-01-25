@@ -5,7 +5,6 @@ import com.gsm.jupjup.dto.equipmentAllow.EquipmentAllowSaveDto;
 import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
-import com.gsm.jupjup.repo.EquipmentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class EquipmentAllowService {
     public final EquipmentAllowRepo equipmentAllowRepo;
-    public final EquipmentRepo equipmentRepo;
     public final EquipmentService equipmentService;
 
     @Transactional
@@ -23,11 +21,11 @@ public class EquipmentAllowService {
         zeroChk(equipmentAllowSaveDto.getAmount());
         //기자제 이름으로 equipment 테이블을 조회
         Equipment equipment = equipmentService.equipmentFindBy(NameOfEquipment);
-
+        System.out.println(equipment.getName());
         equipmentAmountCount(equipment.getCount(), equipmentAllowSaveDto.getAmount());
         //equipment 조회해서 equipmentALlowSaveDto 에 값을 주입하여
         equipmentAllowSaveDto.setEquipment(equipment);
-        //toEntity로 연관관계가 맻여진 equipmentAllow생
+        //toEntity로 연관관계가 맻여진 equipmentAllow생성
         EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity();
 
         equipmentAllowRepo.save(equipmentAllow);
@@ -45,6 +43,16 @@ public class EquipmentAllowService {
         //equipmentAllow.update(newEquipmentAllowAmount, equipmentAllowSaveDto.getReason(), UpdateEquipmentCount);
     }
 
+    @Transactional
+    public void deleteById(Long eqa_idx){
+        equipmentAllowRepo.deleteById(eqa_idx);
+    }
+
+    @Transactional(readOnly = true)
+    public EquipmentAllow findById(Long eqa_idx){
+        EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_idx);
+        return equipmentAllow;
+    }
 
     public EquipmentAllow equipmentAllowFindBy(Long idx){
         return equipmentAllowRepo.findById(idx).orElseThrow(IllegalAccessError::new);
