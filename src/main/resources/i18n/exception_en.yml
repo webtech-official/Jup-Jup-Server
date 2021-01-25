@@ -17,6 +17,9 @@ accessDenied:
 DuplicateEmail:
   code: "1000"
   msg: "Duplicate Email"
-NotFoundEquipment:
+EquipmentNotFound:
   code: "-465"
   msg: "NotFoundEquipment"
+ImageNotFound:
+  code: "-467"
+  msg: "NotFoundImage"

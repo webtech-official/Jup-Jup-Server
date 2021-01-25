@@ -1,6 +1,7 @@
 package com.gsm.jupjup.service;
 
 import com.gsm.jupjup.advice.exception.EquipmentNotFoundException;
+import com.gsm.jupjup.advice.exception.ImageNotFoundException;
 import com.gsm.jupjup.dto.EquipmentResDto;
 import com.gsm.jupjup.dto.EquipmentUploadDto;
 import com.gsm.jupjup.model.Equipment;
@@ -22,8 +23,8 @@ public class EquipmentService {
      * U => Dirty Checking
      */
 
-    public void save(EquipmentUploadDto equipmentUploadDto) throws Exception {
-        if(equipmentUploadDto.getImg_equipment().isEmpty()) throw new IOException("사진이 없습니다.");
+    public void save(EquipmentUploadDto equipmentUploadDto) {
+        if(equipmentUploadDto.getImg_equipment().isEmpty()) throw new ImageNotFoundException();
 
         Equipment equipmentDomain = equipmentUploadDto.toEntity();
         equipmentRepo.save(equipmentDomain);
@@ -49,7 +50,7 @@ public class EquipmentService {
 
     //Equipment를 name으로 찾고 Entity만드는 매서드
     public Equipment equipmentFindBy(String name) throws Exception {
-        return equipmentRepo.findByName(name).orElseThrow(()-> new IllegalArgumentException("해당 기자제는 없습니다. name="+name));
+        return equipmentRepo.findByName(name).orElseThrow(EquipmentNotFoundException::new);
     }
     //Equipment를 idx으로 찾고 Entity만드는 매서드
     public Equipment equipmentFindBy(Long idx) throws Exception {

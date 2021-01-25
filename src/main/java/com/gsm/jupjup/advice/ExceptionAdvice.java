@@ -67,6 +67,11 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(EquipmentNotFoundException.class)
     public CommonResult EquipmentNotFoundException(HttpServletRequest request, EquipmentNotFoundException e) {
-        return responseService.getFailResult(Integer.valueOf(getMessage("NotFoundEquipment.code")), getMessage("NotFoundEquipment.msg"));
+        return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentNotFound.code")), getMessage("EquipmentNotFound.msg"));
+    }
+
+    @ExceptionHandler(ImageNotFoundException.class)
+    public CommonResult ImageNotFoundException(HttpServletRequest request, ImageNotFoundException e) {
+        return responseService.getFailResult(Integer.valueOf(getMessage("ImageNotFound.code")), getMessage("ImageNotFound.msg"));
     }
 }

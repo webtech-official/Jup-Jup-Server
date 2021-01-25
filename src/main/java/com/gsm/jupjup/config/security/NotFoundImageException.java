@@ -1,6 +1,5 @@
 package com.gsm.jupjup.config.security;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +10,9 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
-public class NotFoundEquipmentHandler {
+public class NotFoundImageException {
     public void commence(HttpServletRequest request, HttpServletResponse response) throws IOException,
             ServletException {
-        response.sendRedirect("/exception/notfoundequipment");
+        response.sendRedirect("/exception/imagenotfound");
     }
 }
