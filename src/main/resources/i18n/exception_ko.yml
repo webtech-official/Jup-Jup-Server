@@ -17,3 +17,6 @@ accessDenied:
 DuplicateEmail:
   code: "-1000"
   msg: "이메일 중복"
+NotFoundEquipment:
+  code: "-465"
+  msg: "기자재가 없습니다"

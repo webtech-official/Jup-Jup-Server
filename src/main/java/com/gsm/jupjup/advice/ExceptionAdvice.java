@@ -1,9 +1,6 @@
 package com.gsm.jupjup.advice;
 
-import com.gsm.jupjup.advice.exception.CAuthenticationEntryPointException;
-import com.gsm.jupjup.advice.exception.CDuplicateEmailException;
-import com.gsm.jupjup.advice.exception.CEmailSigninFailedException;
-import com.gsm.jupjup.advice.exception.CUserNotFoundException;
+import com.gsm.jupjup.advice.exception.*;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import lombok.RequiredArgsConstructor;
@@ -66,5 +63,10 @@ public class ExceptionAdvice {
     @ExceptionHandler(CDuplicateEmailException.class)
     public CommonResult CDuplicateEmailException(HttpServletRequest request, CDuplicateEmailException e) {
         return responseService.getFailResult(Integer.valueOf(getMessage("DuplicateEmail.code")), getMessage("DuplicateEmail.msg"));
+    }
+
+    @ExceptionHandler(EquipmentNotFoundException.class)
+    public CommonResult EquipmentNotFoundException(HttpServletRequest request, EquipmentNotFoundException e) {
+        return responseService.getFailResult(Integer.valueOf(getMessage("NotFoundEquipment.code")), getMessage("NotFoundEquipment.msg"));
     }
 }

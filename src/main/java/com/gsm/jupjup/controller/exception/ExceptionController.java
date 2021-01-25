@@ -2,6 +2,7 @@ package com.gsm.jupjup.controller.exception;
 
 import com.gsm.jupjup.advice.exception.CAuthenticationEntryPointException;
 import com.gsm.jupjup.advice.exception.CDuplicateEmailException;
+import com.gsm.jupjup.advice.exception.EquipmentNotFoundException;
 import com.gsm.jupjup.model.response.CommonResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -27,5 +28,9 @@ public class ExceptionController {
     @GetMapping(value = "/duplicateemail")
     public CommonResult duplicateemailException() {
         throw new CDuplicateEmailException();
+    }
+    @GetMapping(value = "/notfoundequipment")
+    public CommonResult NotFoundEquipmentException() {
+        throw new EquipmentNotFoundException("");
     }
 }
