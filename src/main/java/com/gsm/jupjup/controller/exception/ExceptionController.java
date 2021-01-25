@@ -39,4 +39,7 @@ public class ExceptionController {
     @GetMapping(value = "/equipmentallowamountzero")
     public CommonResult EquipmentAllowAmountZeroException() {throw new EquipmentAllowAmountZeroException("");}
 
+    @GetMapping(value = "/equipment-allow-amount-exceed")
+    public CommonResult EquipmentAllowAmountExceedException() {throw new EquipmentAllowAmountExceedException("");}
+
 }

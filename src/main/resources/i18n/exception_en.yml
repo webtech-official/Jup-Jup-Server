@@ -26,3 +26,6 @@ ImageNotFound:
 EquipmentAllowAmountZero:
   code: "-500"
   msg: "EquipmentAllowAmountZero"
+EquipmentAllowAmountExceed:
+  code: "-501"
+  msg: "EquipmentAllowAmountExceed"

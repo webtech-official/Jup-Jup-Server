@@ -26,3 +26,6 @@ ImageNotFound:
 EquipmentAllowAmountZero:
   code: "-500"
   msg: "기자재 신청이 0개입니다."
+EquipmentAllowAmountExceed:
+  code: "-501"
+  msg: "기자재 신청 허용 개수를 넘었습니다."

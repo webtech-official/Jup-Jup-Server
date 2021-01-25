@@ -79,4 +79,9 @@ public class ExceptionAdvice {
     public CommonResult EquipmentAllowAmountZeroException(HttpServletRequest request, EquipmentAllowAmountZeroException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentAllowAmountZero.code")), getMessage("EquipmentAllowAmountZero.msg"));
     }
+
+    @ExceptionHandler(EquipmentAllowAmountExceedException.class)
+    public CommonResult EquipmentAllowAmountExceedException(HttpServletRequest request, EquipmentAllowAmountExceedException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentAllowAmountExceed.code")), getMessage("EquipmentAllowAmountExceed.msg"));
+    }
 }
