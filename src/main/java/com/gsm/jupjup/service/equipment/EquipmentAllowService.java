@@ -66,7 +66,7 @@ public class EquipmentAllowService {
         if(result >= 0)
             return result;
         else
-            throw new IllegalArgumentException("현제 신청할 수 있는 기자제를 초과 했습니다.")
+            throw new IllegalArgumentException("현제 신청할 수 있는 기자제를 초과 했습니다.");
     };
 
 
