@@ -23,3 +23,6 @@ EquipmentNotFound:
 ImageNotFound:
   code: "-467"
   msg: "NotFoundImage"
+EquipmentAllowAmountZero:
+  code: "-500"
+  msg: "EquipmentAllowAmountZero"

@@ -74,4 +74,9 @@ public class ExceptionAdvice {
     public CommonResult ImageNotFoundException(HttpServletRequest request, ImageNotFoundException e) {
         return responseService.getFailResult(Integer.valueOf(getMessage("ImageNotFound.code")), getMessage("ImageNotFound.msg"));
     }
+
+    @ExceptionHandler(EquipmentAllowAmountZeroException.class)
+    public CommonResult EquipmentAllowAmountZeroException(HttpServletRequest request, EquipmentAllowAmountZeroException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentAllowAmountZero.code")), getMessage("EquipmentAllowAmountZero.msg"));
+    }
 }

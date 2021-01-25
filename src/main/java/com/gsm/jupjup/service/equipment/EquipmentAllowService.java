@@ -1,6 +1,7 @@
 package com.gsm.jupjup.service.equipment;
 
 
+import com.gsm.jupjup.advice.exception.EquipmentAllowAmountZeroException;
 import com.gsm.jupjup.dto.equipmentAllow.EquipmentAllowSaveDto;
 import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.model.EquipmentAllow;
@@ -59,7 +60,7 @@ public class EquipmentAllowService {
     }
 
     public void zeroChk(int num){
-        if(num == 0) throw new IllegalArgumentException("신청이 0입니다");
+        if(num == 0) throw new EquipmentAllowAmountZeroException();
     }
 
     /** 기자재를 신청할 수 있는지 계산해주는 함수
