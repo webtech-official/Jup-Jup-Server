@@ -10,6 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
+
 public class Equipment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,7 +25,7 @@ public class Equipment {
 
     private int count;
 
-    public void updateCount(int Count){
-        this.count = Count;
+    public void update(String name) {
+        this.name = name;
     }
 }
