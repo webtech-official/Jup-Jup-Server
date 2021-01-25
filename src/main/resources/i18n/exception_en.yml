@@ -29,3 +29,6 @@ EquipmentAllowAmountZero:
 EquipmentAllowAmountExceed:
   code: "-501"
   msg: "EquipmentAllowAmountExceed"
+EquipmentAllowNotFound:
+  code: "502"
+  msg: "EquipmentAllowNotFound"

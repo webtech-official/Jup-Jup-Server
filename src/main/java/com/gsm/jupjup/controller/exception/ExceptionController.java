@@ -42,4 +42,7 @@ public class ExceptionController {
     @GetMapping(value = "/equipment-allow-amount-exceed")
     public CommonResult EquipmentAllowAmountExceedException() {throw new EquipmentAllowAmountExceedException("");}
 
+    @GetMapping(value = "/equipment-allow-not-found-exceed")
+    public CommonResult EquipmentAllowNotFoundException() {throw new EquipmentAllowNotFoundException("");}
+
 }

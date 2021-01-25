@@ -84,4 +84,9 @@ public class ExceptionAdvice {
     public CommonResult EquipmentAllowAmountExceedException(HttpServletRequest request, EquipmentAllowAmountExceedException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentAllowAmountExceed.code")), getMessage("EquipmentAllowAmountExceed.msg"));
     }
+
+    @ExceptionHandler(EquipmentAllowNotFoundException.class)
+    public CommonResult EquipmentAllowNotFoundException(HttpServletRequest request, EquipmentAllowNotFoundException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentAllowNotFound.code")), getMessage("EquipmentAllowNotFound.msg"));
+    }
 }

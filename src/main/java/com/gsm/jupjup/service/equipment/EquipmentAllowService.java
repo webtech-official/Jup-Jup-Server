@@ -3,6 +3,7 @@ package com.gsm.jupjup.service.equipment;
 
 import com.gsm.jupjup.advice.exception.EquipmentAllowAmountExceedException;
 import com.gsm.jupjup.advice.exception.EquipmentAllowAmountZeroException;
+import com.gsm.jupjup.advice.exception.EquipmentAllowNotFoundException;
 import com.gsm.jupjup.dto.equipmentAllow.EquipmentAllowSaveDto;
 import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.model.EquipmentAllow;
@@ -47,7 +48,11 @@ public class EquipmentAllowService {
 
     @Transactional
     public void deleteById(Long eqa_idx){
-        equipmentAllowRepo.deleteById(eqa_idx);
+        try {
+            equipmentAllowRepo.deleteById(eqa_idx);
+        }catch (Exception e){
+            throw new EquipmentAllowNotFoundException();
+        }
     }
 
     @Transactional(readOnly = true)
@@ -57,7 +62,7 @@ public class EquipmentAllowService {
     }
 
     public EquipmentAllow equipmentAllowFindBy(Long idx){
-        return equipmentAllowRepo.findById(idx).orElseThrow(IllegalAccessError::new);
+        return equipmentAllowRepo.findById(idx).orElseThrow(EquipmentAllowNotFoundException::new);
     }
 
     public void zeroChk(int num){
