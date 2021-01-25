@@ -20,7 +20,6 @@ public class EquipmentService {
      * Equipment CRUD 구현
      * U => Dirty Checking
      */
-
     public void save(EquipmentUploadDto equipmentUploadDto) {
         if(equipmentUploadDto.getImg_equipment().isEmpty()) throw new ImageNotFoundException();
 
