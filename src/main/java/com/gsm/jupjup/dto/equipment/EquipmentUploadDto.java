@@ -1,4 +1,4 @@
-package com.gsm.jupjup.dto;
+package com.gsm.jupjup.dto.equipment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gsm.jupjup.model.Equipment;

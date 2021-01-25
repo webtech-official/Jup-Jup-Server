@@ -1,11 +1,11 @@
 package com.gsm.jupjup.controller.v1;
 
-import com.gsm.jupjup.dto.EquipmentResDto;
-import com.gsm.jupjup.dto.EquipmentUploadDto;
+import com.gsm.jupjup.dto.equipment.EquipmentResDto;
+import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
-import com.gsm.jupjup.service.EquipmentService;
+import com.gsm.jupjup.service.equipment.EquipmentService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

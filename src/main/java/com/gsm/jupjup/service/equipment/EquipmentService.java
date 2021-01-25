@@ -1,16 +1,14 @@
-package com.gsm.jupjup.service;
+package com.gsm.jupjup.service.equipment;
 
 import com.gsm.jupjup.advice.exception.EquipmentNotFoundException;
 import com.gsm.jupjup.advice.exception.ImageNotFoundException;
-import com.gsm.jupjup.dto.EquipmentResDto;
-import com.gsm.jupjup.dto.EquipmentUploadDto;
+import com.gsm.jupjup.dto.equipment.EquipmentResDto;
+import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.repo.EquipmentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
