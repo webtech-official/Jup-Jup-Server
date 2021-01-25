@@ -28,4 +28,8 @@ public class Equipment {
     public void update(String name) {
         this.name = name;
     }
+
+    public void updateAmount(int count){
+        this.count = count;
+    }
 }
