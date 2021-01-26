@@ -29,6 +29,7 @@ public class Laptop {
     // 노트북 생성 날짜
     private LocalDateTime creationTime;
 
+    //fk mapping
     @ManyToOne
     @JoinColumn(name = "specIdx")
     private LaptopSpec laptopSpec;
@@ -40,7 +41,7 @@ public class Laptop {
         this.laptopSerialNumber = laptopSerialNumber;
         this.laptopSpec = laptopSpec;
     }
-
+    //update에 사용할 생성자
     public void update(String laptopName, String laptopBrand){
         this.laptopName = laptopName;
         this.laptopBrand = laptopBrand;
