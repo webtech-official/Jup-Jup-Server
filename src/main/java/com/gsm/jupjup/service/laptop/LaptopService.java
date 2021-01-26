@@ -2,6 +2,7 @@ package com.gsm.jupjup.service.laptop;
 
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveRequestDto;
+import com.gsm.jupjup.dto.laptop.LaptopUpdateRequestDto;
 import com.gsm.jupjup.dto.laptopSpec.LaptopSpecSaveRequestDto;
 import com.gsm.jupjup.model.Laptop;
 import com.gsm.jupjup.model.LaptopSpec;
@@ -10,8 +11,6 @@ import com.gsm.jupjup.repo.LaptopSpecRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Service
 public class LaptopService {
@@ -38,7 +37,7 @@ public class LaptopService {
     }
 
     @Transactional
-    public String update(String laptopSerialNumber, LaptopSaveRequestDto laptopSaveRequestDto){
+    public String update(String laptopSerialNumber, LaptopUpdateRequestDto laptopSaveRequestDto){
         Laptop laptop = laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(() -> new IllegalArgumentException("해당 노트북이 없습니다:"+laptopSerialNumber));
         laptop.update(laptopSaveRequestDto.getLaptopName(), laptopSaveRequestDto.getLaptopBrand());
         // 성공시 laptopSerialNumber을 반환.

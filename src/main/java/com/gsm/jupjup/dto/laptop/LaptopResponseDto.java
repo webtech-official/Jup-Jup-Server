@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,7 +13,6 @@ public class LaptopResponseDto {
     private String laptopSerialNumber;
     private String laptopName;
     private String laptopBrand;
-    private LocalDateTime creationTime;
 
     @Builder
     public LaptopResponseDto(Laptop entity){
