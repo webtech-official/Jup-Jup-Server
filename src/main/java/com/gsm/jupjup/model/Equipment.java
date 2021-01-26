@@ -12,21 +12,19 @@ import javax.persistence.*;
 @Entity
 
 public class Equipment {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long eq_Idx;
-
     private String name;
-
-    @Lob
-    private byte[] img_equipment; //BLOB
 
     private String content;
 
     private int count;
 
-    public void update(String name) {
-        this.name = name;
+    @Lob
+    private byte[] img_equipment; //BLOB
+
+    public void update(int count) {
+        this.count = count;
     }
 
     public void updateAmount(int count){

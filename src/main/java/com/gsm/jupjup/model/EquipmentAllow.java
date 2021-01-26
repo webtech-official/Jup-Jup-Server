@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class EquipmentAllow {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eqa_Idx;
@@ -33,12 +35,6 @@ public class EquipmentAllow {
     @JoinColumn(name = "eq_Idx")
     private Equipment equipment;
 
-    @Builder
-    public EquipmentAllow(int amount, String reason, Equipment equipment){
-        this.amount = amount;
-        this.reason = reason;
-        this.equipment = equipment;
-    }
 
     public void update(int amount, String reason){
         this.amount = amount;

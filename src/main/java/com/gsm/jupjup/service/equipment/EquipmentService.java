@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class EquipmentService {
@@ -28,20 +30,20 @@ public class EquipmentService {
     }
 
     @Transactional
-    public void update(Long num, String name) throws Exception {
-        Equipment equipment = equipmentFindBy(num);
-        equipment.update(name);
+    public void update(String name, int count) throws Exception {
+        Equipment equipment = equipmentFindBy(name);
+        equipment.update(count);
     }
 
-    public Long deleteByIdx(Long idx) throws Exception {
-        equipmentFindBy(idx);
-        equipmentRepo.deleteById(idx);
-        return idx;
+    @Transactional
+    public void deleteByName(String name) throws Exception {
+        String equipmentName = equipmentFindBy(name).getName();
+        equipmentRepo.deleteAllByName(equipmentName);
     }
 
     @Transactional(readOnly = true)
-    public EquipmentResDto findByIdx(Long eq_Idx) throws Exception {
-        Equipment equipment = equipmentFindBy(eq_Idx);
+    public EquipmentResDto findByIdx(String name) throws Exception {
+        Equipment equipment = equipmentFindBy(name);
         return new EquipmentResDto(equipment);
     }
 
@@ -49,8 +51,7 @@ public class EquipmentService {
     public Equipment equipmentFindBy(String name) throws Exception {
         return equipmentRepo.findByName(name).orElseThrow(EquipmentNotFoundException::new);
     }
-    //Equipment를 idx으로 찾고 Entity만드는 매서드
-    public Equipment equipmentFindBy(Long idx) throws Exception {
-        return equipmentRepo.findById(idx).orElseThrow(EquipmentNotFoundException::new);
-    }
+
+    //기자재 중복 처리 메소드
+
 }
