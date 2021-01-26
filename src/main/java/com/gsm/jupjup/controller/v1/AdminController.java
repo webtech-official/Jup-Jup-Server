@@ -3,25 +3,27 @@ package com.gsm.jupjup.controller.v1;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.EquipmentAllow;
-import com.gsm.jupjup.model.response.CommonResult;
-import com.gsm.jupjup.model.response.ListResult;
-import com.gsm.jupjup.model.response.ResponseService;
-import com.gsm.jupjup.model.response.SingleResult;
+import com.gsm.jupjup.model.response.*;
+import com.gsm.jupjup.repo.EquipmentAllowRepo;
 import com.gsm.jupjup.service.admin.AdminService;
+import com.gsm.jupjup.service.equipment.EquipmentAllowService;
 import com.gsm.jupjup.service.equipment.EquipmentService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Api(tags = {"2. 관리자"})
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
-public class EquipmentController {
+public class AdminController {
     private final EquipmentService equipmentService;
+    private final EquipmentAllowService equipmentAllowService;
     private final AdminService adminService;
     private final ResponseService responseService; // 결과를 처리할 Service
 
@@ -84,4 +86,27 @@ public class EquipmentController {
     public List<EquipmentAllow> findAll(){
         return adminService.findAllFetch();
     }
+
+    //신청 승인
+    @ApiOperation(value = "신청 승인", notes = "관리자가 신청을 승인한다")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @PutMapping("/approved/{eqa_Idx}")
+    public CommonResult ApprovedAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
+        equipmentAllowService.SuccessAllow(eqa_Idx);
+        return responseService.getSuccessResult();
+    }
+
+    //신청 거절 + 숫자 더하기
+    @ApiOperation(value = "신청 거절", notes = "관리자가 신청을 거절한다, amount 복귀")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @PutMapping("/reject/{eqa_Idx}")
+    public CommonResult RejectAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
+        equipmentAllowService.FailureAllow(eqa_Idx);
+        return responseService.getSuccessResult();
+    }
+
 }

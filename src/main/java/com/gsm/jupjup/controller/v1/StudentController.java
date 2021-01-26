@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1")
-public class EquipmentAllowController {
+public class StudentController {
     private final EquipmentAllowService equipmentAllowService;
     private final ResponseService responseService; // 결과를 처리할 Service
 
