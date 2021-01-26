@@ -1,5 +1,6 @@
 package com.gsm.jupjup.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.gsm.jupjup.model.response.EquipmentAllowEnum;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -31,6 +32,7 @@ public class EquipmentAllow {
     @CreatedDate
     private LocalDateTime allow_at;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "eq_Idx")
     private Equipment equipment;

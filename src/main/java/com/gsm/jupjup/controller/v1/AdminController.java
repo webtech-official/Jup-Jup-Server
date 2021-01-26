@@ -86,7 +86,8 @@ public class AdminController {
     })
     @GetMapping("/applyview")
     public List<EquipmentAllow> findAll(){
-        return adminService.findAllFetch();
+        List<EquipmentAllow> equipmentAllowListResult = adminService.findAllFetch();
+        return equipmentAllowListResult;
     }
 
     //신청 승인

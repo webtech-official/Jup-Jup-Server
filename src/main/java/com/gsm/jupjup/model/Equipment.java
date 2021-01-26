@@ -1,5 +1,6 @@
 package com.gsm.jupjup.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Equipment {
     @Lob
     private byte[] img_equipment; //BLOB
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "equipment", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<EquipmentAllow> logs = new ArrayList<>();
 
