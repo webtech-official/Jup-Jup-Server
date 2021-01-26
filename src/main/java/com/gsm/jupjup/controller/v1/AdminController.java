@@ -70,15 +70,15 @@ public class AdminController {
         return responseService.getSuccessResult();
     }
 
-//    @ApiOperation(value = "기자제 삭제", notes = "기자제를 삭제한다.")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-//    })
-//    @DeleteMapping("/equipmnet/delete")
-//    public CommonResult deleteByIdx(@ApiParam(value = "기자재 이름", required = true) @RequestParam String name) throws Exception {
-//        equipmentService.deleteByName(name);
-//        return responseService.getSuccessResult();
-//    };
+    @ApiOperation(value = "기자제 삭제", notes = "기자제를 삭제한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @DeleteMapping("/equipmnet/delete")
+    public CommonResult deleteByIdx(@ApiParam(value = "기자재 이름", required = true) @RequestParam String name) throws Exception {
+        equipmentService.deleteByName(name);
+        return responseService.getSuccessResult();
+    };
 
     @ApiOperation(value = "신청 전체 조회", notes = "신청을 조회한다.")
     @ApiImplicitParams({
@@ -110,5 +110,4 @@ public class AdminController {
         equipmentAllowService.FailureAllow(eqa_Idx);
         return responseService.getSuccessResult();
     }
-
 }

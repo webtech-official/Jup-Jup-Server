@@ -4,6 +4,7 @@ package com.gsm.jupjup.dto.equipmentAllow;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.model.EquipmentAllow;
+import com.gsm.jupjup.model.response.EquipmentAllowEnum;
 import lombok.*;
 
 @Getter
@@ -12,6 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EquipmentAllowSaveDto {
+
     private int amount;
     private String reason;
 
@@ -20,6 +22,7 @@ public class EquipmentAllowSaveDto {
 
     public EquipmentAllow toEntity(){
         return EquipmentAllow.builder()
+                .equipmentEnum(EquipmentAllowEnum.ROLE_Waiting)
                 .amount(this.amount)
                 .reason(this.reason)
                 .equipment(this.equipment)

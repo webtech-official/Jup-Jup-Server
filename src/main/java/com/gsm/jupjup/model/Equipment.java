@@ -3,6 +3,8 @@ package com.gsm.jupjup.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +24,9 @@ public class Equipment {
 
     @Lob
     private byte[] img_equipment; //BLOB
+
+    @OneToMany(mappedBy = "equipment", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<EquipmentAllow> logs = new ArrayList<>();
 
     public void update(int count) {
         this.count = count;

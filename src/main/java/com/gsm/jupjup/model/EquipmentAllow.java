@@ -26,12 +26,12 @@ public class EquipmentAllow {
     private String reason;
 
     @Enumerated(EnumType.STRING)
-    private EquipmentAllowEnum equipmentEnum = EquipmentAllowEnum.ROLE_Waiting;
+    private EquipmentAllowEnum equipmentEnum;
 
     @CreatedDate
     private LocalDateTime allow_at;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "eq_Idx")
     private Equipment equipment;
 
