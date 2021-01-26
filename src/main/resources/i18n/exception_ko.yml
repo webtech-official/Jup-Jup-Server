@@ -30,5 +30,8 @@ EquipmentAllowAmountExceed:
   code: "-501"
   msg: "기자재 신청 허용 개수를 넘었습니다."
 EquipmentAllowNotFound:
-  code: "502"
+  code: "-502"
   msg: "기자재 신청이 없습니다."
+NotFoundLaptopException:
+  code: "-234"
+  msg: "노트북이 없습니다"

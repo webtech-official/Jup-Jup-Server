@@ -1,5 +1,6 @@
 package com.gsm.jupjup.service.laptop;
 
+import com.gsm.jupjup.advice.exception.NotFoundLaptopException;
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveRequestDto;
 import com.gsm.jupjup.dto.laptop.LaptopUpdateRequestDto;
@@ -38,7 +39,7 @@ public class LaptopService {
 
     @Transactional
     public String update(String laptopSerialNumber, LaptopUpdateRequestDto laptopSaveRequestDto){
-        Laptop laptop = laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(() -> new IllegalArgumentException("해당 노트북이 없습니다:"+laptopSerialNumber));
+        Laptop laptop = laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(NotFoundLaptopException::new);
         laptop.update(laptopSaveRequestDto.getLaptopName(), laptopSaveRequestDto.getLaptopBrand());
         // 성공시 laptopSerialNumber을 반환.
         return laptopSerialNumber;
@@ -46,13 +47,13 @@ public class LaptopService {
 
     @Transactional
     public void delete(String laptopSerialNumber){
-        Laptop laptop = laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(() -> new IllegalArgumentException("해당 노트북이 없습니다"+laptopSerialNumber));
+        Laptop laptop = laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(NotFoundLaptopException::new);
         laptopRepo.delete(laptop);
     }
 
     @Transactional(readOnly = true)
     public LaptopResponseDto findByLaptopSerialNumber(String laptopSerialNumber){
-        Laptop laptop = laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(() -> new IllegalArgumentException("해당 노트북이 없습니다:"+laptopSerialNumber));
+        Laptop laptop = laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(NotFoundLaptopException::new);
         return new LaptopResponseDto(laptop);
     }
 }
