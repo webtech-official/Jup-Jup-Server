@@ -1,9 +1,6 @@
 package com.gsm.jupjup.advice;
 
-import com.gsm.jupjup.advice.exception.CAuthenticationEntryPointException;
-import com.gsm.jupjup.advice.exception.CDuplicateEmailException;
-import com.gsm.jupjup.advice.exception.CEmailSigninFailedException;
-import com.gsm.jupjup.advice.exception.CUserNotFoundException;
+import com.gsm.jupjup.advice.exception.*;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import lombok.RequiredArgsConstructor;
@@ -66,5 +63,30 @@ public class ExceptionAdvice {
     @ExceptionHandler(CDuplicateEmailException.class)
     public CommonResult CDuplicateEmailException(HttpServletRequest request, CDuplicateEmailException e) {
         return responseService.getFailResult(Integer.valueOf(getMessage("DuplicateEmail.code")), getMessage("DuplicateEmail.msg"));
+    }
+
+    @ExceptionHandler(EquipmentNotFoundException.class)
+    public CommonResult EquipmentNotFoundException(HttpServletRequest request, EquipmentNotFoundException e) {
+        return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentNotFound.code")), getMessage("EquipmentNotFound.msg"));
+    }
+
+    @ExceptionHandler(ImageNotFoundException.class)
+    public CommonResult ImageNotFoundException(HttpServletRequest request, ImageNotFoundException e) {
+        return responseService.getFailResult(Integer.valueOf(getMessage("ImageNotFound.code")), getMessage("ImageNotFound.msg"));
+    }
+
+    @ExceptionHandler(EquipmentAllowAmountZeroException.class)
+    public CommonResult EquipmentAllowAmountZeroException(HttpServletRequest request, EquipmentAllowAmountZeroException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentAllowAmountZero.code")), getMessage("EquipmentAllowAmountZero.msg"));
+    }
+
+    @ExceptionHandler(EquipmentAllowAmountExceedException.class)
+    public CommonResult EquipmentAllowAmountExceedException(HttpServletRequest request, EquipmentAllowAmountExceedException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentAllowAmountExceed.code")), getMessage("EquipmentAllowAmountExceed.msg"));
+    }
+
+    @ExceptionHandler(EquipmentAllowNotFoundException.class)
+    public CommonResult EquipmentAllowNotFoundException(HttpServletRequest request, EquipmentAllowNotFoundException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentAllowNotFound.code")), getMessage("EquipmentAllowNotFound.msg"));
     }
 }
