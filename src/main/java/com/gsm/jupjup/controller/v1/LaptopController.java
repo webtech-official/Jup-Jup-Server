@@ -2,6 +2,7 @@ package com.gsm.jupjup.controller.v1;
 
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveRequestDto;
+import com.gsm.jupjup.dto.laptop.LaptopUpdateRequestDto;
 import com.gsm.jupjup.service.laptop.LaptopService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -37,8 +38,8 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public String update(@PathVariable String laptopSerialNumber, @RequestBody LaptopSaveRequestDto laptopSaveRequestDto){
-        return laptopService.update(laptopSerialNumber, laptopSaveRequestDto);
+    public String update(@PathVariable String laptopSerialNumber, @RequestBody LaptopUpdateRequestDto laptopUpdateRequestDto){
+        return laptopService.update(laptopSerialNumber, laptopUpdateRequestDto);
     }
     //DELETE
     @DeleteMapping("/laptop/{laptopSerialNumber}")
