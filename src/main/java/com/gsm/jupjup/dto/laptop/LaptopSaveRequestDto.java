@@ -1,5 +1,6 @@
 package com.gsm.jupjup.dto.laptop;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,6 @@ public class LaptopSaveRequestDto {
     private String laptopSerialNumber;
     private String laptopName;
     private String laptopBrand;
-    private LocalDateTime creationTime;
     private Long specIdx;
 
     @Builder
