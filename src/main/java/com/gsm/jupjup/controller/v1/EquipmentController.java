@@ -2,21 +2,27 @@ package com.gsm.jupjup.controller.v1;
 
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
+import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.response.CommonResult;
+import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
+import com.gsm.jupjup.service.admin.AdminService;
 import com.gsm.jupjup.service.equipment.EquipmentService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Api(tags = {"3. equipment"})
+import java.util.List;
+
+@Api(tags = {"2. 관리자"})
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
 public class EquipmentController {
     private final EquipmentService equipmentService;
+    private final AdminService adminService;
     private final ResponseService responseService; // 결과를 처리할 Service
 
     @ApiOperation(value = "기자제 조회", notes = "기자제를 조회한다.")
@@ -69,4 +75,13 @@ public class EquipmentController {
         equipmentService.deleteByIdx(eq_Idx);
         return responseService.getSuccessResult();
     };
+
+    @ApiOperation(value = "신청 전체 조회", notes = "신청을 조회한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @GetMapping("/applyview")
+    public List<EquipmentAllow> findAll(){
+        return adminService.findAllFetch();
+    }
 }

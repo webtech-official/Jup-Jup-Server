@@ -8,7 +8,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = {"4. equipment allow"})
+@Api(tags = {"3. 학생"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1")
@@ -27,24 +27,24 @@ public class EquipmentAllowController {
         return responseService.getSuccessResult();
     }
 
-    @ApiOperation(value = "기자제 신청 수정", notes = "기자재 신청 내용을 수정한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @PutMapping("/equipmentallow/{eqa_idx}")
-    public CommonResult update(@ApiParam(value = "기자재 신청 인덱스", required = true) @PathVariable() Long eqa_idx,
-                               @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto){
-        equipmentAllowService.update(eqa_idx, equipmentAllowSaveDto);
-        return responseService.getSuccessResult();
-    }
-
-    @ApiOperation(value = "기자제재 신청 삭제", notes = "기자재 신청를 삭제한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @DeleteMapping("/equipmentallow/{eqa_idx}")
-    public CommonResult update(@ApiParam(value = "기자재 신청 인덱스", required = true)@PathVariable Long eqa_idx){
-        equipmentAllowService.deleteById(eqa_idx);
-        return responseService.getSuccessResult();
-    }
+//    @ApiOperation(value = "기자제 신청 수정", notes = "기자재 신청 내용을 수정한다.")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+//    })
+//    @PutMapping("/equipmentallow/{eqa_idx}")
+//    public CommonResult update(@ApiParam(value = "기자재 신청 인덱스", required = true) @PathVariable() Long eqa_idx,
+//                               @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto){
+//        equipmentAllowService.update(eqa_idx, equipmentAllowSaveDto);
+//        return responseService.getSuccessResult();
+//    }
+//
+//    @ApiOperation(value = "기자제재 신청 삭제", notes = "기자재 신청를 삭제한다.")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+//    })
+//    @DeleteMapping("/equipmentallow/{eqa_idx}")
+//    public CommonResult update(@ApiParam(value = "기자재 신청 인덱스", required = true)@PathVariable Long eqa_idx){
+//        equipmentAllowService.deleteById(eqa_idx);
+//        return responseService.getSuccessResult();
+//    }
 }

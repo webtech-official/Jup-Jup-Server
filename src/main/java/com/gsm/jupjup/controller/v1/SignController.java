@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 import java.util.Optional;
 
-@Api(tags = {"1. Sign"})
+@Api(tags = {"1. 회원"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/v1")

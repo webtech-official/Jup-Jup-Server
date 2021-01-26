@@ -40,24 +40,6 @@ public class EquipmentAllowService {
     }
 
 
-    @Transactional
-    public void update(Long eqa_idx, EquipmentAllowSaveDto equipmentAllowSaveDto){
-        EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_idx);
-        int equipmentCount = equipmentAllow.getAmount();
-        int equipmentAllowAmount = equipmentAllow.getAmount();
-
-        equipmentAmountCount(equipmentCount, equipmentAllowAmount);
-    }
-
-    @Transactional
-    public void deleteById(Long eqa_idx){
-        try {
-            equipmentAllowRepo.deleteById(eqa_idx);
-        }catch (Exception e){
-            throw new EquipmentAllowNotFoundException();
-        }
-    }
-
     @Transactional(readOnly = true)
     public EquipmentAllow findById(Long eqa_idx){
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_idx);
@@ -87,5 +69,21 @@ public class EquipmentAllowService {
             throw new EquipmentAllowAmountExceedException();
     };
 
+//    @Transactional
+//    public void update(Long eqa_idx, EquipmentAllowSaveDto equipmentAllowSaveDto){
+//        EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_idx);
+//        int equipmentCount = equipmentAllow.getAmount();
+//        int equipmentAllowAmount = equipmentAllow.getAmount();
+//
+//        equipmentAmountCount(equipmentCount, equipmentAllowAmount);
+//    }
 
+//    @Transactional
+//    public void deleteById(Long eqa_idx){
+//        try {
+//            equipmentAllowRepo.deleteById(eqa_idx);
+//        }catch (Exception e){
+//            throw new EquipmentAllowNotFoundException();
+//        }
+//    }
 }

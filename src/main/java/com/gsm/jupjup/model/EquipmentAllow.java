@@ -31,7 +31,7 @@ public class EquipmentAllow {
     @CreatedDate
     private LocalDateTime allow_at;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eq_Idx")
     private Equipment equipment;
 
@@ -46,5 +46,4 @@ public class EquipmentAllow {
         this.amount = amount;
         this.reason = reason;
     }
-
 }
