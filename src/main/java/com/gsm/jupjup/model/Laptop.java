@@ -9,9 +9,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-public class Laptop {
+public class Laptop extends BaseTimeEntity{
     @Id
     @Column
     // 노트북 시리얼 번호
@@ -24,10 +23,6 @@ public class Laptop {
     @Column
     // 노트북 제조사
     private String laptopBrand;
-
-    @CreatedDate
-    // 노트북 생성 날짜
-    private LocalDateTime creationTime;
 
     //fk mapping
     @ManyToOne
