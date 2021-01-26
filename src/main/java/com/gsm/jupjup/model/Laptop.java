@@ -1,9 +1,6 @@
 package com.gsm.jupjup.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -31,4 +28,21 @@ public class Laptop {
     @CreatedDate
     // 노트북 생성 날짜
     private LocalDateTime creationTime;
+
+    @ManyToOne
+    @JoinColumn(name = "specIdx")
+    private LaptopSpec laptopSpec;
+
+    @Builder
+    public Laptop(String laptopSerialNumber, String laptopName, String laptopBrand, LaptopSpec laptopSpec){
+        this.laptopSerialNumber = laptopSerialNumber;
+        this.laptopName = laptopName;
+        this.laptopSerialNumber = laptopSerialNumber;
+        this.laptopSpec = laptopSpec;
+    }
+
+    public void update(String laptopName, String laptopBrand){
+        this.laptopName = laptopName;
+        this.laptopBrand = laptopBrand;
+    }
 }
