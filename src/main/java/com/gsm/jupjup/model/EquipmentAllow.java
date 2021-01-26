@@ -1,16 +1,14 @@
 package com.gsm.jupjup.model;
 
 import com.gsm.jupjup.model.response.EquipmentAllowEnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -31,7 +29,7 @@ public class EquipmentAllow {
     @CreatedDate
     private LocalDateTime allow_at;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eq_Idx")
     private Equipment equipment;
 
@@ -46,5 +44,4 @@ public class EquipmentAllow {
         this.amount = amount;
         this.reason = reason;
     }
-
 }

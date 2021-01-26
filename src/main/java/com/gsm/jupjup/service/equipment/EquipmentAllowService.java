@@ -7,6 +7,7 @@ import com.gsm.jupjup.advice.exception.EquipmentAllowNotFoundException;
 import com.gsm.jupjup.dto.equipmentAllow.EquipmentAllowSaveDto;
 import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.model.EquipmentAllow;
+import com.gsm.jupjup.model.response.EquipmentAllowEnum;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,30 +41,13 @@ public class EquipmentAllowService {
     }
 
 
-    @Transactional
-    public void update(Long eqa_idx, EquipmentAllowSaveDto equipmentAllowSaveDto){
-        EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_idx);
-        int equipmentCount = equipmentAllow.getAmount();
-        int equipmentAllowAmount = equipmentAllow.getAmount();
-
-        equipmentAmountCount(equipmentCount, equipmentAllowAmount);
-    }
-
-    @Transactional
-    public void deleteById(Long eqa_idx){
-        try {
-            equipmentAllowRepo.deleteById(eqa_idx);
-        }catch (Exception e){
-            throw new EquipmentAllowNotFoundException();
-        }
-    }
-
     @Transactional(readOnly = true)
     public EquipmentAllow findById(Long eqa_idx){
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_idx);
         return equipmentAllow;
     }
 
+    @Transactional
     public EquipmentAllow equipmentAllowFindBy(Long idx){
         return equipmentAllowRepo.findById(idx).orElseThrow(EquipmentAllowNotFoundException::new);
     }
@@ -87,5 +71,44 @@ public class EquipmentAllowService {
             throw new EquipmentAllowAmountExceedException();
     };
 
+//    @Transactional
+//    public void update(Long eqa_idx, EquipmentAllowSaveDto equipmentAllowSaveDto){
+//        EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_idx);
+//        int equipmentCount = equipmentAllow.getAmount();
+//        int equipmentAllowAmount = equipmentAllow.getAmount();
+//
+//        equipmentAmountCount(equipmentCount, equipmentAllowAmount);
+//    }
 
+//    @Transactional
+//    public void deleteById(Long eqa_idx){
+//        try {
+//            equipmentAllowRepo.deleteById(eqa_idx);
+//        }catch (Exception e){
+//            throw new EquipmentAllowNotFoundException();
+//        }
+//    }
+
+    //승인 요청 처리
+    @Transactional
+    public void SuccessAllow(Long eqa_Idx){
+        EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
+        equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Accept);
+    }
+
+    //승인 요청 처리
+    @Transactional
+    public void FailureAllow(Long eqa_Idx){
+        EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
+        equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Reject);
+        //신청한 제품
+        Equipment equipment = equipmentAllow.getEquipment();
+
+        // 신청 갯수
+        int now = equipmentAllow.getAmount();
+        //원래 제품 갯수
+        int new_c = equipment.getCount();
+
+        equipment.setCount(now + new_c);
+    }
 }
