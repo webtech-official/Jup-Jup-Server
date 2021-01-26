@@ -12,6 +12,6 @@ public interface EquipmentAllowRepo extends JpaRepository<EquipmentAllow, Long> 
     List<EquipmentAllow> findAllJoinFetch();
 
 
-    @Query("select e from EquipmentAllow ea, Equipment e where ea.equipment = e.logs")
-    List<EquipmentAllow> findAllBy();
+//    @Query("select e from EquipmentAllow ea, Equipment e where ea.equipment = e.logs")
+//    List<EquipmentAllow> findAllBy();
 }
