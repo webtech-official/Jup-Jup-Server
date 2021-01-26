@@ -4,6 +4,7 @@ import com.gsm.jupjup.model.LaptopSpec;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.LaptopSpecRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @SpringBootApplication
-public class JupjupApplication {
+public class JupjupApplication implements CommandLineRunner {
 	private final AdminRepo adminRepo;
 	private final LaptopSpecRepo laptopSpecRepo;
 
