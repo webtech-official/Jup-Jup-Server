@@ -33,6 +33,7 @@ public class Laptop extends BaseTimeEntity{
     public Laptop(String laptopSerialNumber, String laptopName, String laptopBrand, LaptopSpec laptopSpec){
         this.laptopSerialNumber = laptopSerialNumber;
         this.laptopName = laptopName;
+        this.laptopBrand = laptopBrand;
         this.laptopSerialNumber = laptopSerialNumber;
         this.laptopSpec = laptopSpec;
     }
