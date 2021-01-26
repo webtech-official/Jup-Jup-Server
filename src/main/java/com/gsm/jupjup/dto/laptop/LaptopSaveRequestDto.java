@@ -18,8 +18,7 @@ public class LaptopSaveRequestDto {
     private Long specIdx;
 
     @Builder
-    public LaptopSaveRequestDto(String laptopSerialNumber, String laptopName, String laptopBrand, Long specIdx){
-        this.laptopSerialNumber = laptopSerialNumber;
+    public LaptopSaveRequestDto(String laptopName, String laptopBrand, Long specIdx){
         this.laptopName = laptopName;
         this.laptopBrand = laptopBrand;
         this.specIdx = specIdx;
