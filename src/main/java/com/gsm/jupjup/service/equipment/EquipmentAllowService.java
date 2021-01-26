@@ -22,12 +22,17 @@ public class EquipmentAllowService {
     public void save(String NameOfEquipment, EquipmentAllowSaveDto equipmentAllowSaveDto) throws Exception {
         //신청할 기자제 수량 0체크
         zeroChk(equipmentAllowSaveDto.getAmount());
+
         //기자제 이름으로 equipment 테이블을 조회
         Equipment equipment = equipmentService.equipmentFindBy(NameOfEquipment);
-        System.out.println(equipment.getName());
-        equipmentAmountCount(equipment.getCount(), equipmentAllowSaveDto.getAmount());
+
+        // 수량 체크 및 변경
+        int result = equipmentAmountCount(equipment.getCount(), equipmentAllowSaveDto.getAmount());
+        equipment.setCount(result);
+
         //equipment 조회해서 equipmentALlowSaveDto 에 값을 주입하여
         equipmentAllowSaveDto.setEquipment(equipment);
+
         //toEntity로 연관관계가 맻여진 equipmentAllow생성
         EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity();
 
@@ -42,8 +47,6 @@ public class EquipmentAllowService {
         int equipmentAllowAmount = equipmentAllow.getAmount();
 
         equipmentAmountCount(equipmentCount, equipmentAllowAmount);
-
-        //equipmentAllow.update(newEquipmentAllowAmount, equipmentAllowSaveDto.getReason(), UpdateEquipmentCount);
     }
 
     @Transactional
