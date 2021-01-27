@@ -10,5 +10,4 @@ import lombok.*;
 public class LaptopUpdateRequestDto {
     private String laptopName;
     private String laptopBrand;
-    private Long specIdx;
 }
