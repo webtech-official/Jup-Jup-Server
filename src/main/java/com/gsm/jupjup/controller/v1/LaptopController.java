@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RequiredArgsConstructor
 @Api(tags = {"4. 노트북"})
 @RestController
@@ -28,8 +30,9 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult save(@RequestBody LaptopSaveRequestDto laptopSaveRequestDto){
-        laptopService.save(laptopSaveRequestDto);
+    public CommonResult save(@RequestBody LaptopSaveRequestDto laptopSaveRequestDto,
+                             HttpServletRequest req){
+        laptopService.save(laptopSaveRequestDto, req);
         return responseService.getSuccessResult();
     }
     //READ

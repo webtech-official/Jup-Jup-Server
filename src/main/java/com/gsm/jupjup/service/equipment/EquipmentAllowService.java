@@ -4,23 +4,31 @@ package com.gsm.jupjup.service.equipment;
 import com.gsm.jupjup.advice.exception.EquipmentAllowAmountExceedException;
 import com.gsm.jupjup.advice.exception.EquipmentAllowAmountZeroException;
 import com.gsm.jupjup.advice.exception.EquipmentAllowNotFoundException;
+import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.dto.equipmentAllow.EquipmentAllowSaveDto;
+import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.response.EquipmentAllowEnum;
+import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
 
 @Service
 @RequiredArgsConstructor
 public class EquipmentAllowService {
     public final EquipmentAllowRepo equipmentAllowRepo;
     public final EquipmentService equipmentService;
+    public final JwtTokenProvider jwtTokenProvider;
+    public final AdminRepo adminRepo;
 
     @Transactional
-    public void save(String NameOfEquipment, EquipmentAllowSaveDto equipmentAllowSaveDto) throws Exception {
+    public void save(String NameOfEquipment, EquipmentAllowSaveDto equipmentAllowSaveDto, HttpServletRequest req) throws Exception {
         //신청할 기자제 수량 0체크
         zeroChk(equipmentAllowSaveDto.getAmount());
 
@@ -36,6 +44,11 @@ public class EquipmentAllowService {
 
         //toEntity로 연관관계가 맻여진 equipmentAllow생성
         EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity();
+
+        //UserEmail을 가져와서 Admin과 연관관계 매핑
+        String userEmail = GetUserEmail(req);
+        Admin admin = adminRepo.findByEmail(userEmail).orElseThrow(null);
+        equipmentAllow.setAdmin(admin);
 
         equipmentAllowRepo.save(equipmentAllow);
     }
@@ -70,6 +83,12 @@ public class EquipmentAllowService {
         else
             throw new EquipmentAllowAmountExceedException();
     };
+
+    public String GetUserEmail(HttpServletRequest req){
+        String token = jwtTokenProvider.resolveToken(req);
+        String userEmail = jwtTokenProvider.getUserPk(token);
+        return userEmail;
+    }
 
 //    @Transactional
 //    public void update(Long eqa_idx, EquipmentAllowSaveDto equipmentAllowSaveDto){

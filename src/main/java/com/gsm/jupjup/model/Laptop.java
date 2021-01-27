@@ -1,5 +1,6 @@
 package com.gsm.jupjup.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -9,6 +10,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 public class Laptop extends BaseTimeEntity{
     @Id
@@ -29,14 +32,11 @@ public class Laptop extends BaseTimeEntity{
     @JoinColumn(name = "specIdx")
     private LaptopSpec laptopSpec;
 
-    @Builder
-    public Laptop(String laptopSerialNumber, String laptopName, String laptopBrand, LaptopSpec laptopSpec){
-        this.laptopSerialNumber = laptopSerialNumber;
-        this.laptopName = laptopName;
-        this.laptopBrand = laptopBrand;
-        this.laptopSerialNumber = laptopSerialNumber;
-        this.laptopSpec = laptopSpec;
-    }
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "auth_Idx")
+    private Admin admin;
+
     //update에 사용할 생성자
     public void update(String laptopName, String laptopBrand){
         this.laptopName = laptopName;
