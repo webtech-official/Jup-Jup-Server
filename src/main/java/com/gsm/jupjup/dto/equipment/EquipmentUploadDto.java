@@ -17,16 +17,13 @@ public class EquipmentUploadDto {
     private int count;
     @JsonIgnore
     private String img_equipment_location;
-    @JsonIgnore
-    private String realPath;
 
     @Builder
-    public EquipmentUploadDto(MultipartFile img_equipment, String name, String content, int count, String realPath) throws IOException {
+    public EquipmentUploadDto(MultipartFile img_equipment, String name, String content, int count) {
         this.img_equipment = img_equipment;
         this.name = name;
         this.content = content;
         this.count = count;
-        this.realPath = realPath;
     }
 
 
