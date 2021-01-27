@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Builder
-public class EquipmentAllow {
+public class EquipmentAllow extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +28,6 @@ public class EquipmentAllow {
 
     @Enumerated(EnumType.STRING)
     private EquipmentAllowEnum equipmentEnum;
-
-    @CreatedDate
-    private LocalDateTime allow_at;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
