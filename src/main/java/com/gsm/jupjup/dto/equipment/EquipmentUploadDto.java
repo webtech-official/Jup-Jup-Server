@@ -2,15 +2,13 @@ package com.gsm.jupjup.dto.equipment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gsm.jupjup.model.Equipment;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class EquipmentUploadDto {
     private MultipartFile img_equipment;
@@ -28,6 +26,8 @@ public class EquipmentUploadDto {
         this.content = content;
         this.count = count;
     }
+
+
 
     public Equipment toEntity(){
         return Equipment.builder()
