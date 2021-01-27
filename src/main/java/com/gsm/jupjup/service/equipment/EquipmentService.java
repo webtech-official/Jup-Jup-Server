@@ -31,7 +31,7 @@ public class EquipmentService {
     public void save(EquipmentUploadDto equipmentUploadDto) throws IOException {
         //파일 저장후 image Path 변수에 담기
         String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
-        //equipmentUploadDto 에 file path 값 념겨줌
+        //equipmentUploadDto 에 file path 값 념겨
         equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
 
         Equipment equipmentDomain = equipmentUploadDto.toEntity();
@@ -51,20 +51,21 @@ public class EquipmentService {
     }
 
     @Transactional(readOnly = true)
-    public EquipmentResDto findByIdx(String name) throws IOException {
+    public EquipmentResDto findByName(String name) throws IOException {
         Equipment equipment = equipmentFindBy(name);
         EquipmentResDto equipmentResDto = new EquipmentResDto(equipment);
-        //img 를 byte로 바꿔서 변환
+        //img 를 byte 로 바꿔서 변환
         equipmentResDto.setImg_equipment(getImgByte(equipment.getImg_equipment()));
 
         return equipmentResDto;
     }
 
-
+    @Transactional(readOnly = true)
     public List<EquipmentResDto> findAll() throws IOException {
         List<Equipment> equipmentList = equipmentRepo.findAll();
         List<EquipmentResDto> equipmentResDtoList = new ArrayList<>();
 
+        // equipment List 를 equipmentResDtoList 형식에 밪게 변환해서 추가해주는 for 문
         for(Equipment e : equipmentList){
             //img 를 byte 로 바꿔서 변환
             byte[] EquipmentByteImg = getImgByte(e.getImg_equipment());
@@ -77,14 +78,12 @@ public class EquipmentService {
                             .img_equipment(EquipmentByteImg)
                         .build()
             );
-            System.out.println(e.getName());
-
         }
         return equipmentResDtoList;
     }
 
-    /******일반 Method 컨트롤러에서 매소드 호출 안함******/
-    //Equipment를 name으로 찾고 Entity만드는 매서드
+    /******Service 에서만 사용하는 매서******/
+    //Equipment 를 name 으로 찾고 Entity 만드는 매서드
     public Equipment equipmentFindBy(String name){
         return equipmentRepo.findByName(name).orElseThrow(EquipmentNotFoundException::new);
     }
@@ -123,6 +122,13 @@ public class EquipmentService {
             return true;
     }
 
+    /**
+     * 기자재 img 만들어주는 method
+     * 현제 시간 + 사진이름 으로 만들어 반환
+     * @param imgName
+     * @param imageExtension
+     * @return nameOfImg
+     */
     public String imgNameMake(String imgName, String imageExtension){
         StringBuilder nameOfImg = new StringBuilder();
 
@@ -133,6 +139,12 @@ public class EquipmentService {
         return nameOfImg.toString();
     }
 
+    /**
+     * img 가 저징된 path 를 받아서 img 를 byte[]로 변환
+     * @param imgPath
+     * @return
+     * @throws IOException
+     */
     public byte[] getImgByte(String imgPath) throws IOException {
         File img = new File(imgPath);
 

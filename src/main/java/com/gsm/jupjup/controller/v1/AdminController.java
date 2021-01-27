@@ -34,9 +34,9 @@ public class AdminController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public SingleResult<EquipmentResDto> findByName(
+    public SingleResult<EquipmentResDto> EquipmentFindByName(
             @ApiParam(value = "기자재 이름", required = true) @PathVariable String name) throws Exception {
-        return responseService.getSingleResult(equipmentService.findByIdx(name));
+        return responseService.getSingleResult(equipmentService.findByName(name));
     }
 
     @ApiOperation(value = "기자재 등록", notes = "기자재를 등록한다.")
