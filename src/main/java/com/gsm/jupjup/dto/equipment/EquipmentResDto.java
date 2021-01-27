@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EquipmentResDto {
     private String name;
-    private byte[] img_equipment;
+    private String img_equipment;
     private String content;
     private int count;
 

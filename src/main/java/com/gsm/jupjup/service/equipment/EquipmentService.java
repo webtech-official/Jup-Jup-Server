@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +24,9 @@ public class EquipmentService {
 
     public void save(EquipmentUploadDto equipmentUploadDto) {
         if(equipmentUploadDto.getImg_equipment().isEmpty()) throw new ImageNotFoundException();
+        String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
+
+        equipmentUploadDto.setImg_equipment_location(equipmentImgPath);
 
         Equipment equipmentDomain = equipmentUploadDto.toEntity();
         equipmentRepo.save(equipmentDomain);
@@ -57,10 +59,27 @@ public class EquipmentService {
     }
 
     //img 파일 저장
-    public void SaveImgFile(MultipartFile img){
+    public String SaveImgFile(MultipartFile img){
         Date date = new Date();
-        StringBuilder nameOfImg = new StringBuilder();
+        final String imgDirectoryPath = "";    //static directory 위치
+        StringBuilder nameOfImg = new StringBuilder();      //img
 
+        //img 예외 체크후 ture 반환사
+        if(imgChk(img)) {
+            nameOfImg.append(date.getTime());
+            nameOfImg.append(img.getOriginalFilename());
+
+           //
+            File dest = new File(imgDirectoryPath + nameOfImg);
+            try {
+                img.transferTo(dest);
+            } catch (IllegalStateException e){
+              e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return imgDirectoryPath + nameOfImg;
     }
 
     /** img 예외처리 method
@@ -73,7 +92,6 @@ public class EquipmentService {
             throw new ImageNotFoundException();
         else
             return true;
-
     }
 
 }
