@@ -75,6 +75,11 @@ public class ExceptionAdvice {
         return responseService.getFailResult(Integer.valueOf(getMessage("ImageNotFound.code")), getMessage("ImageNotFound.msg"));
     }
 
+    @ExceptionHandler(FileExtensionNotMatchImageException.class)
+    public CommonResult FileExtensionNotMatchImageException(HttpServletRequest request, FileExtensionNotMatchImageException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("FileExtensionNotMatchImage.code")), getMessage("FileExtensionNotMatchImage.msg"));
+    }
+
     @ExceptionHandler(EquipmentAllowAmountZeroException.class)
     public CommonResult EquipmentAllowAmountZeroException(HttpServletRequest request, EquipmentAllowAmountZeroException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentAllowAmountZero.code")), getMessage("EquipmentAllowAmountZero.msg"));
