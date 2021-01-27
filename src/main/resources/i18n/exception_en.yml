@@ -17,3 +17,24 @@ accessDenied:
 DuplicateEmail:
   code: "1000"
   msg: "Duplicate Email"
+EquipmentNotFound:
+  code: "-465"
+  msg: "NotFoundEquipment"
+ImageNotFound:
+  code: "-467"
+  msg: "NotFoundImage"
+EquipmentAllowAmountZero:
+  code: "-500"
+  msg: "EquipmentAllowAmountZero"
+EquipmentAllowAmountExceed:
+  code: "-501"
+  msg: "EquipmentAllowAmountExceed"
+EquipmentAllowNotFound:
+  code: "502"
+  msg: "EquipmentAllowNotFound"
+NotFoundLaptopException:
+  code: "-234"
+  msg: "NotFoundLaptopException"
+NotFoundLaptopSpec:
+  code: "-453"
+  msg: "I don't have the right specifications for my laptop specifications."
