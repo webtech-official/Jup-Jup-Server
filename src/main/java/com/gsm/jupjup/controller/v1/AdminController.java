@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -28,40 +29,48 @@ public class AdminController {
     private final AdminService adminService;
     private final ResponseService responseService; // 결과를 처리할 Service
 
-    @ApiOperation(value = "기자제 조회", notes = "기자제를 조회한다.")
+    @ApiOperation(value = "기자재 조회", notes = "기자재를 조회한다.")
     @GetMapping("/equipment/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public SingleResult<EquipmentResDto> findByName(
+    public SingleResult<EquipmentResDto> EquipmentFindByName(
             @ApiParam(value = "기자재 이름", required = true) @PathVariable String name) throws Exception {
-        return responseService.getSingleResult(equipmentService.findByIdx(name));
+        return responseService.getSingleResult(equipmentService.findByName(name));
     }
 
-//    @ApiOperation(value = "기자제 등록", notes = "기자제를 등록한다.")
-//    @PostMapping("/equipment")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-//    })
-//    public CommonResult save(@ApiParam(value = "기자재 이미지", required = true) @RequestParam("img_equipment") MultipartFile img_equipment,
-//                             @ApiParam(value = "기자재 이름", required = true) @RequestParam String name,
-//                             @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
-//                             @ApiParam(value = "기자재 개수", required = true) @RequestParam int count,
-//                             HttpServletRequest req) throws Exception {
-//        EquipmentUploadDto equipmentUploadDto
-//                = EquipmentUploadDto.builder()
-//                .img_equipment(img_equipment)
-//                .name(name)
-//                .content(content)
-//                .count(count)
-//                .build();
-//        //기자재 등록 중복 처리
-//
-//        equipmentService.save(equipmentUploadDto);
-//        return responseService.getSuccessResult();
-//    }
+    @ApiOperation(value = "기자재 등록", notes = "기자재를 등록한다.")
+    @PostMapping("/equipment")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public CommonResult save(@ApiParam(value = "기자재 이미지", required = true) @RequestParam("img_equipment") MultipartFile img_equipment,
+                             @ApiParam(value = "기자재 이름", required = true) @RequestParam String name,
+                             @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
+                             @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception {
+        EquipmentUploadDto equipmentUploadDto
+                = EquipmentUploadDto.builder()
+                .img_equipment(img_equipment)
+                .name(name)
+                .content(content)
+                .count(count)
+                .build();
+        //기자재 등록 중복 처리
 
-    @ApiOperation(value = "기자제 수정", notes = "기자제를 인덱스를 기준으로 이름을 수정한다.")
+        equipmentService.save(equipmentUploadDto);
+        return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "기자재 전체 조회", notes = "기자재를 천체 조회한다.")
+    @GetMapping("/equipment/")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public ListResult<EquipmentResDto> equipmentFindAll() throws IOException {
+        return responseService.getListResult(equipmentService.findAll());
+    }
+
+    @ApiOperation(value = "기자 수정", notes = "기자재를 인덱스를 기준으로 이름을 수정한다.")
     @PutMapping("/equipment/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
@@ -72,7 +81,7 @@ public class AdminController {
         return responseService.getSuccessResult();
     }
 
-    @ApiOperation(value = "기자제 삭제", notes = "기자제를 삭제한다.")
+    @ApiOperation(value = "기자재 삭제", notes = "기자재를 삭제한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })

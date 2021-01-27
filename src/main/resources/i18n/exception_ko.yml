@@ -23,6 +23,9 @@ EquipmentNotFound:
 ImageNotFound:
   code: "-467"
   msg: "이미지가 없습니다."
+FileExtensionNotMatchImage:
+  code: "-468"
+  msg: "파일 확장자가 이미지가 아닙니다."
 EquipmentAllowAmountZero:
   code: "-500"
   msg: "기자재 신청이 0개입니다."

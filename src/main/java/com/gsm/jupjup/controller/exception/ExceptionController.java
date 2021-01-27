@@ -52,4 +52,7 @@ public class ExceptionController {
     @GetMapping(value = "/notfoundlaptopspec")
     public CommonResult NotFoundLaptopSpec() {throw new NotFoundLaptopSpec("");}
 
+    @GetMapping(value = "/exception/file-extension-not-match-image")
+    public CommonResult FileExtensionNotMatchImageException() {throw new FileExtensionNotMatchImageException();}
+
 }
