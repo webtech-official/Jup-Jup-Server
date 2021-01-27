@@ -28,13 +28,13 @@ public class AdminController {
     private final ResponseService responseService; // 결과를 처리할 Service
 
     @ApiOperation(value = "기자제 조회", notes = "기자제를 조회한다.")
-    @GetMapping("/equipment/{eq_Idx}")
+    @GetMapping("/equipment/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     public SingleResult<EquipmentResDto> findByName(
-            @ApiParam(value = "기자재 Idx", required = true) @PathVariable Long eq_Idx) throws Exception {
-        return responseService.getSingleResult(equipmentService.findByIdx(eq_Idx));
+            @ApiParam(value = "기자재 이름", required = true) @PathVariable String name) throws Exception {
+        return responseService.getSingleResult(equipmentService.findByIdx(name));
     }
 
     @ApiOperation(value = "기자제 등록", notes = "기자제를 등록한다.")
@@ -53,18 +53,20 @@ public class AdminController {
                 .content(content)
                 .count(count)
                 .build();
+        //기자재 등록 중복 처리
+
         equipmentService.save(equipmentUploadDto);
         return responseService.getSuccessResult();
     }
 
     @ApiOperation(value = "기자제 수정", notes = "기자제를 인덱스를 기준으로 이름을 수정한다.")
-    @PutMapping("/equipment/{eq_Idx}")
+    @PutMapping("/equipment/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult update(@ApiParam(value = "기자재 Idx", required = true) @PathVariable Long eq_Idx,
-                       @ApiParam(value = "기자재 이", required = true) String name) throws Exception {
-        equipmentService.update(eq_Idx, name);
+    public CommonResult update(@ApiParam(value = "기자재 이름", required = true) @PathVariable String name,
+                               @ApiParam(value = "변경 기자재 수량", required = true) @RequestParam int count) throws Exception {
+        equipmentService.update(name, count);
         return responseService.getSuccessResult();
     }
 
@@ -72,9 +74,9 @@ public class AdminController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    @DeleteMapping("/equipmnet/{eq_Idx}")
-    public CommonResult deleteByIdx(@ApiParam(value = "기자재 Idx", required = true) @PathVariable Long eq_Idx) throws Exception {
-        equipmentService.deleteByIdx(eq_Idx);
+    @DeleteMapping("/equipmnet/delete")
+    public CommonResult deleteByIdx(@ApiParam(value = "기자재 이름", required = true) @RequestParam String name) throws Exception {
+        equipmentService.deleteByName(name);
         return responseService.getSuccessResult();
     };
 
@@ -84,7 +86,8 @@ public class AdminController {
     })
     @GetMapping("/applyview")
     public List<EquipmentAllow> findAll(){
-        return adminService.findAllFetch();
+        List<EquipmentAllow> equipmentAllowListResult = adminService.findAllFetch();
+        return equipmentAllowListResult;
     }
 
     //신청 승인
@@ -108,5 +111,4 @@ public class AdminController {
         equipmentAllowService.FailureAllow(eqa_Idx);
         return responseService.getSuccessResult();
     }
-
 }

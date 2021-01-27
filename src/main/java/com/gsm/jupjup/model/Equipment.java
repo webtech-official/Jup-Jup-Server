@@ -1,8 +1,11 @@
 package com.gsm.jupjup.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,21 +15,23 @@ import javax.persistence.*;
 @Entity
 
 public class Equipment {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long eq_Idx;
-
     private String name;
-
-    @Lob
-    private byte[] img_equipment; //BLOB
 
     private String content;
 
     private int count;
 
-    public void update(String name) {
-        this.name = name;
+    @Lob
+    private byte[] img_equipment; //BLOB
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "equipment", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<EquipmentAllow> logs = new ArrayList<>();
+
+    public void update(int count) {
+        this.count = count;
     }
 
     public void updateAmount(int count){

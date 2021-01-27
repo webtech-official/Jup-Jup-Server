@@ -1,5 +1,6 @@
 package com.gsm.jupjup.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.gsm.jupjup.model.response.EquipmentAllowEnum;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,7 +13,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class EquipmentAllow {
+@Builder
+public class EquipmentAllow extends BaseTimeEntity{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eqa_Idx;
@@ -24,21 +27,13 @@ public class EquipmentAllow {
     private String reason;
 
     @Enumerated(EnumType.STRING)
-    private EquipmentAllowEnum equipmentEnum = EquipmentAllowEnum.ROLE_Waiting;
+    private EquipmentAllowEnum equipmentEnum;
 
-    @CreatedDate
-    private LocalDateTime allow_at;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "eq_Idx")
     private Equipment equipment;
 
-    @Builder
-    public EquipmentAllow(int amount, String reason, Equipment equipment){
-        this.amount = amount;
-        this.reason = reason;
-        this.equipment = equipment;
-    }
 
     public void update(int amount, String reason){
         this.amount = amount;

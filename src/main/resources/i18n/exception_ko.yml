@@ -1,7 +1,7 @@
 # exception_ko.yml
 unKnown:
   code: "-9999"
-  msg: "알수 없는 오류가 발생하였습니다."
+  msg: "알 수 없는 오류가 발생하였습니다."
 userNotFound:
   code: "-1000"
   msg: "존재하지 않는 회원입니다."
@@ -13,13 +13,13 @@ entryPointException:
   msg: "해당 리소스에 접근하기 위한 권한이 없습니다."
 accessDenied:
   code: "-1003"
-  msg: "보유한 권한으로 접근할수 없는 리소스 입니다."
+  msg: "보유한 권한으로 접근할 수 없는 리소스입니다."
 DuplicateEmail:
   code: "-1000"
-  msg: "이메일 중복"
+  msg: "이메일 중복."
 EquipmentNotFound:
   code: "-465"
-  msg: "기자재가 없습니다"
+  msg: "기자재가 없습니다."
 ImageNotFound:
   code: "-467"
   msg: "이미지가 없습니다."
@@ -34,7 +34,3 @@ EquipmentAllowNotFound:
   msg: "기자재 신청이 없습니다."
 NotFoundLaptopException:
   code: "-234"
-  msg: "노트북이 없습니다"
-NotFoundLaptopSpec:
-  code: "-453"
-  msg: "알맞는 노트북 사양이 없습니다"

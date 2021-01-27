@@ -23,7 +23,7 @@ public class AdminService {
     //신청 모두 조회
     @Transactional(readOnly = true)
     public List<EquipmentAllow> findAllFetch(){
-        List<EquipmentAllow> equipmentAllow = equipmentAllowRepo.findAllJoinFetch();
+        List<EquipmentAllow> equipmentAllow = equipmentAllowRepo.findAll();
         return equipmentAllow;
     }
 }

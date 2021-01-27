@@ -1,10 +1,10 @@
 # exception_en.yml
 unKnown:
   code: "-9999"
-  msg: "An unknown error has occurred."
+  msg: "An unknown error occurred."
 userNotFound:
   code: "-1000"
-  msg: "This member not exist"
+  msg: "This member does not exist."
 emailSigninFailed:
   code: "-1001"
   msg: "Your account does not exist or your email or password is incorrect."
@@ -13,28 +13,24 @@ entryPointException:
   msg: "You do not have permission to access this resource."
 accessDenied:
   code: "-1003"
-  msg: "A resource that can not be accessed with the privileges it has."
+  msg: "The resource cannot be accessed with the privileges you have."
 DuplicateEmail:
   code: "1000"
-  msg: "Duplicate Email"
+  msg: "Duplicate email."
 EquipmentNotFound:
   code: "-465"
-  msg: "NotFoundEquipment"
+  msg: "We don't have any equipment."
 ImageNotFound:
   code: "-467"
-  msg: "NotFoundImage"
+  msg: "The image does not exist."
 EquipmentAllowAmountZero:
   code: "-500"
-  msg: "EquipmentAllowAmountZero"
+  msg: "There are 0 applications for equipment."
 EquipmentAllowAmountExceed:
   code: "-501"
-  msg: "EquipmentAllowAmountExceed"
+  msg: "The number of applications for equipment has exceeded."
 EquipmentAllowNotFound:
   code: "502"
-  msg: "EquipmentAllowNotFound"
+  msg: "There is no application for equipment."
 NotFoundLaptopException:
   code: "-234"
-  msg: "NotFoundLaptopException"
-NotFoundLaptopSpec:
-  code: "-453"
-  msg: "I don't have the right specifications for my laptop specifications."
