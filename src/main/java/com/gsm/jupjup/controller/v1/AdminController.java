@@ -28,7 +28,7 @@ public class AdminController {
     private final AdminService adminService;
     private final ResponseService responseService; // 결과를 처리할 Service
 
-    @ApiOperation(value = "기자제 조회", notes = "기자제를 조회한다.")
+    @ApiOperation(value = "기자재 조회", notes = "기자재를 조회한다.")
     @GetMapping("/equipment/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
@@ -38,7 +38,7 @@ public class AdminController {
         return responseService.getSingleResult(equipmentService.findByIdx(name));
     }
 
-    @ApiOperation(value = "기자제 등록", notes = "기자제를 등록한다.")
+    @ApiOperation(value = "기자재 등록", notes = "기자재를 등록한다.")
     @PostMapping("/equipment")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
@@ -60,7 +60,7 @@ public class AdminController {
         return responseService.getSuccessResult();
     }
 
-    @ApiOperation(value = "기자제 수정", notes = "기자제를 인덱스를 기준으로 이름을 수정한다.")
+    @ApiOperation(value = "기자 수정", notes = "기자재를 인덱스를 기준으로 이름을 수정한다.")
     @PutMapping("/equipment/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
@@ -71,7 +71,7 @@ public class AdminController {
         return responseService.getSuccessResult();
     }
 
-    @ApiOperation(value = "기자제 삭제", notes = "기자제를 삭제한다.")
+    @ApiOperation(value = "기자재 삭제", notes = "기자재를 삭제한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
