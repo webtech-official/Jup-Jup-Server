@@ -35,3 +35,6 @@ EquipmentAllowNotFound:
 NotFoundLaptopException:
   code: "-234"
   msg: "노트북이 없습니다"
+NotFoundLaptopSpec:
+  code: "-453"
+  msg: "알맞는 노트북 사양이 없습니다"
