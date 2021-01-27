@@ -93,4 +93,8 @@ public class ExceptionAdvice {
     public CommonResult EquipmentAllowNotFoundException(HttpServletRequest request, NotFoundLaptopException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("NotFoundLaptopException.code")), getMessage("NotFoundLaptopException.msg"));
     }
+    @ExceptionHandler(NotFoundLaptopSpec.class)
+    public CommonResult EquipmentAllowNotFoundException(HttpServletRequest request, NotFoundLaptopSpec e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("NotFoundLaptopSpec.code")), getMessage("NotFoundLaptopSpec.msg"));
+    }
 }
