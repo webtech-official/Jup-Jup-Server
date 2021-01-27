@@ -9,7 +9,6 @@ import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.repo.EquipmentRepo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,7 +40,7 @@ public class EquipmentService {
     @Transactional
     public void update(String name, int count){
         Equipment equipment = equipmentFindBy(name);
-        equipment.update(count);
+        equipment.update(equipment.getCount() + count);
     }
 
     @Transactional
@@ -96,7 +95,7 @@ public class EquipmentService {
      */
     public String SaveImgFile(MultipartFile img) throws IOException {
         final String imgDirectoryPath = "src/main/resources/static/image/";    //static directory 위치
-        String nameOfImg = null;
+        String nameOfImg = "";
         //img null 체크후 true 반환시 파일 로직
         if(imgChk(img)) {
             nameOfImg = imgNameMake(img.getName(), img.getContentType().split("/")[1]);
@@ -116,7 +115,7 @@ public class EquipmentService {
     public boolean imgChk(MultipartFile img){
         if(img.isEmpty())
             throw new ImageNotFoundException();
-        else if(!img.getContentType().split("/")[0].equals("image"))  //파일 확장자가 image 가 아니면
+        else if(!img.getContentType().split("/")[0].equals("image"))  //type 이 image 가 아니면
             throw new FileExtensionNotMatchImageException();
         else
             return true;
