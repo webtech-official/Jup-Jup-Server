@@ -1,6 +1,7 @@
 package com.gsm.jupjup.service.equipment;
 
 import com.gsm.jupjup.advice.exception.EquipmentNotFoundException;
+import com.gsm.jupjup.advice.exception.FileExtensionNotMatchImageException;
 import com.gsm.jupjup.advice.exception.ImageNotFoundException;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
@@ -94,7 +95,7 @@ public class EquipmentService {
         if(img.isEmpty())
             throw new ImageNotFoundException();
         else if(img.getContentType().split("/")[0] != "image")  //파일 확장자가 image 가 아니면
-            throw new Exception();
+            throw new FileExtensionNotMatchImageException();
         else
             return true;
     }
