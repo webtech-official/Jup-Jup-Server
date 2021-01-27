@@ -7,12 +7,14 @@ import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.repo.EquipmentRepo;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -22,8 +24,7 @@ public class EquipmentService {
     private final EquipmentRepo equipmentRepo;
 
 
-    public void save(EquipmentUploadDto equipmentUploadDto) {
-        if(equipmentUploadDto.getImg_equipment().isEmpty()) throw new ImageNotFoundException();
+    public void save(EquipmentUploadDto equipmentUploadDto) throws Exception {
         String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
 
         equipmentUploadDto.setImg_equipment_location(equipmentImgPath);
@@ -58,24 +59,25 @@ public class EquipmentService {
         return equipmentRepo.findByName(name).orElseThrow(EquipmentNotFoundException::new);
     }
 
-    //img 파일 저장
-    public String SaveImgFile(MultipartFile img){
-        Date date = new Date();
-        final String imgDirectoryPath = "";    //static directory 위치
-        StringBuilder nameOfImg = new StringBuilder();      //img
+    /** img save method
+     *
+     * @param img
+     * @return
+     * @throws Exception
+     */
+    public String SaveImgFile(MultipartFile img) throws Exception {
+        final String imgDirectoryPath = "src/main/resources/static/image/";    //static directory 위치
+        String nameOfImg = null;
 
-        //img 예외 체크후 ture 반환사
+        //img null 체크후 true 반환시 파일 로직
         if(imgChk(img)) {
-            nameOfImg.append(date.getTime());
-            nameOfImg.append(img.getOriginalFilename());
-
-           //
-            File dest = new File(imgDirectoryPath + nameOfImg);
-            try {
-                img.transferTo(dest);
-            } catch (IllegalStateException e){
-              e.printStackTrace();
-            } catch (IOException e) {
+            nameOfImg = imgNameMake(img.getName());
+            File targetImg = new File(imgDirectoryPath + nameOfImg);
+            try{
+                InputStream fileStream = img.getInputStream();
+                FileUtils.copyInputStreamToFile(fileStream, targetImg);
+            } catch (IOException e){
+                FileUtils.deleteQuietly(targetImg);
                 e.printStackTrace();
             }
         }
@@ -87,11 +89,23 @@ public class EquipmentService {
      * @param img
      * @return ture(img가 아무 예외도 않나오면 반환)
      */
-    public boolean imgChk(MultipartFile img){
+    public boolean imgChk(MultipartFile img) throws Exception {
+        System.out.println(img.getContentType());
         if(img.isEmpty())
             throw new ImageNotFoundException();
+        else if(img.getContentType().split("/")[0] != "image")  //파일 확장자가 image 가 아니면
+            throw new Exception();
         else
             return true;
+    }
+
+    public String imgNameMake(String imgName){
+        StringBuilder nameOfImg = new StringBuilder();
+
+        nameOfImg.append(imgName);
+        nameOfImg.append(new Date().getTime());
+
+        return nameOfImg.toString();
     }
 
 }
