@@ -24,7 +24,7 @@ public class Equipment {
     private int count;
 
     @Lob
-    private byte[] img_equipment; //BLOB
+    private String img_equipment; //BLOB
 
     @JsonManagedReference
     @OneToMany(mappedBy = "equipment", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
