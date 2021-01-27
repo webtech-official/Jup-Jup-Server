@@ -27,7 +27,7 @@ public class Equipment {
     private String img_equipment; //BLOB
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "equipment", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "equipment", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<EquipmentAllow> logs = new ArrayList<>();
 
     public void update(int count) {

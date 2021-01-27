@@ -1,5 +1,6 @@
 package com.gsm.jupjup.service.equipment;
 
+import com.gsm.jupjup.advice.exception.EquipmentDuplicateException;
 import com.gsm.jupjup.advice.exception.EquipmentNotFoundException;
 import com.gsm.jupjup.advice.exception.FileExtensionNotMatchImageException;
 import com.gsm.jupjup.advice.exception.ImageNotFoundException;
@@ -51,6 +52,7 @@ public class EquipmentService {
 
     @Transactional(readOnly = true)
     public EquipmentResDto findByName(String name) throws IOException {
+        equipmentFindByNameDuplicate(name);
         Equipment equipment = equipmentFindBy(name);
         EquipmentResDto equipmentResDto = new EquipmentResDto(equipment);
         //img 를 byte 로 바꿔서 변환
@@ -85,6 +87,13 @@ public class EquipmentService {
     //Equipment 를 name 으로 찾고 Entity 만드는 매서드
     public Equipment equipmentFindBy(String name){
         return equipmentRepo.findByName(name).orElseThrow(EquipmentNotFoundException::new);
+    }
+
+    /*
+    기자제 중복 처리
+     */
+    public Equipment equipmentFindByNameDuplicate(String name){
+        return equipmentRepo.findByName(name).orElseThrow(EquipmentDuplicateException::new);
     }
 
     /** img save method

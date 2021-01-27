@@ -55,4 +55,9 @@ public class ExceptionController {
     @GetMapping(value = "/exception/file-extension-not-match-image")
     public CommonResult FileExtensionNotMatchImageException() {throw new FileExtensionNotMatchImageException();}
 
+    @GetMapping(value = "/exception/equipmentduplicate")
+    public CommonResult EquipmentDuplicateException() {throw new EquipmentDuplicateException();}
+
+
+
 }

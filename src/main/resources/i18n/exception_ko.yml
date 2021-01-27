@@ -40,3 +40,6 @@ NotFoundLaptopException:
 NotFoundLaptopSpec:
   code: "-453"
   msg: "알맞는 노트북 사양이 없습니다"
+EquipmentDuplicateException:
+  code: "-432"
+  msg: "기자재 이름이 중복되었습니다."

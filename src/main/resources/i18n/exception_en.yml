@@ -41,3 +41,6 @@ NotFoundLaptopException:
 NotFoundLaptopSpec:
   code: "-453"
   msg: "I don't have the right specifications for my laptop specifications."
+EquipmentDuplicateException:
+  code: "-432"
+  msg: "Equipment name is duplicated"
