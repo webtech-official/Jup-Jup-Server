@@ -1,10 +1,10 @@
 package com.gsm.jupjup.service.laptop;
 
 import com.gsm.jupjup.advice.exception.NotFoundLaptopException;
+import com.gsm.jupjup.advice.exception.NotFoundLaptopSpec;
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveRequestDto;
 import com.gsm.jupjup.dto.laptop.LaptopUpdateRequestDto;
-import com.gsm.jupjup.dto.laptopSpec.LaptopSpecSaveRequestDto;
 import com.gsm.jupjup.model.Laptop;
 import com.gsm.jupjup.model.LaptopSpec;
 import com.gsm.jupjup.repo.LaptopRepo;
@@ -24,8 +24,7 @@ public class LaptopService {
 
     @Transactional
     public String save(LaptopSaveRequestDto laptopSaveRequestDto){
-        LaptopSpec laptopSpec = laptopSpecRepo.findBySpecIdx(laptopSaveRequestDto.getSpecIdx());
-
+        LaptopSpec laptopSpec = laptopSpecRepo.findById(laptopSaveRequestDto.getSpecIdx()).orElseThrow(NotFoundLaptopSpec::new);
         //Laptop save 넣기
         Laptop laptop = Laptop.builder()
                 .laptopSerialNumber(laptopSaveRequestDto.getLaptopSerialNumber())

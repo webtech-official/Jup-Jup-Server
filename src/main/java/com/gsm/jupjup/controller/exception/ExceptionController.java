@@ -1,6 +1,7 @@
 package com.gsm.jupjup.controller.exception;
 
 import com.gsm.jupjup.advice.exception.*;
+import com.gsm.jupjup.advice.exception.NotFoundLaptopSpec;
 import com.gsm.jupjup.model.response.CommonResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -47,4 +48,8 @@ public class ExceptionController {
 
     @GetMapping(value = "/notfoundlaptop")
     public CommonResult NotFoundLaptop() {throw new NotFoundLaptopException("");}
+
+    @GetMapping(value = "/notfoundlaptopspec")
+    public CommonResult NotFoundLaptopSpec() {throw new NotFoundLaptopSpec("");}
+
 }
