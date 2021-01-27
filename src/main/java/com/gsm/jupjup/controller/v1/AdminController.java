@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +59,15 @@ public class AdminController {
 
         equipmentService.save(equipmentUploadDto);
         return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "기자재 전체 조회", notes = "기자재를 천체 조회한다.")
+    @GetMapping("/equipment/")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public ListResult<EquipmentResDto> equipmentFindAll() throws IOException {
+        return responseService.getListResult(equipmentService.findAll());
     }
 
     @ApiOperation(value = "기자 수정", notes = "기자재를 인덱스를 기준으로 이름을 수정한다.")
