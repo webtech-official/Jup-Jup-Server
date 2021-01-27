@@ -38,28 +38,27 @@ public class AdminController {
         return responseService.getSingleResult(equipmentService.findByIdx(name));
     }
 
-//    @ApiOperation(value = "기자제 등록", notes = "기자제를 등록한다.")
-//    @PostMapping("/equipment")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-//    })
-//    public CommonResult save(@ApiParam(value = "기자재 이미지", required = true) @RequestParam("img_equipment") MultipartFile img_equipment,
-//                             @ApiParam(value = "기자재 이름", required = true) @RequestParam String name,
-//                             @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
-//                             @ApiParam(value = "기자재 개수", required = true) @RequestParam int count,
-//                             HttpServletRequest req) throws Exception {
-//        EquipmentUploadDto equipmentUploadDto
-//                = EquipmentUploadDto.builder()
-//                .img_equipment(img_equipment)
-//                .name(name)
-//                .content(content)
-//                .count(count)
-//                .build();
-//        //기자재 등록 중복 처리
-//
-//        equipmentService.save(equipmentUploadDto);
-//        return responseService.getSuccessResult();
-//    }
+    @ApiOperation(value = "기자제 등록", notes = "기자제를 등록한다.")
+    @PostMapping("/equipment")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public CommonResult save(@ApiParam(value = "기자재 이미지", required = true) @RequestParam("img_equipment") MultipartFile img_equipment,
+                             @ApiParam(value = "기자재 이름", required = true) @RequestParam String name,
+                             @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
+                             @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception {
+        EquipmentUploadDto equipmentUploadDto
+                = EquipmentUploadDto.builder()
+                .img_equipment(img_equipment)
+                .name(name)
+                .content(content)
+                .count(count)
+                .build();
+        //기자재 등록 중복 처리
+
+        equipmentService.save(equipmentUploadDto);
+        return responseService.getSuccessResult();
+    }
 
     @ApiOperation(value = "기자제 수정", notes = "기자제를 인덱스를 기준으로 이름을 수정한다.")
     @PutMapping("/equipment/{name}")
