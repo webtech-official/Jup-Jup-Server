@@ -9,6 +9,7 @@ import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.repo.EquipmentRepo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -27,7 +31,6 @@ public class EquipmentService {
     public void save(EquipmentUploadDto equipmentUploadDto) throws IOException {
         //파일 저장후 image Path 변수에 담기
         String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
-        System.out.println(equipmentUploadDto.getImg_equipment().getName());
         //equipmentUploadDto 에 file path 값 념겨줌
         equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
 
@@ -48,9 +51,36 @@ public class EquipmentService {
     }
 
     @Transactional(readOnly = true)
-    public EquipmentResDto findByIdx(String name){
+    public EquipmentResDto findByIdx(String name) throws IOException {
         Equipment equipment = equipmentFindBy(name);
-        return new EquipmentResDto(equipment);
+        EquipmentResDto equipmentResDto = new EquipmentResDto(equipment);
+        //img 를 byte로 바꿔서 변환
+        equipmentResDto.setImg_equipment(getImgByte(equipment.getImg_equipment()));
+
+        return equipmentResDto;
+    }
+
+
+    public List<EquipmentResDto> findAll() throws IOException {
+        List<Equipment> equipmentList = equipmentRepo.findAll();
+        List<EquipmentResDto> equipmentResDtoList = new ArrayList<>();
+
+        for(Equipment e : equipmentList){
+            //img 를 byte 로 바꿔서 변환
+            byte[] EquipmentByteImg = getImgByte(e.getImg_equipment());
+            //Equipment 값을 EquipmentResDto 로 가공해서 변환
+            equipmentResDtoList.add(
+                    new EquipmentResDto().builder()
+                            .name(e.getName())
+                            .content(e.getContent())
+                            .count(e.getCount())
+                            .img_equipment(EquipmentByteImg)
+                        .build()
+            );
+            System.out.println(e.getName());
+
+        }
+        return equipmentResDtoList;
     }
 
     /******일반 Method 컨트롤러에서 매소드 호출 안함******/
@@ -63,7 +93,7 @@ public class EquipmentService {
      * img 예외를 체크한후 img file을 저장한다.
      * @param img
      * @return imgLocation (이미지 주소)
-     * @throws Exception
+     * @throws ImageNotFoundException, FileExtensionNotMatchImageException, IOException
      */
     public String SaveImgFile(MultipartFile img) throws IOException {
         final String imgDirectoryPath = "src/main/resources/static/image/";    //static directory 위치
@@ -82,7 +112,7 @@ public class EquipmentService {
     /** img 예외처리 method
      * img 를 예외체크를 해서 아무 예외도 나오지 않는다면 ture 를 반환한다.
      * @param img
-     * @return ture(img가 아무 예외도 않나오면 반환)
+     * @return ture(img 에 예외가 없을)
      */
     public boolean imgChk(MultipartFile img){
         if(img.isEmpty())
@@ -101,6 +131,12 @@ public class EquipmentService {
         nameOfImg.append("." + imageExtension);
 
         return nameOfImg.toString();
+    }
+
+    public byte[] getImgByte(String imgPath) throws IOException {
+        File img = new File(imgPath);
+
+        return Files.readAllBytes(img.toPath());
     }
 
 }
