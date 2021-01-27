@@ -24,63 +24,57 @@ public class EquipmentService {
 
     private final EquipmentRepo equipmentRepo;
 
-
-    public void save(EquipmentUploadDto equipmentUploadDto) throws Exception {
+    public void save(EquipmentUploadDto equipmentUploadDto) throws IOException {
+        //파일 저장후 image Path 변수에 담기
         String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
-
-        equipmentUploadDto.setImg_equipment_location(equipmentImgPath);
+        System.out.println(equipmentUploadDto.getImg_equipment().getName());
+        //equipmentUploadDto 에 file path 값 념겨줌
+        equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
 
         Equipment equipmentDomain = equipmentUploadDto.toEntity();
         equipmentRepo.save(equipmentDomain);
     }
 
     @Transactional
-    public void update(String name, int count) throws Exception {
+    public void update(String name, int count){
         Equipment equipment = equipmentFindBy(name);
         equipment.update(count);
     }
 
     @Transactional
-    public void deleteByName(String name) throws Exception {
+    public void deleteByName(String name){
         String equipmentName = equipmentFindBy(name).getName();
         equipmentRepo.deleteAllByName(equipmentName);
     }
 
     @Transactional(readOnly = true)
-    public EquipmentResDto findByIdx(String name) throws Exception {
+    public EquipmentResDto findByIdx(String name){
         Equipment equipment = equipmentFindBy(name);
         return new EquipmentResDto(equipment);
     }
 
-
-    /******일반 Method 들******/
-
+    /******일반 Method 컨트롤러에서 매소드 호출 안함******/
     //Equipment를 name으로 찾고 Entity만드는 매서드
-    public Equipment equipmentFindBy(String name) throws Exception {
+    public Equipment equipmentFindBy(String name){
         return equipmentRepo.findByName(name).orElseThrow(EquipmentNotFoundException::new);
     }
 
     /** img save method
-     *
+     * img 예외를 체크한후 img file을 저장한다.
      * @param img
-     * @return
+     * @return imgLocation (이미지 주소)
      * @throws Exception
      */
-    public String SaveImgFile(MultipartFile img) throws Exception {
+    public String SaveImgFile(MultipartFile img) throws IOException {
         final String imgDirectoryPath = "src/main/resources/static/image/";    //static directory 위치
         String nameOfImg = null;
-
         //img null 체크후 true 반환시 파일 로직
         if(imgChk(img)) {
-            nameOfImg = imgNameMake(img.getName());
+            nameOfImg = imgNameMake(img.getName(), img.getContentType().split("/")[1]);
             File targetImg = new File(imgDirectoryPath + nameOfImg);
-            try{
-                InputStream fileStream = img.getInputStream();
-                FileUtils.copyInputStreamToFile(fileStream, targetImg);
-            } catch (IOException e){
-                FileUtils.deleteQuietly(targetImg);
-                e.printStackTrace();
-            }
+
+            InputStream fileStream = img.getInputStream();
+            FileUtils.copyInputStreamToFile(fileStream, targetImg);
         }
         return imgDirectoryPath + nameOfImg;
     }
@@ -90,21 +84,21 @@ public class EquipmentService {
      * @param img
      * @return ture(img가 아무 예외도 않나오면 반환)
      */
-    public boolean imgChk(MultipartFile img) throws Exception {
-        System.out.println(img.getContentType());
+    public boolean imgChk(MultipartFile img){
         if(img.isEmpty())
             throw new ImageNotFoundException();
-        else if(img.getContentType().split("/")[0] != "image")  //파일 확장자가 image 가 아니면
+        else if(!img.getContentType().split("/")[0].equals("image"))  //파일 확장자가 image 가 아니면
             throw new FileExtensionNotMatchImageException();
         else
             return true;
     }
 
-    public String imgNameMake(String imgName){
+    public String imgNameMake(String imgName, String imageExtension){
         StringBuilder nameOfImg = new StringBuilder();
 
         nameOfImg.append(imgName);
         nameOfImg.append(new Date().getTime());
+        nameOfImg.append("." + imageExtension);
 
         return nameOfImg.toString();
     }
