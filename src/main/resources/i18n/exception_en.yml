@@ -23,6 +23,9 @@ EquipmentNotFound:
 ImageNotFound:
   code: "-467"
   msg: "The image does not exist."
+FileExtensionNotMatchImage:
+  code: "-468"
+  msg: "The file extension does not match image"
 EquipmentAllowAmountZero:
   code: "-500"
   msg: "There are 0 applications for equipment."
