@@ -44,3 +44,6 @@ NotFoundLaptopSpec:
 EquipmentDuplicateException:
   code: "-432"
   msg: "Equipment name is duplicated"
+UserDoesNotExistException:
+  code: "-321"
+  msg: "The user does not exist."
