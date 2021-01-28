@@ -107,4 +107,8 @@ public class ExceptionAdvice {
     public CommonResult EquipmentAllowNotFoundException(HttpServletRequest request, EquipmentDuplicateException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentDuplicateException.code")), getMessage("EquipmentDuplicateException.msg"));
     }
+    @ExceptionHandler(UserDoesNotExistException.class)
+    public CommonResult UserDoesNotExistException(HttpServletRequest request, UserDoesNotExistException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("UserDoesNotExistException.code")), getMessage("UserDoesNotExistException.msg"));
+    }
 }

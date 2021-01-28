@@ -4,6 +4,7 @@ package com.gsm.jupjup.service.equipment;
 import com.gsm.jupjup.advice.exception.EquipmentAllowAmountExceedException;
 import com.gsm.jupjup.advice.exception.EquipmentAllowAmountZeroException;
 import com.gsm.jupjup.advice.exception.EquipmentAllowNotFoundException;
+import com.gsm.jupjup.advice.exception.UserDoesNotExistException;
 import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.dto.equipmentAllow.EquipmentAllowSaveDto;
 import com.gsm.jupjup.model.Admin;
@@ -47,7 +48,7 @@ public class EquipmentAllowService {
 
         //UserEmail을 가져와서 Admin과 연관관계 매핑
         String userEmail = GetUserEmail(req);
-        Admin admin = adminRepo.findByEmail(userEmail).orElseThrow(null);
+        Admin admin = adminRepo.findByEmail(userEmail).orElseThrow(UserDoesNotExistException::new);
         equipmentAllow.setAdmin(admin);
 
         equipmentAllowRepo.save(equipmentAllow);
