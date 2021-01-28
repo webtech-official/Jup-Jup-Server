@@ -1,6 +1,6 @@
 package com.gsm.jupjup.controller.v1;
 
-import com.gsm.jupjup.config.exceptionhandler.NotFoundImageException;
+import com.gsm.jupjup.config.handler.NotFoundImageException;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.response.*;

@@ -1,4 +1,4 @@
-package com.gsm.jupjup.config.exceptionhandler;
+package com.gsm.jupjup.config.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -10,9 +10,11 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class NotFoundLaptopSpecHandler {
+public class AlreadyApprovedAndRejectedHandler {
+
     public void handle(HttpServletRequest request, HttpServletResponse response) throws IOException,
             ServletException {
-        response.sendRedirect("/exception/notfoundlaptopspec");
+        response.sendRedirect("/exception/alreadyapprovedAndrejected");
     }
+
 }
