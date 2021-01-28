@@ -1,6 +1,5 @@
 package com.gsm.jupjup.service.equipment;
 
-import com.gsm.jupjup.advice.exception.EquipmentDuplicateException;
 import com.gsm.jupjup.advice.exception.EquipmentNotFoundException;
 import com.gsm.jupjup.advice.exception.FileExtensionNotMatchImageException;
 import com.gsm.jupjup.advice.exception.ImageNotFoundException;
@@ -21,7 +20,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -34,16 +32,30 @@ public class EquipmentService {
         String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
         //equipmentUploadDto 에 file path 값 념겨
         equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
-
         Equipment equipmentDomain = equipmentUploadDto.toEntity();
+
         equipmentRepo.save(equipmentDomain);
     }
 
     @Transactional
-    public void update(String name, int count){
+    public void update(String name, int count) {
         Equipment equipment = equipmentFindBy(name);
-        equipment.update(equipment.getCount() + count);
+        equipment.updateAmount(equipment.getCount() + count);
     }
+
+    @Transactional
+    public void AllUpdate(String oldName, EquipmentUploadDto equipmentUploadDto) throws IOException {
+        Equipment equipment = equipmentFindBy(oldName);
+        //파일 저장후 image Path 변수에 담기
+        String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
+        //기존에 있떤 파일 삭제
+        imgDelete(equipment.getImg_equipment());
+        //새로운 img path 저장
+        equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
+        equipment.updateAll(equipmentUploadDto);
+    }
+
+
 
     @Transactional
     public void deleteByName(String name){
@@ -151,6 +163,14 @@ public class EquipmentService {
         File img = new File(imgPath);
 
         return Files.readAllBytes(img.toPath());
+    }
+
+    //img 삭제 매서드
+    public void imgDelete(String oldImgPath){
+        File img = new File(oldImgPath);
+        if(img.exists()){
+            img.delete();
+        }
     }
 
 }

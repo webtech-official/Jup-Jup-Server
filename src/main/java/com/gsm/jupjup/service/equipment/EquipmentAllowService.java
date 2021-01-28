@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.http.HttpRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +37,7 @@ public class EquipmentAllowService {
 
         // 수량 체크 및 변경
         int result = equipmentAmountCount(equipment.getCount(), equipmentAllowSaveDto.getAmount());
-        equipment.setCount(result);
+        equipment.updateAmount(result);
 
         //equipment 조회해서 equipmentALlowSaveDto 에 값을 주입하여
         equipmentAllowSaveDto.setEquipment(equipment);
@@ -137,7 +136,7 @@ public class EquipmentAllowService {
             //원래 제품 갯수
             int new_c = equipment.getCount();
 
-            equipment.setCount(now + new_c);
+            equipment.updateAmount(now + new_c);
         }
     }
 
@@ -158,7 +157,7 @@ public class EquipmentAllowService {
             //원래 제품 갯수
             int new_c = equipment.getCount();
 
-            equipment.setCount(now + new_c);
+            equipment.updateAmount(now + new_c);
         }
     }
 }
