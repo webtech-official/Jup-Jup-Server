@@ -3,10 +3,7 @@ package com.gsm.jupjup.controller.v1;
 import com.gsm.jupjup.config.security.NotFoundImageException;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
-import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.response.*;
-import com.gsm.jupjup.repo.EquipmentAllowRepo;
-import com.gsm.jupjup.repo.mapping.EquipmentAllowMapping;
 import com.gsm.jupjup.service.admin.AdminService;
 import com.gsm.jupjup.service.equipment.EquipmentAllowService;
 import com.gsm.jupjup.service.equipment.EquipmentService;
@@ -15,11 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Api(tags = {"2. 관리자"})
 @RestController

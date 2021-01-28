@@ -1,13 +1,9 @@
 package com.gsm.jupjup.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor

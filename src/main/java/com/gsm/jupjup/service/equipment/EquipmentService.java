@@ -1,10 +1,8 @@
 package com.gsm.jupjup.service.equipment;
 
-import com.gsm.jupjup.advice.exception.EquipmentDuplicateException;
 import com.gsm.jupjup.advice.exception.EquipmentNotFoundException;
 import com.gsm.jupjup.advice.exception.FileExtensionNotMatchImageException;
 import com.gsm.jupjup.advice.exception.ImageNotFoundException;
-import com.gsm.jupjup.config.security.NotFoundImageException;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.Equipment;
@@ -22,7 +20,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -53,8 +50,8 @@ public class EquipmentService {
         String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
         //기존에 있떤 파일 삭제
         imgDelete(equipment.getImg_equipment());
+        //새로운 img path 저장
         equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
-
         equipment.updateAll(equipmentUploadDto);
     }
 
@@ -168,7 +165,7 @@ public class EquipmentService {
         return Files.readAllBytes(img.toPath());
     }
 
-    //img 삭제 매서
+    //img 삭제 매서드
     public void imgDelete(String oldImgPath){
         File img = new File(oldImgPath);
         if(img.exists()){
