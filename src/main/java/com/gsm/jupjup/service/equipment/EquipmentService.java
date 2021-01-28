@@ -1,5 +1,6 @@
 package com.gsm.jupjup.service.equipment;
 
+import com.gsm.jupjup.advice.exception.EquipmentDuplicateException;
 import com.gsm.jupjup.advice.exception.EquipmentNotFoundException;
 import com.gsm.jupjup.advice.exception.FileExtensionNotMatchImageException;
 import com.gsm.jupjup.advice.exception.ImageNotFoundException;
@@ -28,19 +29,15 @@ public class EquipmentService {
     private final EquipmentRepo equipmentRepo;
 
     public void save(EquipmentUploadDto equipmentUploadDto) throws IOException {
-        //Equipment 를 찾으면 throw EquipmentNotFoundException 하므로
-        //EquipmentNotFound 이 발생하면 Equipment 를 저장
-        try{
-            equipmentFindBy(equipmentUploadDto.getName());
-        } catch(EquipmentNotFoundException e) {
-            //파일 저장후 image Path 변수에 담기
-            String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
-            //equipmentUploadDto 에 file path 값 념겨
-            equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
-            Equipment equipmentDomain = equipmentUploadDto.toEntity();
+        //Equipment name 을 기준으로 중복처리
+        duplicateChk(equipmentUploadDto.getName());
+        //파일 저장후 image Path 변수에 담기
+        String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
+        //equipmentUploadDto 에 file path 값 념겨
+        equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
+        Equipment equipment = equipmentUploadDto.toEntity();
 
-            equipmentRepo.save(equipmentDomain);
-        }
+        equipmentRepo.save(equipment);
     }
 
     @Transactional
@@ -107,6 +104,14 @@ public class EquipmentService {
         return equipmentRepo.findByName(name).orElseThrow(EquipmentNotFoundException::new);
     }
 
+    public boolean duplicateChk(String name){
+        try{
+            equipmentFindBy(name);
+        } catch (EquipmentNotFoundException e){
+            return false;
+        }
+        throw new EquipmentDuplicateException();
+    }
 
     /** img save method
      * img 예외를 체크한후 img file을 저장한다.
