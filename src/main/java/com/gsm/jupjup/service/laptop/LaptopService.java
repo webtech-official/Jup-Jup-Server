@@ -1,7 +1,6 @@
 package com.gsm.jupjup.service.laptop;
 
 import com.gsm.jupjup.advice.exception.NotFoundLaptopException;
-import com.gsm.jupjup.advice.exception.NotFoundLaptopSpec;
 import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveRequestDto;
@@ -38,7 +37,7 @@ public class LaptopService {
     public String save(LaptopSaveRequestDto laptopSaveRequestDto, HttpServletRequest req){
         String userEmail = GetUserEmail(req);
         Admin admin = adminRepo.findByEmail(userEmail).orElseThrow(null);
-        LaptopSpec laptopSpec = laptopSpecRepo.findById(laptopSaveRequestDto.getSpecIdx()).orElseThrow(NotFoundLaptopSpec::new);
+        LaptopSpec laptopSpec = laptopSpecRepo.findById(laptopSaveRequestDto.getSpecIdx()).orElseThrow(NotFoundLaptopException::new);
         //Laptop save 넣기
         Laptop laptop = Laptop.builder()
                 .admin(admin)
