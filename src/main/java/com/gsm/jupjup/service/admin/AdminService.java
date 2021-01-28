@@ -6,7 +6,6 @@ import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
 import com.gsm.jupjup.repo.EquipmentRepo;
-import com.gsm.jupjup.repo.mapping.EquipmentAllowMapping;
 import com.gsm.jupjup.service.equipment.EquipmentAllowService;
 import com.gsm.jupjup.service.equipment.EquipmentService;
 import lombok.RequiredArgsConstructor;
