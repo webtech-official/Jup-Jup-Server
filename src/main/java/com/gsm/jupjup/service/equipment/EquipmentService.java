@@ -47,8 +47,8 @@ public class EquipmentService {
     }
 
     @Transactional
-    public void AllUpdate(EquipmentUploadDto equipmentUploadDto) throws IOException, NotFoundImageException {
-        Equipment equipment = equipmentFindBy(equipmentUploadDto.getName());
+    public void AllUpdate(String oldName, EquipmentUploadDto equipmentUploadDto) throws IOException {
+        Equipment equipment = equipmentFindBy(oldName);
         //파일 저장후 image Path 변수에 담기
         String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
         //기존에 있떤 파일 삭제
