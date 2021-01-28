@@ -58,6 +58,10 @@ public class ExceptionController {
     @GetMapping(value = "/exception/equipmentduplicate")
     public CommonResult EquipmentDuplicateException() {throw new EquipmentDuplicateException();}
 
+    @GetMapping(value = "/exception/alreadyapprovedAndrejected")
+    public CommonResult AlreadyApprovedAndRejectedException() {throw new AlreadyApprovedAndRejectedException();}
 
+    @GetMapping(value = "/exception/alreadyreturned")
+    public CommonResult AlreadyReturnedException() {throw new AlreadyReturnedException();}
 
 }

@@ -47,3 +47,9 @@ EquipmentDuplicateException:
 UserDoesNotExistException:
   code: "-321"
   msg: "The user does not exist."
+AlreadyApprovedAndRejectedException:
+  code: "-530"
+  msg: "The application has already been approved or rejected."
+AlreadyReturnedException:
+  code: "-236"
+  msg: "The application has already been returned."

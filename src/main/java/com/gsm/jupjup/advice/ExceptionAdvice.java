@@ -111,4 +111,14 @@ public class ExceptionAdvice {
     public CommonResult UserDoesNotExistException(HttpServletRequest request, UserDoesNotExistException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("UserDoesNotExistException.code")), getMessage("UserDoesNotExistException.msg"));
     }
+    @ExceptionHandler(AlreadyApprovedAndRejectedException.class)
+    public CommonResult UserDoesNotExistException(HttpServletRequest request, AlreadyApprovedAndRejectedException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("AlreadyApprovedAndRejectedException.code")), getMessage("AlreadyApprovedAndRejectedException.msg"));
+    }
+    @ExceptionHandler(AlreadyReturnedException.class)
+    public CommonResult UserDoesNotExistException(HttpServletRequest request, AlreadyReturnedException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("AlreadyReturnedException.code")), getMessage("AlreadyReturnedException.msg"));
+    }
+
+
 }

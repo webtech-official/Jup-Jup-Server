@@ -60,15 +60,15 @@ public class LaptopController {
     }
 
     //DELETE
-    @ApiOperation(value = "노트북 삭제", notes = "노트북을 삭제한다.")
-    @DeleteMapping("/laptop/{laptopSerialNumber}")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    public CommonResult delete(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber){
-        laptopService.delete(laptopSerialNumber);
-        return responseService.getSuccessResult();
-    }
+//    @ApiOperation(value = "노트북 삭제", notes = "노트북을 삭제한다.")
+//    @DeleteMapping("/laptop/{laptopSerialNumber}")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+//    })
+//    public CommonResult delete(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber){
+//        laptopService.delete(laptopSerialNumber);
+//        return responseService.getSuccessResult();
+//    }
 
     //GET
     @ApiOperation(value = "노트북 전체 조회", notes = "노트북을 전체 조회한다.")

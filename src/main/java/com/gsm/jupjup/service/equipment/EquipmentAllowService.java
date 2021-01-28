@@ -1,10 +1,7 @@
 package com.gsm.jupjup.service.equipment;
 
 
-import com.gsm.jupjup.advice.exception.EquipmentAllowAmountExceedException;
-import com.gsm.jupjup.advice.exception.EquipmentAllowAmountZeroException;
-import com.gsm.jupjup.advice.exception.EquipmentAllowNotFoundException;
-import com.gsm.jupjup.advice.exception.UserDoesNotExistException;
+import com.gsm.jupjup.advice.exception.*;
 import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.dto.equipmentAllow.EquipmentAllowSaveDto;
 import com.gsm.jupjup.model.Admin;
@@ -113,7 +110,7 @@ public class EquipmentAllowService {
     public void SuccessAllow(Long eqa_Idx){
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
         if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)){
-            System.out.println("이미 승인되거나 거절된 신청입니다");
+            throw new AlreadyApprovedAndRejectedException();
         } else {
             equipmentAllow.setIsReturn(false);
             equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Accept);
@@ -125,7 +122,7 @@ public class EquipmentAllowService {
     public void FailureAllow(Long eqa_Idx){
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
         if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)){
-            System.out.println("이미 승인되거나 거절된 신청입니다");
+            throw new AlreadyApprovedAndRejectedException();
         } else {
             equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Reject);
             //신청한 제품
@@ -145,7 +142,7 @@ public class EquipmentAllowService {
     public void ReturnAllow(Long eqa_Idx){
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
         if(equipmentAllow.getIsReturn() == true){
-            System.out.println("이미 반납된 제품입니다");
+            throw new AlreadyReturnedException();
         } else {
             equipmentAllow.setIsReturn(true);
 

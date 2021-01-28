@@ -46,3 +46,9 @@ EquipmentDuplicateException:
 UserDoesNotExistException:
   code: "-321"
   msg: "유저가 존재하지 않습니다"
+AlreadyApprovedAndRejectedException:
+  code: "-530"
+  msg: "이미 승인되거나 거절된 신청입니다."
+AlreadyReturnedException:
+  code: "-236"
+  msg: "이미 반납된 신청입니다."
