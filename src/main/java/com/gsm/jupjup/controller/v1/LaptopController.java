@@ -5,6 +5,7 @@ import com.gsm.jupjup.dto.laptop.LaptopSaveRequestDto;
 import com.gsm.jupjup.dto.laptop.LaptopUpdateRequestDto;
 import com.gsm.jupjup.model.Laptop;
 import com.gsm.jupjup.model.response.CommonResult;
+import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.service.laptop.LaptopService;
@@ -76,8 +77,8 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public List<Laptop> findAll(){
-        return laptopService.findAll();
+    public ListResult<Laptop> findAll(){
+        return responseService.getListResult(laptopService.findAll());
     }
 
 }

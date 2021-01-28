@@ -114,9 +114,9 @@ public class AdminController {
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @GetMapping("/applyview")
-    public List<Object> findAll(){
+    public ListResult<Object> findAll(){
         List<Object> equipmentAllowListResult = adminService.findAll();
-        return equipmentAllowListResult;
+        return responseService.getListResult(equipmentAllowListResult);
     }
 
     //신청 승인
