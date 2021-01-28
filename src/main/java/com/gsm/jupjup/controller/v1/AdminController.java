@@ -1,6 +1,6 @@
 package com.gsm.jupjup.controller.v1;
 
-import com.gsm.jupjup.config.exceptionhandler.NotFoundImageException;
+import com.gsm.jupjup.config.handler.NotFoundImageHandler;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.response.*;
@@ -86,7 +86,7 @@ public class AdminController {
                                 @ApiParam(value = "기자재 이미지", required = true) @RequestParam("img_equipment") MultipartFile img_equipment,
                                 @ApiParam(value = "기자재 이름", required = true) @RequestParam String newName,
                                 @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
-                                @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception, NotFoundImageException {
+                                @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception, NotFoundImageHandler {
         equipmentService.AllUpdate(
                 oldName,
                 new EquipmentUploadDto().builder()

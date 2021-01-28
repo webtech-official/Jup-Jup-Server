@@ -1,7 +1,7 @@
 package com.gsm.jupjup.config.security;
 
-import com.gsm.jupjup.config.exceptionhandler.CustomAccessDeniedHandler;
-import com.gsm.jupjup.config.exceptionhandler.CustomAuthenticationEntryPoint;
+import com.gsm.jupjup.config.handler.CustomAccessDeniedHandler;
+import com.gsm.jupjup.config.handler.CustomAuthenticationEntryPointHandler;
 import lombok.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPointHandler())
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣어라.
     }

@@ -1,4 +1,4 @@
-package com.gsm.jupjup.config.exceptionhandler;
+package com.gsm.jupjup.config.handler;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

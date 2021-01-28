@@ -1,5 +1,4 @@
-package com.gsm.jupjup.config.exceptionhandler;
-
+package com.gsm.jupjup.config.handler;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,9 +10,9 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
-public class EquipmentNotFoundHandler {
+public class EquipmentAllowAmountExceedHandler {
     public void commence(HttpServletRequest request, HttpServletResponse response) throws IOException,
             ServletException {
-        response.sendRedirect("/exception/equipmentnotfound");
+        response.sendRedirect("/exception/equipment-allow-amount-exceed");
     }
 }

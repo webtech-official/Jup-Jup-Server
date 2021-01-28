@@ -1,4 +1,4 @@
-package com.gsm.jupjup.config.exceptionhandler;
+package com.gsm.jupjup.config.handler;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,9 +10,9 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
-public class EquipmentAllowAmountZeroHandler {
+public class NotFoundImageHandler extends Throwable {
     public void commence(HttpServletRequest request, HttpServletResponse response) throws IOException,
             ServletException {
-        response.sendRedirect("/exception/equipmentallowamountzero");
+        response.sendRedirect("/exception/imagenotfound");
     }
 }

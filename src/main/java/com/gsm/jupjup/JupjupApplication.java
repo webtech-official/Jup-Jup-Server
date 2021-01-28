@@ -58,6 +58,5 @@ public class JupjupApplication implements CommandLineRunner {
 						.build());
 
 		List<LaptopSpec> savedLaptopSpecDomainList = laptopSpecRepo.saveAll(laptopSpecDomainList);
-		savedLaptopSpecDomainList.forEach(System.out::println);
 	}
 }
