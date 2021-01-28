@@ -66,7 +66,7 @@ public class AdminController {
         return responseService.getListResult(equipmentService.findAll());
     }
 
-    @ApiOperation(value = "기자 수정", notes = "기자재를 인덱스를 기준으로 이름을 수정한다.")
+    @ApiOperation(value = "기자재 수량 변경", notes = "기자재 수량을 변경한다.")
     @PutMapping("/equipment/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
@@ -77,7 +77,7 @@ public class AdminController {
         return responseService.getSuccessResult();
     }
 
-    @ApiOperation(value = "기자재 전체 수정", notes = "기자재를 인덱스를 기준으로 이름을 수정한다.")
+    @ApiOperation(value = "기자재 전체 수정", notes = "기자재를 수정한다.")
     @PutMapping("/equipmentAll/{oldName}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
@@ -120,7 +120,7 @@ public class AdminController {
     }
 
     //신청 승인
-    @ApiOperation(value = "신청 승인", notes = "관리자가 신청을 승인한다")
+    @ApiOperation(value = "신청 승인", notes = "관리자가 신청을 승인한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -131,7 +131,7 @@ public class AdminController {
     }
 
     //신청 거절 + 숫자 더하기
-    @ApiOperation(value = "신청 거절", notes = "관리자가 신청을 거절한다, amount 복귀")
+    @ApiOperation(value = "신청 거절", notes = "관리자가 신청을 거절한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -142,7 +142,7 @@ public class AdminController {
     }
 
     //반납 + 숫자 더하기
-    @ApiOperation(value = "반납", notes = "관리자가 반납을 처리한다, amount 복귀")
+    @ApiOperation(value = "반납", notes = "관리자가 반납을 처리한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
