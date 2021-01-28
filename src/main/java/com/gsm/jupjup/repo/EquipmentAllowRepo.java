@@ -2,8 +2,6 @@ package com.gsm.jupjup.repo;
 
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.EquipmentAllow;
-import com.gsm.jupjup.model.response.ListResult;
-import com.gsm.jupjup.repo.mapping.EquipmentAllowMapping;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
