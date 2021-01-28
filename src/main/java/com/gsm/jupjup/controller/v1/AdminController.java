@@ -19,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:3000")
 public class AdminController {
     private final EquipmentService equipmentService;
     private final EquipmentAllowService equipmentAllowService;

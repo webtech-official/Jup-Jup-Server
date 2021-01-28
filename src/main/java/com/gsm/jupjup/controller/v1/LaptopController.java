@@ -20,7 +20,6 @@ import java.util.List;
 @Api(tags = {"4. 노트북"})
 @RestController
 @RequestMapping("/v1")
-@CrossOrigin("http://localhost:3000")
 public class LaptopController {
     //Dependency Injection
     private final LaptopService laptopService;

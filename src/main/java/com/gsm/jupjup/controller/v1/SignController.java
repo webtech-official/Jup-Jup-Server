@@ -23,8 +23,8 @@ import java.util.Optional;
 @Api(tags = {"1. 회원"})
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping(value = "/v1")
-@CrossOrigin("http://localhost:3000")
 public class SignController {
 
     private final AdminRepo adminRepo;
