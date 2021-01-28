@@ -1,5 +1,6 @@
 package com.gsm.jupjup.controller.v1;
 
+import com.gsm.jupjup.config.security.NotFoundImageException;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.EquipmentAllow;
@@ -79,6 +80,28 @@ public class AdminController {
     public CommonResult update(@ApiParam(value = "기자재 이름", required = true) @PathVariable String name,
                                @ApiParam(value = "변경 기자재 수량", required = true) @RequestParam int count) throws Exception {
         equipmentService.update(name, count);
+        return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "기자재 전체 수정", notes = "기자재를 인덱스를 기준으로 이름을 수정한다.")
+    @PutMapping("/equipmentAll/{oldName}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public CommonResult update( @ApiParam(value = "수정할 기자재 이름", required = true) @PathVariable String oldName,
+                                @ApiParam(value = "기자재 이미지", required = true) @RequestParam("img_equipment") MultipartFile img_equipment,
+                                @ApiParam(value = "기자재 이름", required = true) @RequestParam String newName,
+                                @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
+                                @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception, NotFoundImageException {
+        equipmentService.AllUpdate(
+                oldName,
+                new EquipmentUploadDto().builder()
+                        .name(newName)
+                        .content(content)
+                        .count(count)
+                        .img_equipment(img_equipment)
+                .build()
+        );
         return responseService.getSuccessResult();
     }
 
