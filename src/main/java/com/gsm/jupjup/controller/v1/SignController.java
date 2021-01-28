@@ -24,6 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/v1")
+@CrossOrigin("http://localhost:3000")
 public class SignController {
 
     private final AdminRepo adminRepo;

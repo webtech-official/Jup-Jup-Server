@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1")
+@CrossOrigin("http://localhost:3000")
 public class StudentController {
     private final EquipmentAllowService equipmentAllowService;
     private final ResponseService responseService; // 결과를 처리할 Service
