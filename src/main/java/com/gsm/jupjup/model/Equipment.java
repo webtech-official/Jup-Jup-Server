@@ -1,6 +1,7 @@
 package com.gsm.jupjup.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,8 +28,11 @@ public class Equipment {
     @Lob
     private String img_equipment; //BLOB
 
-    public void update(int count) {
-        this.count = count;
+    public void updateAll(EquipmentUploadDto equipmentUploadDto) {
+        this.name = equipmentUploadDto.getName();
+        this.content = equipmentUploadDto.getContent();
+        this.count = equipmentUploadDto.getCount();
+        this.img_equipment = equipmentUploadDto.getImgEquipmentLocation();
     }
 
     public void updateAmount(int count){
