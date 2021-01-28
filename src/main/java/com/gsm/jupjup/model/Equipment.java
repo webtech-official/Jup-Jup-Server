@@ -10,15 +10,15 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-
 public class Equipment {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long equ_Idx;
+
     private String name;
 
     private String content;
