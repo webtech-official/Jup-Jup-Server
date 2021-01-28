@@ -27,6 +27,9 @@ public class Laptop extends BaseTimeEntity{
     // 노트북 제조사
     private String laptopBrand;
 
+    private String studentName;
+    private String classNumber;
+
     //fk mapping
     @ManyToOne
     @JoinColumn(name = "specIdx")

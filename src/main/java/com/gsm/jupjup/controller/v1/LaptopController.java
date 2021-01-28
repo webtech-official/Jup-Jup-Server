@@ -3,6 +3,7 @@ package com.gsm.jupjup.controller.v1;
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveRequestDto;
 import com.gsm.jupjup.dto.laptop.LaptopUpdateRequestDto;
+import com.gsm.jupjup.model.Laptop;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Api(tags = {"4. 노트북"})
@@ -61,4 +63,14 @@ public class LaptopController {
         laptopService.delete(laptopSerialNumber);
         return responseService.getSuccessResult();
     }
+
+    //GET
+    @GetMapping("/laptop")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public List<Laptop> findAll(){
+        return laptopService.findAll();
+    }
+
 }

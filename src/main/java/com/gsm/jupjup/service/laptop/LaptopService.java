@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service
 public class LaptopService {
@@ -45,6 +46,8 @@ public class LaptopService {
                 .laptopName(laptopSaveRequestDto.getLaptopName())
                 .laptopBrand(laptopSaveRequestDto.getLaptopBrand())
                 .laptopSpec(laptopSpec)
+                .studentName(laptopSaveRequestDto.getStudentName())
+                .classNumber(laptopSaveRequestDto.getClassNumber())
                 .build();
         //Success, return LaptopName
         return laptopRepo.save(laptop).getLaptopName();
@@ -74,5 +77,10 @@ public class LaptopService {
         String token = jwtTokenProvider.resolveToken(req);
         String userEmail = jwtTokenProvider.getUserPk(token);
         return userEmail;
+    }
+
+    //모두 찾기
+    public List<Laptop> findAll(){
+        return laptopRepo.findAll();
     }
 }

@@ -112,22 +112,52 @@ public class EquipmentAllowService {
     @Transactional
     public void SuccessAllow(Long eqa_Idx){
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
-        equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Accept);
+        if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)){
+            System.out.println("이미 승인되거나 거절된 신청입니다");
+        } else {
+            equipmentAllow.setIsReturn(false);
+            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Accept);
+        }
     }
 
-    //승인 요청 처리
+    //거절 요청 처리
     @Transactional
     public void FailureAllow(Long eqa_Idx){
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
-        equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Reject);
-        //신청한 제품
-        Equipment equipment = equipmentAllow.getEquipment();
+        if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)){
+            System.out.println("이미 승인되거나 거절된 신청입니다");
+        } else {
+            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Reject);
+            //신청한 제품
+            Equipment equipment = equipmentAllow.getEquipment();
 
-        // 신청 갯수
-        int now = equipmentAllow.getAmount();
-        //원래 제품 갯수
-        int new_c = equipment.getCount();
+            // 신청 갯수
+            int now = equipmentAllow.getAmount();
+            //원래 제품 갯수
+            int new_c = equipment.getCount();
 
-        equipment.setCount(now + new_c);
+            equipment.setCount(now + new_c);
+        }
+    }
+
+    //반납 요청 처리
+    @Transactional
+    public void ReturnAllow(Long eqa_Idx){
+        EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
+        if(equipmentAllow.getIsReturn() == true){
+            System.out.println("이미 반납된 제품입니다");
+        } else {
+            equipmentAllow.setIsReturn(true);
+
+            //신청한 제품
+            Equipment equipment = equipmentAllow.getEquipment();
+
+            // 신청 갯수
+            int now = equipmentAllow.getAmount();
+            //원래 제품 갯수
+            int new_c = equipment.getCount();
+
+            equipment.setCount(now + new_c);
+        }
     }
 }
