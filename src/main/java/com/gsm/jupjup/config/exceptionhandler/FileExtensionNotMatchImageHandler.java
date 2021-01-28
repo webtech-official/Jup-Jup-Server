@@ -1,4 +1,4 @@
-package com.gsm.jupjup.config.security;
+package com.gsm.jupjup.config.exceptionhandler;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,9 +10,9 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
-public class EquipmentDuplicateHandler {
+public class FileExtensionNotMatchImageHandler {
     public void commence(HttpServletRequest request, HttpServletResponse response) throws IOException,
             ServletException {
-        response.sendRedirect("/exception/equipmentduplicate");
+        response.sendRedirect("/exception/file-extension-not-match-image");
     }
 }

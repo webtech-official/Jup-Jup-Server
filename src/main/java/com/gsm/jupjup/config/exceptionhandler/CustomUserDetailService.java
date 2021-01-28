@@ -1,4 +1,4 @@
-package com.gsm.jupjup.config.security;
+package com.gsm.jupjup.config.exceptionhandler;
 
 import com.gsm.jupjup.advice.exception.CUserNotFoundException;
 import com.gsm.jupjup.repo.AdminRepo;

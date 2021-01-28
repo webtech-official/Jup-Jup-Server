@@ -1,5 +1,7 @@
 package com.gsm.jupjup.config.security;
 
+import com.gsm.jupjup.config.exceptionhandler.CustomAccessDeniedHandler;
+import com.gsm.jupjup.config.exceptionhandler.CustomAuthenticationEntryPoint;
 import lombok.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

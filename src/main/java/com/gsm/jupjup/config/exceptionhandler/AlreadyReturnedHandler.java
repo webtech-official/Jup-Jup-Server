@@ -1,4 +1,4 @@
-package com.gsm.jupjup.config.security;
+package com.gsm.jupjup.config.exceptionhandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

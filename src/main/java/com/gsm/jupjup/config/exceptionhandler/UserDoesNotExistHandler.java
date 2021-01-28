@@ -1,4 +1,4 @@
-package com.gsm.jupjup.config.security;
+package com.gsm.jupjup.config.exceptionhandler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -10,9 +10,9 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class NotFoundLaptopHandler {
+public class UserDoesNotExistHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response) throws IOException,
             ServletException {
-        response.sendRedirect("/exception/notfoundlaptop");
+        response.sendRedirect("/exception/userdoesnotexistexception");
     }
 }

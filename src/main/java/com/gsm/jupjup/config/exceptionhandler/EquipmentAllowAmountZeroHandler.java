@@ -1,4 +1,4 @@
-package com.gsm.jupjup.config.security;
+package com.gsm.jupjup.config.exceptionhandler;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,10 +10,9 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
-public class EquipmentAllowNotFoundHandler {
+public class EquipmentAllowAmountZeroHandler {
     public void commence(HttpServletRequest request, HttpServletResponse response) throws IOException,
             ServletException {
-        response.sendRedirect("/exception/equipment-allow-not-found");
+        response.sendRedirect("/exception/equipmentallowamountzero");
     }
 }
-
