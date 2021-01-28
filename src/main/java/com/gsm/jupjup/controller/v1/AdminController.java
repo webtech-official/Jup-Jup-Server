@@ -5,6 +5,7 @@ import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.response.*;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
+import com.gsm.jupjup.repo.mapping.EquipmentAllowMapping;
 import com.gsm.jupjup.service.admin.AdminService;
 import com.gsm.jupjup.service.equipment.EquipmentAllowService;
 import com.gsm.jupjup.service.equipment.EquipmentService;
@@ -81,23 +82,23 @@ public class AdminController {
         return responseService.getSuccessResult();
     }
 
-    @ApiOperation(value = "기자재 삭제", notes = "기자재를 삭제한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @DeleteMapping("/equipmnet/delete")
-    public CommonResult deleteByIdx(@ApiParam(value = "기자재 이름", required = true) @RequestParam String name) throws Exception {
-        equipmentService.deleteByName(name);
-        return responseService.getSuccessResult();
-    };
+//    @ApiOperation(value = "기자재 삭제", notes = "기자재를 삭제한다.")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+//    })
+//    @DeleteMapping("/equipmnet/delete")
+//    public CommonResult deleteByIdx(@ApiParam(value = "기자재 이름", required = true) @RequestParam String name) throws Exception {
+//        equipmentService.deleteByName(name);
+//        return responseService.getSuccessResult();
+//    };
 
     @ApiOperation(value = "신청 전체 조회", notes = "신청을 조회한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @GetMapping("/applyview")
-    public List<EquipmentAllow> findAll(){
-        List<EquipmentAllow> equipmentAllowListResult = adminService.findAllFetch();
+    public List<Object> findAll(){
+        List<Object> equipmentAllowListResult = adminService.findAll();
         return equipmentAllowListResult;
     }
 
@@ -120,6 +121,17 @@ public class AdminController {
     @PutMapping("/reject/{eqa_Idx}")
     public CommonResult RejectAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
         equipmentAllowService.FailureAllow(eqa_Idx);
+        return responseService.getSuccessResult();
+    }
+
+    //반납 + 숫자 더하기
+    @ApiOperation(value = "반납", notes = "관리자가 반납을 처리한다, amount 복귀")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @PutMapping("/return/{eqa_Idx}")
+    public CommonResult ReturnAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
+        equipmentAllowService.ReturnAllow(eqa_Idx);
         return responseService.getSuccessResult();
     }
 }

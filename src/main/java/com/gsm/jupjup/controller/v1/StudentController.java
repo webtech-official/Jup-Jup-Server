@@ -8,6 +8,8 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Api(tags = {"3. 학생"})
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +24,9 @@ public class StudentController {
     })
     @PostMapping("/equipmentallow/{name}")
     public CommonResult save(@ApiParam(value = "기자재 신청 이름", required = true) @PathVariable() String name,
-                             @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto) throws Exception {
-        equipmentAllowService.save(name, equipmentAllowSaveDto);
+                             @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto,
+                             HttpServletRequest req) throws Exception {
+        equipmentAllowService.save(name, equipmentAllowSaveDto, req);
         return responseService.getSuccessResult();
     }
 

@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -52,7 +53,6 @@ public class EquipmentService {
 
     @Transactional(readOnly = true)
     public EquipmentResDto findByName(String name) throws IOException {
-        equipmentFindByNameDuplicate(name);
         Equipment equipment = equipmentFindBy(name);
         EquipmentResDto equipmentResDto = new EquipmentResDto(equipment);
         //img 를 byte 로 바꿔서 변환
@@ -89,12 +89,6 @@ public class EquipmentService {
         return equipmentRepo.findByName(name).orElseThrow(EquipmentNotFoundException::new);
     }
 
-    /*
-    기자제 중복 처리
-     */
-    public Equipment equipmentFindByNameDuplicate(String name){
-        return equipmentRepo.findByName(name).orElseThrow(EquipmentDuplicateException::new);
-    }
 
     /** img save method
      * img 예외를 체크한후 img file을 저장한다.

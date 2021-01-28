@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -25,10 +26,6 @@ public class Equipment {
 
     @Lob
     private String img_equipment; //BLOB
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "equipment", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<EquipmentAllow> logs = new ArrayList<>();
 
     public void update(int count) {
         this.count = count;
