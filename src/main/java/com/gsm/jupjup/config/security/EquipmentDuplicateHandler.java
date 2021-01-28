@@ -10,9 +10,9 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
-public class NotFoundImageException extends Throwable {
+public class EquipmentDuplicateHandler {
     public void commence(HttpServletRequest request, HttpServletResponse response) throws IOException,
             ServletException {
-        response.sendRedirect("/exception/imagenotfound");
+        response.sendRedirect("/exception/equipmentduplicate");
     }
 }

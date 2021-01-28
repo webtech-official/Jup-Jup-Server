@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.gsm.jupjup.model.response.EquipmentAllowEnum;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -29,11 +31,17 @@ public class EquipmentAllow extends BaseTimeEntity{
     @Enumerated(EnumType.STRING)
     private EquipmentAllowEnum equipmentEnum;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "eq_Idx")
+    @Column
+    private Boolean isReturn;
+
+    @ManyToOne
+    @JoinColumn(name = "name")
     private Equipment equipment;
 
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "auth_Idx")
+    private Admin admin;
 
     public void update(int amount, String reason){
         this.amount = amount;

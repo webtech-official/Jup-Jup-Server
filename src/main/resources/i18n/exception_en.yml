@@ -23,6 +23,9 @@ EquipmentNotFound:
 ImageNotFound:
   code: "-467"
   msg: "The image does not exist."
+FileExtensionNotMatchImage:
+  code: "-468"
+  msg: "The file extension does not match image"
 EquipmentAllowAmountZero:
   code: "-500"
   msg: "There are 0 applications for equipment."
@@ -38,3 +41,15 @@ NotFoundLaptopException:
 NotFoundLaptopSpec:
   code: "-453"
   msg: "I don't have the right specifications for my laptop specifications."
+EquipmentDuplicateException:
+  code: "-432"
+  msg: "Equipment name is duplicated"
+UserDoesNotExistException:
+  code: "-321"
+  msg: "The user does not exist."
+AlreadyApprovedAndRejectedException:
+  code: "-530"
+  msg: "The application has already been approved or rejected."
+AlreadyReturnedException:
+  code: "-236"
+  msg: "The application has already been returned."

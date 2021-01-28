@@ -23,6 +23,9 @@ EquipmentNotFound:
 ImageNotFound:
   code: "-467"
   msg: "이미지가 없습니다."
+FileExtensionNotMatchImage:
+  code: "-468"
+  msg: "파일 확장자가 이미지가 아닙니다."
 EquipmentAllowAmountZero:
   code: "-500"
   msg: "기자재 신청이 0개입니다."
@@ -37,3 +40,15 @@ NotFoundLaptopException:
 NotFoundLaptopSpec:
   code: "-453"
   msg: "알맞는 노트북 사양이 없습니다"
+EquipmentDuplicateException:
+  code: "-432"
+  msg: "기자재 이름이 중복되었습니다."
+UserDoesNotExistException:
+  code: "-321"
+  msg: "유저가 존재하지 않습니다"
+AlreadyApprovedAndRejectedException:
+  code: "-530"
+  msg: "이미 승인되거나 거절된 신청입니다."
+AlreadyReturnedException:
+  code: "-236"
+  msg: "이미 반납된 신청입니다."

@@ -52,4 +52,16 @@ public class ExceptionController {
     @GetMapping(value = "/notfoundlaptopspec")
     public CommonResult NotFoundLaptopSpec() {throw new NotFoundLaptopSpec("");}
 
+    @GetMapping(value = "/exception/file-extension-not-match-image")
+    public CommonResult FileExtensionNotMatchImageException() {throw new FileExtensionNotMatchImageException();}
+
+    @GetMapping(value = "/exception/equipmentduplicate")
+    public CommonResult EquipmentDuplicateException() {throw new EquipmentDuplicateException();}
+
+    @GetMapping(value = "/exception/alreadyapprovedAndrejected")
+    public CommonResult AlreadyApprovedAndRejectedException() {throw new AlreadyApprovedAndRejectedException();}
+
+    @GetMapping(value = "/exception/alreadyreturned")
+    public CommonResult AlreadyReturnedException() {throw new AlreadyReturnedException();}
+
 }

@@ -75,6 +75,11 @@ public class ExceptionAdvice {
         return responseService.getFailResult(Integer.valueOf(getMessage("ImageNotFound.code")), getMessage("ImageNotFound.msg"));
     }
 
+    @ExceptionHandler(FileExtensionNotMatchImageException.class)
+    public CommonResult FileExtensionNotMatchImageException(HttpServletRequest request, FileExtensionNotMatchImageException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("FileExtensionNotMatchImage.code")), getMessage("FileExtensionNotMatchImage.msg"));
+    }
+
     @ExceptionHandler(EquipmentAllowAmountZeroException.class)
     public CommonResult EquipmentAllowAmountZeroException(HttpServletRequest request, EquipmentAllowAmountZeroException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentAllowAmountZero.code")), getMessage("EquipmentAllowAmountZero.msg"));
@@ -97,4 +102,23 @@ public class ExceptionAdvice {
     public CommonResult EquipmentAllowNotFoundException(HttpServletRequest request, NotFoundLaptopSpec e){
         return responseService.getFailResult(Integer.valueOf(getMessage("NotFoundLaptopSpec.code")), getMessage("NotFoundLaptopSpec.msg"));
     }
+
+    @ExceptionHandler(EquipmentDuplicateException.class)
+    public CommonResult EquipmentAllowNotFoundException(HttpServletRequest request, EquipmentDuplicateException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentDuplicateException.code")), getMessage("EquipmentDuplicateException.msg"));
+    }
+    @ExceptionHandler(UserDoesNotExistException.class)
+    public CommonResult UserDoesNotExistException(HttpServletRequest request, UserDoesNotExistException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("UserDoesNotExistException.code")), getMessage("UserDoesNotExistException.msg"));
+    }
+    @ExceptionHandler(AlreadyApprovedAndRejectedException.class)
+    public CommonResult UserDoesNotExistException(HttpServletRequest request, AlreadyApprovedAndRejectedException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("AlreadyApprovedAndRejectedException.code")), getMessage("AlreadyApprovedAndRejectedException.msg"));
+    }
+    @ExceptionHandler(AlreadyReturnedException.class)
+    public CommonResult UserDoesNotExistException(HttpServletRequest request, AlreadyReturnedException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("AlreadyReturnedException.code")), getMessage("AlreadyReturnedException.msg"));
+    }
+
+
 }
