@@ -139,7 +139,7 @@ public class EquipmentService {
      * @return ture(img 에 예외가 없을)
      */
     public boolean imgChk(MultipartFile img){
-        if(img.isEmpty())
+        if(img == null)
             throw new ImageNotFoundException();
         else if(!img.getContentType().split("/")[0].equals("image"))  //type 이 image 가 아니면
             throw new FileExtensionNotMatchImageException();
