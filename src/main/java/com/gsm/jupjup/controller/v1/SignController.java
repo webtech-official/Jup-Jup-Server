@@ -47,7 +47,7 @@ public class SignController {
     public CommonResult signin(@ApiParam(value = "회원 가입 DTO", required = true) @RequestBody SignUpDto signUpDto) {
         //이메일 중복
         Optional<Admin> admin = adminRepo.findByEmail(signUpDto.getEmail());
-        if(admin == null){
+        if(admin.isEmpty()){
             adminRepo.save(Admin.builder()
                     .email(signUpDto.getEmail())
                     .password(passwordEncoder.encode(signUpDto.getPassword()))
