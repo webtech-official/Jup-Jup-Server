@@ -1,5 +1,6 @@
 package com.gsm.jupjup.service.notice;
 
+import com.gsm.jupjup.config.security.CustomUserDetailService;
 import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.dto.notice.NoticeSaveDto;
 import com.gsm.jupjup.model.Admin;
@@ -8,13 +9,15 @@ import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
-import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.NoticeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 
 @Service
 public class NoticeServiceImpl implements NoticeService{
@@ -25,18 +28,11 @@ public class NoticeServiceImpl implements NoticeService{
     @Autowired
     NoticeRepo noticeRepo;
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-
-    @Autowired
-    private AdminRepo adminRepo;
-
     @Override
-    public Long SaveNotice(NoticeSaveDto noticeSaveDto, HttpServletRequest req) {
+    public Long SaveNotice(NoticeSaveDto noticeSaveDto) {
         //현재 로그인된 사용자 구하기
-        String userEmail = GetUserEmail(req);
-        Admin admin = adminRepo.findByEmail(userEmail).orElseThrow(null);
-        noticeSaveDto.setAdminIdx(admin.getAuth_Idx());
+        Long userIdx = currentUser().getAuth_Idx();
+        noticeSaveDto.setAdminIdx(userIdx);
         return noticeRepo.save(noticeSaveDto.toEntity()).getNotice_Idx();
     }
 
@@ -64,10 +60,17 @@ public class NoticeServiceImpl implements NoticeService{
         return responseService.getSingleResult(notice);
     }
 
-    public String GetUserEmail(HttpServletRequest req){
-        String token = jwtTokenProvider.resolveToken(req);
-        String userEmail = jwtTokenProvider.getUserPk(token);
-        return userEmail;
+    //현재 사용자의 ID를 Return
+    public static Admin currentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Admin user = (Admin) authentication.getPrincipal();
+        return user;
     }
 
+    //현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
+    public static boolean hasAdminRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        return authorities.stream().filter(o -> o.getAuthority().equals("ROLE_ADMIN")).findAny().isPresent();
+    }
 }

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface NoticeService {
 
     //공지 사항 저장
-    Long SaveNotice(NoticeSaveDto noticeSaveDto, HttpServletRequest req);
+    Long SaveNotice(NoticeSaveDto noticeSaveDto);
 
     //공지 사항 수정
     CommonResult UpdateNotice(NoticeSaveDto noticeSaveDto, Long noticeIdx);
