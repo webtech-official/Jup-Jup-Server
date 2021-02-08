@@ -1,11 +1,8 @@
 package com.gsm.jupjup.service.notice;
 
-import com.gsm.jupjup.config.security.CustomUserDetailService;
-import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.dto.notice.NoticeSaveDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.Notice;
-import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
@@ -26,7 +23,7 @@ public class NoticeServiceImpl implements NoticeService{
     private ResponseService responseService;
 
     @Autowired
-    NoticeRepo noticeRepo;
+    private NoticeRepo noticeRepo;
 
     @Override
     public Long SaveNotice(NoticeSaveDto noticeSaveDto) {
@@ -36,11 +33,11 @@ public class NoticeServiceImpl implements NoticeService{
         return noticeRepo.save(noticeSaveDto.toEntity()).getNotice_Idx();
     }
 
+    @Transactional
     @Override
-    public CommonResult UpdateNotice(NoticeSaveDto noticeSaveDto, Long noticeIdx) {
+    public void UpdateNotice(NoticeSaveDto noticeSaveDto, Long noticeIdx) {
         Notice notice = noticeRepo.findById(noticeIdx).orElseThrow(null);
         notice.updateAll(noticeSaveDto);
-        return null;
     }
 
     @Transactional

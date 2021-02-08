@@ -15,7 +15,7 @@ public interface NoticeService {
     Long SaveNotice(NoticeSaveDto noticeSaveDto);
 
     //공지 사항 수정
-    CommonResult UpdateNotice(NoticeSaveDto noticeSaveDto, Long noticeIdx);
+    void UpdateNotice(NoticeSaveDto noticeSaveDto, Long noticeIdx);
 
     //공지 사항 삭제
     void DeleteNotice(Long noticeIdx);
