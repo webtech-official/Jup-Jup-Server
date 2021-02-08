@@ -4,15 +4,23 @@ import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.dto.notice.NoticeSaveDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.Notice;
+import com.gsm.jupjup.model.response.CommonResult;
+import com.gsm.jupjup.model.response.ListResult;
+import com.gsm.jupjup.model.response.ResponseService;
+import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.NoticeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class NoticeServiceImpl implements NoticeService{
+
+    @Autowired
+    private ResponseService responseService;
 
     @Autowired
     NoticeRepo noticeRepo;
@@ -33,23 +41,27 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override
-    public Notice UpdateNotice(NoticeSaveDto noticeSaveDto) {
+    public CommonResult UpdateNotice(NoticeSaveDto noticeSaveDto, Long noticeIdx) {
+        Notice notice = noticeRepo.findById(noticeIdx).orElseThrow(null);
+        notice.updateAll(noticeSaveDto);
         return null;
     }
 
+    @Transactional
     @Override
     public void DeleteNotice(Long noticeIdx) {
-
+        noticeRepo.deleteById(noticeIdx);
     }
 
     @Override
-    public Notice FindAllNotice() {
-        return null;
+    public ListResult<Notice> FindAllNotice() {
+        return responseService.getListResult(noticeRepo.findAll());
     }
 
     @Override
-    public Notice FindByNoticeIdx(Long noticeIdx) {
-        return null;
+    public SingleResult<Notice> FindByNoticeIdx(Long noticeIdx) {
+        Notice notice = noticeRepo.findById(noticeIdx).orElseThrow(null);
+        return responseService.getSingleResult(notice);
     }
 
     public String GetUserEmail(HttpServletRequest req){
