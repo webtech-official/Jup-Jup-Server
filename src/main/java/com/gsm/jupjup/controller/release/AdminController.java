@@ -3,6 +3,7 @@ package com.gsm.jupjup.controller.release;
 import com.gsm.jupjup.config.handler.NotFoundImageHandler;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
+import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.model.response.*;
 import com.gsm.jupjup.service.admin.AdminService;
 import com.gsm.jupjup.service.equipment.EquipmentAllowService;
@@ -150,5 +151,15 @@ public class AdminController {
     public CommonResult ReturnAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
         equipmentAllowService.ReturnAllow(eqa_Idx);
         return responseService.getSuccessResult();
+    }
+
+    //기자재 키워드(이름) 검색
+    @ApiOperation(value = "키워드 검색", notes = "유저가 키원드를 사용하여 기자재를 조회한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @PostMapping("/equipment/{keyword}")
+    public ListResult<Equipment> findByKeyWord(@ApiParam(value = "검색 KeyWord", required = true) @PathVariable String keyword) throws Exception {
+        return responseService.getListResult(equipmentService.findByKeyword(keyword));
     }
 }
