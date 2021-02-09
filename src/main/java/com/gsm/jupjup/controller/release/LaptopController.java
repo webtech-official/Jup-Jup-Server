@@ -4,6 +4,7 @@ import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveReqDto;
 import com.gsm.jupjup.dto.laptop.LaptopUpdateReqDto;
 import com.gsm.jupjup.model.Laptop;
+import com.gsm.jupjup.model.LaptopSpec;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.ResponseService;
@@ -12,6 +13,8 @@ import com.gsm.jupjup.service.laptop.LaptopService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Api(tags = {"4. 노트북"})
@@ -39,7 +42,7 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public SingleResult<LaptopResponseDto> findByLaptopSerialNumber(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber){
+    public SingleResult<Laptop> findByLaptopSerialNumber(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber){
         return responseService.getSingleResult(laptopService.findByLaptopSerialNumber(laptopSerialNumber));
     }
 

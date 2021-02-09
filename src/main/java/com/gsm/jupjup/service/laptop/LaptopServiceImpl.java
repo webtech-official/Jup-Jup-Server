@@ -6,6 +6,7 @@ import com.gsm.jupjup.dto.laptop.LaptopSaveReqDto;
 import com.gsm.jupjup.dto.laptop.LaptopUpdateReqDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.Laptop;
+import com.gsm.jupjup.model.LaptopSpec;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.LaptopRepo;
 import com.gsm.jupjup.repo.LaptopSpecRepo;
@@ -56,9 +57,9 @@ public class LaptopServiceImpl implements LaptopService{
     }
 
     @Override
-    public LaptopResponseDto findByLaptopSerialNumber(String laptopSerialNumber){
+    public Laptop findByLaptopSerialNumber(String laptopSerialNumber){
         Laptop laptop = laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(NotFoundLaptopException::new);
-        return new LaptopResponseDto(laptop);
+        return laptop;
     }
 
     //모두 찾기

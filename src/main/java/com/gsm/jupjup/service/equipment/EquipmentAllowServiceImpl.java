@@ -136,6 +136,10 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService{
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
         if(equipmentAllow.getIsReturn() == true){
             throw new AlreadyReturnedException();
+        } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Waiting)){
+            System.out.println("먼저 신청을 승인해 주세요.");
+        } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
+            System.out.println("이미 거절된 신청입니다.");
         } else {
             equipmentAllow.setIsReturn(true);
 

@@ -29,6 +29,9 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping(value = "/v1")
 public class SignController {
+
+    private String authKey_;
+
     @Autowired
     private EmailService mss;
     private final AdminRepo adminRepo;
@@ -65,16 +68,19 @@ public class SignController {
             throw new CDuplicateEmailException();
         }
         //임의의 authKey 생성 & 이메일 발송
-        String authKey = mss.sendAuthMail(signUpDto.getEmail());
+        authKey_ = mss.sendAuthMail(signUpDto.getEmail());
 
         return responseService.getSuccessResult();
     }
 
     @Transactional
     @GetMapping("member/signUpConfirm")
-    public void signUpConfirm(@RequestParam String email){
-        //email, authKey가 일치할 경우 authStatus 업데이트
-        Admin admin = adminRepo.findByEmail(email).orElseThrow(CEmailSigninFailedException::new);
-        admin.setAuthStatus(true);
+    public void signUpConfirm(@RequestParam String email, @RequestParam String AuthKey){
+        if(authKey_.equals(AuthKey)){
+            Admin admin = adminRepo.findByEmail(email).orElseThrow(CEmailSigninFailedException::new);
+            admin.setAuthStatus(true);
+        } else {
+            System.out.println("인증번호가 올바르지 않습니다.");
+        }
     }
 }

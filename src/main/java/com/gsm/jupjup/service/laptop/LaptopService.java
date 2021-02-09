@@ -19,7 +19,7 @@ public interface LaptopService {
     void delete(String laptopSerialNumber);
 
     //노트북 1개 조회
-    LaptopResponseDto findByLaptopSerialNumber(String laptopSerialNumber);
+    Laptop findByLaptopSerialNumber(String laptopSerialNumber);
 
     //노트북 모두 조회
     List<Laptop> findAll();

@@ -14,8 +14,12 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 public class Laptop extends BaseTimeEntity{
+
     @Id
-    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long laptopIdx;
+
+    @Column(unique = true)
     // 노트북 시리얼 번호
     private String laptopSerialNumber;
 
@@ -30,11 +34,7 @@ public class Laptop extends BaseTimeEntity{
     private String studentName;
     private String classNumber;
 
-    //fk mapping
-//    @ManyToOne
-//    @JoinColumn(name = "specIdx")
-//    private LaptopSpec laptopSpec;
-
+    //laptopSpec 관계 설정
     private Long laptopSpecIdx;
 
     @JsonBackReference

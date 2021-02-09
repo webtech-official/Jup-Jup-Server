@@ -3,6 +3,7 @@ package com.gsm.jupjup.dto.laptop;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.Laptop;
+import com.gsm.jupjup.model.LaptopSpec;
 import lombok.*;
 
 @Getter
