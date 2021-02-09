@@ -1,60 +1,47 @@
 package com.gsm.jupjup.service.laptop;
 
 import com.gsm.jupjup.advice.exception.NotFoundLaptopException;
-import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
-import com.gsm.jupjup.dto.laptop.LaptopSaveRequestDto;
-import com.gsm.jupjup.dto.laptop.LaptopUpdateRequestDto;
+import com.gsm.jupjup.dto.laptop.LaptopSaveReqDto;
+import com.gsm.jupjup.dto.laptop.LaptopUpdateReqDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.Laptop;
-import com.gsm.jupjup.model.LaptopSpec;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.LaptopRepo;
 import com.gsm.jupjup.repo.LaptopSpecRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class LaptopServiceImpl implements LaptopService{
-    // DI
-    @Autowired
-    private LaptopRepo laptopRepo;
 
-    @Autowired
-    private LaptopSpecRepo laptopSpecRepo;
-
-    @Autowired
-    private AdminRepo adminRepo;
+    private final LaptopRepo laptopRepo;
+    private final LaptopSpecRepo laptopSpecRepo;
+    private final AdminRepo adminRepo;
 
     @Override
-    public String save(LaptopSaveRequestDto laptopSaveRequestDto){
+    public String save(LaptopSaveReqDto laptopSaveReqDto){
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(null);
-        LaptopSpec laptopSpec = laptopSpecRepo.findById(laptopSaveRequestDto.getSpecIdx()).orElseThrow(NotFoundLaptopException::new);
-        //Laptop save 넣기
-        Laptop laptop = Laptop.builder()
-                .admin(admin)
-                .laptopSerialNumber(laptopSaveRequestDto.getLaptopSerialNumber())
-                .laptopName(laptopSaveRequestDto.getLaptopName())
-                .laptopBrand(laptopSaveRequestDto.getLaptopBrand())
-                .laptopSpec(laptopSpec)
-                .studentName(laptopSaveRequestDto.getStudentName())
-                .classNumber(laptopSaveRequestDto.getClassNumber())
-                .build();
+        laptopSpecRepo.findById(laptopSaveReqDto.getSpecIdx()).orElseThrow(NotFoundLaptopException::new);
+        //admin 넣기
+        laptopSaveReqDto.setAdmin(admin);
+        //Laptop 도매인 객체 만들기
+        Laptop laptop = laptopSaveReqDto.toEntity();
         //Success, return LaptopName
         return laptopRepo.save(laptop).getLaptopName();
     }
 
     @Transactional
     @Override
-    public String update(String laptopSerialNumber, LaptopUpdateRequestDto laptopSaveRequestDto){
+    public String update(String laptopSerialNumber, LaptopUpdateReqDto laptopSaveRequestDto){
         Laptop laptop = laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(NotFoundLaptopException::new);
         laptop.update(laptopSaveRequestDto.getLaptopName(), laptopSaveRequestDto.getLaptopBrand());
         // 성공시 laptopSerialNumber을 반환.
