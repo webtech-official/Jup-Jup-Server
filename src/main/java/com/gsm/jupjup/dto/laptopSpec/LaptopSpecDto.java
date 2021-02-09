@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LaptopSpecSaveRequestDto {
+public class LaptopSpecDto {
     private String CPU;
     private String GPU;
     private String RAM;
@@ -17,7 +17,7 @@ public class LaptopSpecSaveRequestDto {
     private String HDD;
 
     @Builder
-    public LaptopSpecSaveRequestDto(String CPU, String GPU, String RAM, String SSD, String HDD){
+    public LaptopSpecDto(String CPU, String GPU, String RAM, String SSD, String HDD){
         this.CPU = CPU;
         this.GPU = GPU;
         this.RAM = RAM;
