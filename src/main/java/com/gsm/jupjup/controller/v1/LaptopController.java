@@ -32,9 +32,8 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody LaptopSaveRequestDto laptopSaveRequestDto,
-                             HttpServletRequest req){
-        laptopService.save(laptopSaveRequestDto, req);
+    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody LaptopSaveRequestDto laptopSaveRequestDto){
+        laptopService.save(laptopSaveRequestDto);
         return responseService.getSuccessResult();
     }
 
