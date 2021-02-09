@@ -35,4 +35,3 @@ build/
 
 ###Sensitive Code###
 src/main/resources/application.properties
-
