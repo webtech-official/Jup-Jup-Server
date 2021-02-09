@@ -33,8 +33,8 @@ public class MyPageController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public ListResult<EquipmentAllow> findMyEqiupment(HttpServletRequest req){
-        return responseService.getListResult(myPageService.findMyEquipment(req));
+    public ListResult<EquipmentAllow> findMyEqiupment(){
+        return responseService.getListResult(myPageService.findMyEquipment());
     }
 
     //GET
@@ -43,8 +43,8 @@ public class MyPageController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public ListResult<Laptop> findMyLaptop(HttpServletRequest req){
-        return responseService.getListResult(myPageService.findMyLaptop(req));
+    public ListResult<Laptop> findMyLaptop(){
+        return responseService.getListResult(myPageService.findMyLaptop());
     }
 
 }

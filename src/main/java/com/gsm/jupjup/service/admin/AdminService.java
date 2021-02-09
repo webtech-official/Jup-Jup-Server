@@ -26,7 +26,4 @@ public class AdminService {
         List<Object> equipmentAllow = equipmentAllowRepo.findAllBy();
         return equipmentAllow;
     }
-
-    //반납하기
-
 }
