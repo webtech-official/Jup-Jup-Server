@@ -5,8 +5,10 @@ import com.gsm.jupjup.model.Notice;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.SingleResult;
+import com.querydsl.jpa.impl.JPAQuery;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 
 public interface NoticeService {
@@ -26,4 +28,6 @@ public interface NoticeService {
     //공지 사항 Idx로 조회
     SingleResult<Notice> FindByNoticeIdx(Long noticeIdx);
 
+    //Querydsl
+    public List<Notice> findALL();
 }
