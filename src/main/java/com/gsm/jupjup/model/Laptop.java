@@ -37,10 +37,7 @@ public class Laptop extends BaseTimeEntity{
     //laptopSpec 관계 설정
     private Long laptopSpecIdx;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "auth_Idx")
-    private Admin admin;
+    private Long adminIdx;
 
     //update에 사용할 생성자
     public void update(String laptopName, String laptopBrand){

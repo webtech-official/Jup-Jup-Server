@@ -8,10 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface EquipmentAllowRepo extends JpaRepository<EquipmentAllow, Long> {
-    @Query("select e from EquipmentAllow e inner join fetch e.equipment")
-    List<EquipmentAllow> findAllJoinFetch();
 
-    List<EquipmentAllow> findByAdmin(Admin admin);
+    List<EquipmentAllow> findByAdminIdx(Long adminIdx);
 
     List<Object> findAllBy();
 }

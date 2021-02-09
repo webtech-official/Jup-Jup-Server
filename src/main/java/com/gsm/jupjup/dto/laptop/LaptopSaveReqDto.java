@@ -12,9 +12,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class LaptopSaveReqDto {
-    @JsonIgnore
-    private Admin admin;
-
     private String laptopSerialNumber;
     private String laptopName;
     private String laptopBrand;
@@ -22,9 +19,9 @@ public class LaptopSaveReqDto {
     private String classNumber;
     private Long specIdx;
 
-    public Laptop toEntity(){
+    public Laptop toEntity(Admin admin){
         return Laptop.builder()
-                .admin(this.admin)
+                .adminIdx(admin.getAuth_Idx())
                 .laptopSerialNumber(this.laptopSerialNumber)
                 .laptopName(this.laptopName)
                 .laptopBrand(this.laptopBrand)

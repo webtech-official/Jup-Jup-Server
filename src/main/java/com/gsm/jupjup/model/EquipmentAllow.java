@@ -34,14 +34,9 @@ public class EquipmentAllow extends BaseTimeEntity{
     @Column
     private Boolean isReturn;
 
-    @ManyToOne
-    @JoinColumn(name = "name")
-    private Equipment equipment;
+    private Long equipmentIdx;
 
-    @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "auth_Idx")
-    private Admin admin;
+    private Long adminIdx;
 
     public void update(int amount, String reason){
         this.amount = amount;

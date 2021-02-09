@@ -9,6 +9,7 @@ import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.response.EquipmentAllowEnum;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
+import com.gsm.jupjup.repo.EquipmentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +23,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class EquipmentAllowServiceImpl implements EquipmentAllowService{
     public final EquipmentAllowRepo equipmentAllowRepo;
+    public final EquipmentRepo equipmentRepo;
     public final EquipmentService equipmentService;
     public final AdminRepo adminRepo;
 
@@ -37,15 +39,12 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService{
         int result = equipmentAmountCount(equipment.getCount(), equipmentAllowSaveDto.getAmount());
         equipment.updateAmount(result);
 
-        //equipment 조회해서 equipmentALlowSaveDto 에 값을 주입하여
-        equipmentAllowSaveDto.setEquipment(equipment);
-
         //toEntity로 연관관계가 맻여진 equipmentAllow생성
-        EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity();
+        EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity(equipment);
 
         //UserEmail을 가져와서 Admin과 연관관계 매핑
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(UserDoesNotExistException::new);
-        equipmentAllow.setAdmin(admin);
+        equipmentAllow.setAdminIdx(admin.getAuth_Idx());
 
         equipmentAllowRepo.save(equipmentAllow);
     }
@@ -119,7 +118,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService{
         } else {
             equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Reject);
             //신청한 제품
-            Equipment equipment = equipmentAllow.getEquipment();
+            Equipment equipment = equipmentRepo.findById(equipmentAllow.getEquipmentIdx()).orElseThrow(null);
 
             // 신청 갯수
             int now = equipmentAllow.getAmount();
@@ -144,7 +143,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService{
             equipmentAllow.setIsReturn(true);
 
             //신청한 제품
-            Equipment equipment = equipmentAllow.getEquipment();
+            Equipment equipment = equipmentRepo.findById(equipmentAllow.getEquipmentIdx()).orElseThrow(null);
 
             // 신청 갯수
             int now = equipmentAllow.getAmount();

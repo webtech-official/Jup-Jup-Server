@@ -32,10 +32,8 @@ public class LaptopServiceImpl implements LaptopService{
     public String save(LaptopSaveReqDto laptopSaveReqDto){
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(null);
         laptopSpecRepo.findById(laptopSaveReqDto.getSpecIdx()).orElseThrow(NotFoundLaptopException::new);
-        //admin 넣기
-        laptopSaveReqDto.setAdmin(admin);
         //Laptop 도매인 객체 만들기
-        Laptop laptop = laptopSaveReqDto.toEntity();
+        Laptop laptop = laptopSaveReqDto.toEntity(admin);
         //Success, return LaptopName
         return laptopRepo.save(laptop).getLaptopName();
     }

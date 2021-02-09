@@ -14,7 +14,7 @@ public interface LaptopRepo extends JpaRepository<Laptop, String> {
     // 명확한 error, exception 처리.
     Optional<Laptop> findByLaptopSerialNumber(String laptopSerialNumber);
 
-    List<Laptop> findByAdmin(Admin admin);
+    List<Laptop> findByAdminIdx(Long adminIdx);
 
 
 }

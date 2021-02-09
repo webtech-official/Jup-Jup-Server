@@ -18,14 +18,15 @@ public class EquipmentAllowSaveDto {
     private String reason;
 
     @JsonIgnore
-    private Equipment equipment;
+    private Boolean isReturn = false;
 
-    public EquipmentAllow toEntity(){
+    public EquipmentAllow toEntity(Equipment equipment){
         return EquipmentAllow.builder()
                 .equipmentEnum(EquipmentAllowEnum.ROLE_Waiting)
                 .amount(this.amount)
                 .reason(this.reason)
-                .equipment(this.equipment)
+                .isReturn(this.isReturn)
+                .equipmentIdx(equipment.getEqu_Idx())
                 .build();
     }
 }
