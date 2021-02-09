@@ -7,9 +7,12 @@ import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.service.notice.NoticeService;
+import com.querydsl.jpa.impl.JPAQuery;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(tags = {"6. 공지사항"})
 @RestController
@@ -69,5 +72,4 @@ public class NoticeController {
         noticeService.UpdateNotice(noticeSaveDto, noticeidx);
         return responseService.getSuccessResult();
     }
-
 }

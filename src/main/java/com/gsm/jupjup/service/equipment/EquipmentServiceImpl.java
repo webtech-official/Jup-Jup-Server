@@ -7,9 +7,13 @@ import com.gsm.jupjup.advice.exception.ImageNotFoundException;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.Equipment;
+import com.gsm.jupjup.model.Notice;
+import com.gsm.jupjup.model.QEquipment;
 import com.gsm.jupjup.repo.EquipmentRepo;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,11 +26,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
 public class EquipmentServiceImpl implements EquipmentService{
 
-    private final EquipmentRepo equipmentRepo;
+    @Autowired
+    private EquipmentRepo equipmentRepo;
+
+    @Autowired
+    private JPAQueryFactory query;
 
     @Override
     public void save(EquipmentUploadDto equipmentUploadDto) throws IOException {
@@ -104,6 +111,26 @@ public class EquipmentServiceImpl implements EquipmentService{
     //Equipment 를 name 으로 찾고 Entity 만드는 매서드
     public Equipment equipmentFindBy(String name){
         return equipmentRepo.findByName(name).orElseThrow(EquipmentNotFoundException::new);
+    }
+
+    /**
+     *
+     * @param keyword
+     * @return
+     * query = query.where(qUserEntity.email.like(userEmail)); //지정된 str(userEmail)과 같으면 return
+     * query = query.where(qUserEntity.email.contains(userEmail)); //지정된 str(userEmail)이 포함되는 경우 true를 return
+     */
+    @Override
+    public List<Equipment> findByKeyword(String keyword) throws Exception {
+        QEquipment qequipment = QEquipment.equipment;
+
+        List<Equipment> equipmentList = query.select(qequipment)
+                .from(qequipment)
+                .where(qequipment.name.contains(keyword))
+                .fetch();
+        if(equipmentList.isEmpty())
+            throw new Exception("");
+        return equipmentList;
     }
 
     /******ServiceImpl 에서만 사용하는 매서드******/
