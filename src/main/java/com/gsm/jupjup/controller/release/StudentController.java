@@ -1,4 +1,4 @@
-package com.gsm.jupjup.controller.v1;
+package com.gsm.jupjup.controller.release;
 
 import com.gsm.jupjup.dto.equipmentAllow.EquipmentAllowSaveDto;
 import com.gsm.jupjup.model.response.CommonResult;
@@ -24,9 +24,8 @@ public class StudentController {
     })
     @PostMapping("/equipmentallow/{name}")
     public CommonResult save(@ApiParam(value = "기자재 신청 이름", required = true) @PathVariable() String name,
-                             @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto,
-                             HttpServletRequest req) throws Exception {
-        equipmentAllowService.save(name, equipmentAllowSaveDto, req);
+                             @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto) {
+        equipmentAllowService.save(name, equipmentAllowSaveDto);
         return responseService.getSuccessResult();
     }
 

@@ -1,10 +1,8 @@
-package com.gsm.jupjup.controller.v1;
+package com.gsm.jupjup.controller.release;
 
 
-import com.gsm.jupjup.dto.laptop.LaptopSaveRequestDto;
 import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.Laptop;
-import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.service.mypage.MyPageService;
@@ -14,9 +12,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Api(tags = {"5. 마이페이지"})
 @RestController

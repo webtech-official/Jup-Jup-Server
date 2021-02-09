@@ -1,4 +1,4 @@
-package com.gsm.jupjup.controller.v1;
+package com.gsm.jupjup.controller.release;
 
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveRequestDto;
@@ -11,11 +11,7 @@ import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.service.laptop.LaptopService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Api(tags = {"4. 노트북"})

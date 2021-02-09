@@ -1,4 +1,4 @@
-package com.gsm.jupjup.controller.v1;
+package com.gsm.jupjup.controller.release;
 
 import com.gsm.jupjup.config.handler.NotFoundImageHandler;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;

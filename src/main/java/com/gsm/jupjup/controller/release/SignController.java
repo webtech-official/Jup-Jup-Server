@@ -1,4 +1,4 @@
-package com.gsm.jupjup.controller.v1;
+package com.gsm.jupjup.controller.release;
 
 import com.gsm.jupjup.advice.exception.CDuplicateEmailException;
 import com.gsm.jupjup.advice.exception.CEmailSigninFailedException;

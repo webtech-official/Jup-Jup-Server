@@ -41,7 +41,7 @@ public class SwaggerConfiguration {
                 .useDefaultResponseMessages(false)
                 .groupName(version)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.gsm.jupjup.controller.v1"))
+                .apis(RequestHandlerSelectors.basePackage("com.gsm.jupjup.controller.release"))
                 .paths(PathSelectors.ant("/v1/**"))
                 .build()
                 .apiInfo(apiInfo(title, version))

@@ -1,6 +1,5 @@
-package com.gsm.jupjup.controller.v1;
+package com.gsm.jupjup.controller.release;
 
-import com.gsm.jupjup.config.security.CustomUserDetailService;
 import com.gsm.jupjup.dto.notice.NoticeSaveDto;
 import com.gsm.jupjup.model.Notice;
 import com.gsm.jupjup.model.response.CommonResult;
@@ -10,10 +9,7 @@ import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.service.notice.NoticeService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = {"6. 공지사항"})
 @RestController
