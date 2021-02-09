@@ -40,6 +40,10 @@ public class Admin implements UserDetails {
     @Column
     private boolean authStatus = false;
 
+    public boolean returnAuthStatus(){
+        return authStatus;
+    }
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();

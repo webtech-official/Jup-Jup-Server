@@ -40,9 +40,11 @@ public class SignController {
     @PostMapping(value = "/signin")
     public SingleResult<String> signin(@ApiParam(value = "로그인 DTO", required = true) @RequestBody SignInDto signInDto) {
         Admin admin = adminRepo.findByEmail(signInDto.getEmail()).orElseThrow(CEmailSigninFailedException::new);
-        if (!passwordEncoder.matches(signInDto.getPassword(), admin.getPassword()))
+        if(!admin.returnAuthStatus()){
             throw new CEmailSigninFailedException();
-
+        }
+        else if (!passwordEncoder.matches(signInDto.getPassword(), admin.getPassword()))
+            throw new CEmailSigninFailedException();
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(admin.getEmail()), admin.getRoles()));
     }
 
