@@ -5,6 +5,7 @@ import com.gsm.jupjup.config.handler.CustomAuthenticationEntryPointHandler;
 import lombok.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@Profile("release")
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {

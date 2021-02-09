@@ -1,8 +1,8 @@
 package com.gsm.jupjup.controller.release;
 
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
-import com.gsm.jupjup.dto.laptop.LaptopSaveRequestDto;
-import com.gsm.jupjup.dto.laptop.LaptopUpdateRequestDto;
+import com.gsm.jupjup.dto.laptop.LaptopSaveReqDto;
+import com.gsm.jupjup.dto.laptop.LaptopUpdateReqDto;
 import com.gsm.jupjup.model.Laptop;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ListResult;
@@ -28,8 +28,8 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody LaptopSaveRequestDto laptopSaveRequestDto){
-        laptopService.save(laptopSaveRequestDto);
+    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody LaptopSaveReqDto laptopSaveReqDto){
+        laptopService.save(laptopSaveReqDto);
         return responseService.getSuccessResult();
     }
 
@@ -50,8 +50,8 @@ public class LaptopController {
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     public CommonResult update(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber,
-                               @ApiParam(value = "노트북 수정 DTO", required = true) @RequestBody LaptopUpdateRequestDto laptopUpdateRequestDto){
-        laptopService.update(laptopSerialNumber, laptopUpdateRequestDto);
+                               @ApiParam(value = "노트북 수정 DTO", required = true) @RequestBody LaptopUpdateReqDto laptopUpdateReqDto){
+        laptopService.update(laptopSerialNumber, laptopUpdateReqDto);
         return responseService.getSuccessResult();
     }
 

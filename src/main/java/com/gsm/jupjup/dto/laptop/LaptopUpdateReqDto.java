@@ -7,11 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LaptopSaveRequestDto {
-    private String laptopSerialNumber;
+public class LaptopUpdateReqDto {
     private String laptopName;
     private String laptopBrand;
-    private String studentName;
-    private String classNumber;
-    private Long specIdx;
 }
