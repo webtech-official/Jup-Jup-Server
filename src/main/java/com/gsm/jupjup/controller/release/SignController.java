@@ -10,11 +10,14 @@ import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.repo.AdminRepo;
+import com.gsm.jupjup.service.email.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -26,7 +29,8 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping(value = "/v1")
 public class SignController {
-
+    @Autowired
+    private EmailService mss;
     private final AdminRepo adminRepo;
     private final JwtTokenProvider jwtTokenProvider;
     private final ResponseService responseService;
@@ -44,7 +48,7 @@ public class SignController {
 
     @ApiOperation(value = "가입", notes = "회원가입을 한다.")
     @PostMapping(value = "/signup")
-    public CommonResult signin(@ApiParam(value = "회원 가입 DTO", required = true) @RequestBody SignUpDto signUpDto) {
+    public CommonResult signup(@ApiParam(value = "회원 가입 DTO", required = true) @RequestBody SignUpDto signUpDto) {
         //이메일 중복
         Optional<Admin> admin = adminRepo.findByEmail(signUpDto.getEmail());
         if(admin.isEmpty()){
@@ -58,6 +62,17 @@ public class SignController {
         } else {
             throw new CDuplicateEmailException();
         }
+        //임의의 authKey 생성 & 이메일 발송
+        String authKey = mss.sendAuthMail(signUpDto.getEmail());
+
         return responseService.getSuccessResult();
+    }
+
+    @Transactional
+    @GetMapping("member/signUpConfirm")
+    public void signUpConfirm(@RequestParam String email){
+        //email, authKey가 일치할 경우 authStatus 업데이트
+        Admin admin = adminRepo.findByEmail(email).orElseThrow(CEmailSigninFailedException::new);
+        admin.setAuthStatus(true);
     }
 }

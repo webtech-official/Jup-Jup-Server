@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Builder
 @Entity
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,6 +35,10 @@ public class Admin implements UserDetails {
 
     @Column(nullable = false, length = 100)
     private String name;
+
+    // authStatus의 기본값을 false로 부여.
+    @Column
+    private boolean authStatus = false;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -73,4 +78,5 @@ public class Admin implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
