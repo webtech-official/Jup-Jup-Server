@@ -3,10 +3,13 @@ package com.gsm.jupjup.service.notice;
 import com.gsm.jupjup.dto.notice.NoticeSaveDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.Notice;
+import com.gsm.jupjup.model.QNotice;
 import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.repo.NoticeRepo;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,15 +18,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
-public class NoticeServiceImpl implements NoticeService{
+public class NoticeServiceImpl implements NoticeService {
 
     @Autowired
     private ResponseService responseService;
 
     @Autowired
     private NoticeRepo noticeRepo;
+
+    @Autowired
+    private JPAQueryFactory query;
 
     @Override
     public Long SaveNotice(NoticeSaveDto noticeSaveDto) {
@@ -56,6 +63,17 @@ public class NoticeServiceImpl implements NoticeService{
         Notice notice = noticeRepo.findById(noticeIdx).orElseThrow(null);
         return responseService.getSingleResult(notice);
     }
+
+    @Override
+    public List<Notice> findALL(){
+        QNotice qNotice = QNotice.notice;
+
+        List<Notice> noticeList = query.select(qNotice)
+                .from(qNotice)
+                .fetch();
+        return noticeList;
+    }
+
 
     //현재 사용자의 ID를 Return
     public static Admin currentUser() {

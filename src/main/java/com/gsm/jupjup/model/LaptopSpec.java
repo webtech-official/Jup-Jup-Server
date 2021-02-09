@@ -1,5 +1,6 @@
 package com.gsm.jupjup.model;
 
+import com.gsm.jupjup.dto.laptopSpec.LaptopSpecDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,4 +30,12 @@ public class LaptopSpec {
 
     @Column
     private String HDD;
+
+    public void update(LaptopSpecDto laptopSpecDto){
+        this.CPU = laptopSpecDto.getCPU();
+        this.GPU = laptopSpecDto.getGPU();
+        this.RAM = laptopSpecDto.getRAM();
+        this.SSD = laptopSpecDto.getSSD();
+        this.HDD = laptopSpecDto.getHDD();
+    }
 }

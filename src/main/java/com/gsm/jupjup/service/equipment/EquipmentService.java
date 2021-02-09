@@ -30,4 +30,7 @@ public interface EquipmentService {
     //기자재 이름 검색
     Equipment equipmentFindBy(String name);
 
+    //기자재 키워드 검색
+    List<Equipment> findByKeyword(String keyword) throws Exception;
+
 }

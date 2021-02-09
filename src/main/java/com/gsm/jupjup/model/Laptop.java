@@ -31,9 +31,11 @@ public class Laptop extends BaseTimeEntity{
     private String classNumber;
 
     //fk mapping
-    @ManyToOne
-    @JoinColumn(name = "specIdx")
-    private LaptopSpec laptopSpec;
+//    @ManyToOne
+//    @JoinColumn(name = "specIdx")
+//    private LaptopSpec laptopSpec;
+
+    private Long laptopSpecIdx;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
