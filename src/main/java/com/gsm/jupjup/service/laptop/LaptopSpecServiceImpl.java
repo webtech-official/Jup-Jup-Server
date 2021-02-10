@@ -1,7 +1,9 @@
 package com.gsm.jupjup.service.laptop;
 
 import com.gsm.jupjup.dto.laptopSpec.LaptopSpecDto;
+import com.gsm.jupjup.model.Laptop;
 import com.gsm.jupjup.model.LaptopSpec;
+import com.gsm.jupjup.repo.LaptopRepo;
 import com.gsm.jupjup.repo.LaptopSpecRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ public class LaptopSpecServiceImpl implements LaptopSpecService {
     @Autowired
     private LaptopSpecRepo laptopSpecRepo;
 
+    @Autowired
+    private LaptopRepo laptopRepo;
     @Override
     public Long save(LaptopSpecDto laptopSpecDto){
         return laptopSpecRepo.save(laptopSpecDto.toEntity()).getSpecIdx();
@@ -40,6 +44,13 @@ public class LaptopSpecServiceImpl implements LaptopSpecService {
 
     @Override
     public void deleteBySpecIdx(Long SpecIdx) {
+        LaptopSpec laptopSpec = laptopSpecRepo.findBySpecIdx(SpecIdx);
+        List<Laptop> laptopList = laptopRepo.findByLaptopSpec(laptopSpec);
+        for (Laptop laptop : laptopList) {
+            laptop.setLaptopSpec(null);
+        }
+        //프론트에서 한번 분기 처리
+        //Alert("지우면 사양이 등록된 노트북까지 전부 삭제 됩니다. 그래도 지우시겠습니까?")
         laptopSpecRepo.deleteById(SpecIdx);
     }
 
