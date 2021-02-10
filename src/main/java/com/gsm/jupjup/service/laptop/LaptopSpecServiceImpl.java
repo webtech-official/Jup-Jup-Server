@@ -53,9 +53,4 @@ public class LaptopSpecServiceImpl implements LaptopSpecService {
         //Alert("지우면 사양이 등록된 노트북까지 전부 삭제 됩니다. 그래도 지우시겠습니까?")
         laptopSpecRepo.deleteById(SpecIdx);
     }
-
-//    public void SpecIsBlank(LaptopSpecDto laptopSpecDto){
-//        if
-//    }
-
 }
