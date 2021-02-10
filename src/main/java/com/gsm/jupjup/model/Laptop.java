@@ -35,9 +35,13 @@ public class Laptop extends BaseTimeEntity{
     private String classNumber;
 
     //laptopSpec 관계 설정
-    private Long laptopSpecIdx;
+    @ManyToOne
+    @JoinColumn(name = "specIdx")
+    private LaptopSpec laptopSpec;
 
-    private Long adminIdx;
+    @ManyToOne
+    @JoinColumn(name = "adminIdx")
+    private Admin admin;
 
     //update에 사용할 생성자
     public void update(String laptopName, String laptopBrand){

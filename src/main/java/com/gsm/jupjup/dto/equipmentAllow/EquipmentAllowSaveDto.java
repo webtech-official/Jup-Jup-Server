@@ -26,7 +26,7 @@ public class EquipmentAllowSaveDto {
                 .amount(this.amount)
                 .reason(this.reason)
                 .isReturn(this.isReturn)
-                .equipmentIdx(equipment.getEqu_Idx())
+                .equipment(equipment)
                 .build();
     }
 }

@@ -34,9 +34,13 @@ public class EquipmentAllow extends BaseTimeEntity{
     @Column
     private Boolean isReturn;
 
-    private Long equipmentIdx;
+    @ManyToOne
+    @JoinColumn(name = "equ_Idx")
+    private Equipment equipment;
 
-    private Long adminIdx;
+    @ManyToOne
+    @JoinColumn(name = "adminIdx")
+    private Admin admin;
 
     public void update(int amount, String reason){
         this.amount = amount;

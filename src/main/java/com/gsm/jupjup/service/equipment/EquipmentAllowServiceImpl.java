@@ -1,6 +1,5 @@
 package com.gsm.jupjup.service.equipment;
 
-
 import com.gsm.jupjup.advice.exception.*;
 import com.gsm.jupjup.dto.equipmentAllow.EquipmentAllowSaveDto;
 import com.gsm.jupjup.model.Admin;
@@ -21,7 +20,8 @@ import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
-public class EquipmentAllowServiceImpl implements EquipmentAllowService{
+public class EquipmentAllowServiceImpl implements EquipmentAllowService {
+
     public final EquipmentAllowRepo equipmentAllowRepo;
     public final EquipmentRepo equipmentRepo;
     public final EquipmentService equipmentService;
@@ -44,7 +44,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService{
 
         //UserEmail을 가져와서 Admin과 연관관계 매핑
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(UserDoesNotExistException::new);
-        equipmentAllow.setAdminIdx(admin.getAuth_Idx());
+        equipmentAllow.setAdmin(admin);
 
         equipmentAllowRepo.save(equipmentAllow);
     }
@@ -77,7 +77,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService{
             return result;
         else
             throw new EquipmentAllowAmountExceedException();
-    };
+    }
 
 //    @Transactional
 //    public void update(Long eqa_idx, EquipmentAllowSaveDto equipmentAllowSaveDto){
@@ -118,7 +118,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService{
         } else {
             equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Reject);
             //신청한 제품
-            Equipment equipment = equipmentRepo.findById(equipmentAllow.getEquipmentIdx()).orElseThrow(null);
+            Equipment equipment = equipmentAllow.getEquipment();
 
             // 신청 갯수
             int now = equipmentAllow.getAmount();
@@ -143,7 +143,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService{
             equipmentAllow.setIsReturn(true);
 
             //신청한 제품
-            Equipment equipment = equipmentRepo.findById(equipmentAllow.getEquipmentIdx()).orElseThrow(null);
+            Equipment equipment = equipmentAllow.getEquipment();
 
             // 신청 갯수
             int now = equipmentAllow.getAmount();

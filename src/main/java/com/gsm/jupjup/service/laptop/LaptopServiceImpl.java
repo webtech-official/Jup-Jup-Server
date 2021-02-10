@@ -1,7 +1,6 @@
 package com.gsm.jupjup.service.laptop;
 
 import com.gsm.jupjup.advice.exception.NotFoundLaptopException;
-import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveReqDto;
 import com.gsm.jupjup.dto.laptop.LaptopUpdateReqDto;
 import com.gsm.jupjup.model.Admin;
@@ -31,9 +30,9 @@ public class LaptopServiceImpl implements LaptopService{
     @Override
     public String save(LaptopSaveReqDto laptopSaveReqDto){
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(null);
-        laptopSpecRepo.findById(laptopSaveReqDto.getSpecIdx()).orElseThrow(NotFoundLaptopException::new);
+        LaptopSpec laptopSpec = laptopSpecRepo.findById(laptopSaveReqDto.getSpecIdx()).orElseThrow(NotFoundLaptopException::new);
         //Laptop 도매인 객체 만들기
-        Laptop laptop = laptopSaveReqDto.toEntity(admin);
+        Laptop laptop = laptopSaveReqDto.toEntity(admin, laptopSpec);
         //Success, return LaptopName
         return laptopRepo.save(laptop).getLaptopName();
     }
@@ -56,14 +55,13 @@ public class LaptopServiceImpl implements LaptopService{
 
     @Override
     public Laptop findByLaptopSerialNumber(String laptopSerialNumber){
-        Laptop laptop = laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(NotFoundLaptopException::new);
-        return laptop;
+        return laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(null);
     }
 
     //모두 찾기
     @Override
     public List<Laptop> findAll(){
-        return laptopRepo.findAll();
+        return laptopRepo.findAllBy();
     }
 
     //현재 사용자의 ID를 Return

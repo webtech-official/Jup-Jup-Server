@@ -19,15 +19,15 @@ public class LaptopSaveReqDto {
     private String classNumber;
     private Long specIdx;
 
-    public Laptop toEntity(Admin admin){
+    public Laptop toEntity(Admin admin, LaptopSpec laptopSpec){
         return Laptop.builder()
-                .adminIdx(admin.getAuth_Idx())
+                .admin(admin)
                 .laptopSerialNumber(this.laptopSerialNumber)
                 .laptopName(this.laptopName)
                 .laptopBrand(this.laptopBrand)
                 .studentName(this.studentName)
                 .classNumber(this.classNumber)
-                .laptopSpecIdx(this.specIdx)
+                .laptopSpec(laptopSpec)
                 .build();
     }
 }

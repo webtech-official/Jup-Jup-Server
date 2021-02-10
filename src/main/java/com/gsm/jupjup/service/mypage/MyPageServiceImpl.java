@@ -26,13 +26,13 @@ public class MyPageServiceImpl implements MyPageService{
     @Override
     public List<EquipmentAllow> findMyEquipment() {
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(UserDoesNotExistException::new);
-        return equipmentAllowRepo.findByAdminIdx(admin.getAuth_Idx());
+        return equipmentAllowRepo.findByAdmin(admin);
     }
 
     @Override
     public List<Laptop> findMyLaptop(){
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(UserDoesNotExistException::new);
-        return laptopRepo.findByAdminIdx(admin.getAuth_Idx());
+        return laptopRepo.findByAdmin(admin);
     }
 
     //현재 사용자의 ID를 Return

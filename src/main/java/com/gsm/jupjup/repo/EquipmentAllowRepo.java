@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface EquipmentAllowRepo extends JpaRepository<EquipmentAllow, Long> {
 
-    List<EquipmentAllow> findByAdminIdx(Long adminIdx);
+    List<EquipmentAllow> findByAdmin(Admin admin);
 
     List<Object> findAllBy();
 }
