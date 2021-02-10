@@ -20,13 +20,13 @@ public class EquipmentAllowSaveDto {
     @JsonIgnore
     private Boolean isReturn = false;
 
-    public EquipmentAllow toEntity(Equipment equipment){
+
+    public EquipmentAllow toEntity(){
         return EquipmentAllow.builder()
                 .equipmentEnum(EquipmentAllowEnum.ROLE_Waiting)
                 .amount(this.amount)
                 .reason(this.reason)
                 .isReturn(this.isReturn)
-                .equipment(equipment)
                 .build();
     }
 }

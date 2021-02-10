@@ -44,13 +44,13 @@ public class LaptopSpecServiceImpl implements LaptopSpecService {
 
     @Override
     public void deleteBySpecIdx(Long SpecIdx) {
+        //프론트에서 한번 분기 처리
+        //Alert("지우면 사양이 등록된 노트북까지 전부 삭제 됩니다. 그래도 지우시겠습니까?")
         LaptopSpec laptopSpec = laptopSpecRepo.findBySpecIdx(SpecIdx);
         List<Laptop> laptopList = laptopRepo.findByLaptopSpec(laptopSpec);
         for (Laptop laptop : laptopList) {
             laptop.setLaptopSpec(null);
         }
-        //프론트에서 한번 분기 처리
-        //Alert("지우면 사양이 등록된 노트북까지 전부 삭제 됩니다. 그래도 지우시겠습니까?")
         laptopSpecRepo.deleteById(SpecIdx);
     }
 }

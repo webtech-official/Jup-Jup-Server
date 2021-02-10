@@ -7,8 +7,10 @@ import com.gsm.jupjup.advice.exception.ImageNotFoundException;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.Equipment;
+import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.Notice;
 import com.gsm.jupjup.model.QEquipment;
+import com.gsm.jupjup.repo.EquipmentAllowRepo;
 import com.gsm.jupjup.repo.EquipmentRepo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,9 @@ public class EquipmentServiceImpl implements EquipmentService{
 
     @Autowired
     private EquipmentRepo equipmentRepo;
+
+    @Autowired
+    private EquipmentAllowRepo equipmentAllowRepo;
 
     @Autowired
     private JPAQueryFactory query;
@@ -68,11 +73,15 @@ public class EquipmentServiceImpl implements EquipmentService{
         equipment.updateAll(equipmentUploadDto);
     }
 
-    @Transactional
+    //????????
     @Override
-    public void deleteByName(String name){
-        String equipmentName = equipmentFindBy(name).getName();
-        equipmentRepo.deleteAllByName(equipmentName);
+    public void deleteByEquipmentIdx(Long idx){
+        Equipment equipment = equipmentRepo.findById(idx).orElseThrow(null);
+        List<EquipmentAllow> equipmentAllows = equipmentAllowRepo.findByEquipment(equipment);
+        for (EquipmentAllow equipmentAllow : equipmentAllows ) {
+            equipmentAllow.setEquipment(null);
+        }
+        equipmentRepo.deleteById(idx);
     }
 
     @Override

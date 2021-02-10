@@ -40,7 +40,8 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         equipment.updateAmount(result);
 
         //toEntity로 연관관계가 맻여진 equipmentAllow생성
-        EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity(equipment);
+        EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity();
+        equipmentAllow.setEquipment(equipment);
 
         //UserEmail을 가져와서 Admin과 연관관계 매핑
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(UserDoesNotExistException::new);

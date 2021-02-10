@@ -19,7 +19,7 @@ public interface EquipmentService {
     void AllUpdate(String oldName, EquipmentUploadDto equipmentUploadDto) throws IOException;
 
     //기자재 이름 삭제
-    void deleteByName(String name);
+    void deleteByEquipmentIdx(Long idx);
 
     //기자재 이름 검색
     EquipmentResDto findByName(String name) throws IOException;
