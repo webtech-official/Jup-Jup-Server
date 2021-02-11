@@ -53,3 +53,6 @@ AlreadyApprovedAndRejectedException:
 AlreadyReturnedException:
   code: "-236"
   msg: "The application has already been returned."
+NotFoundNoticeException:
+  code: "-902"
+  msg: "There are no announcements."

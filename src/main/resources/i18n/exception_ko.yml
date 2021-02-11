@@ -52,3 +52,6 @@ AlreadyApprovedAndRejectedException:
 AlreadyReturnedException:
   code: "-236"
   msg: "이미 반납된 신청입니다."
+NotFoundNoticeException:
+  code: "-902"
+  msg: "공지 사항이 존재하지 않습니다."

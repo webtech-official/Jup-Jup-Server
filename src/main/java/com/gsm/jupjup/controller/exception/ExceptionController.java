@@ -63,4 +63,6 @@ public class ExceptionController {
     @GetMapping(value = "/exception/alreadyreturned")
     public CommonResult AlreadyReturnedException() {throw new AlreadyReturnedException();}
 
+    @GetMapping(value = "/exception/NotFoundNoticeException")
+    public CommonResult NotFoundNoticeException() {throw new NotFoundNoticeException();}
 }

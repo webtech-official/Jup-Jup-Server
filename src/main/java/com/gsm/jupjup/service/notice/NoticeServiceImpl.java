@@ -1,5 +1,6 @@
 package com.gsm.jupjup.service.notice;
 
+import com.gsm.jupjup.advice.exception.NotFoundNoticeException;
 import com.gsm.jupjup.dto.notice.NoticeSaveDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.Notice;
@@ -43,7 +44,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Transactional
     @Override
     public void UpdateNotice(NoticeSaveDto noticeSaveDto, Long noticeIdx) {
-        Notice notice = noticeRepo.findById(noticeIdx).orElseThrow(null);
+        Notice notice = noticeRepo.findById(noticeIdx).orElseThrow(NotFoundNoticeException::new);
         notice.updateAll(noticeSaveDto);
     }
 
@@ -60,7 +61,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public SingleResult<Notice> FindByNoticeIdx(Long noticeIdx) {
-        Notice notice = noticeRepo.findById(noticeIdx).orElseThrow(null);
+        Notice notice = noticeRepo.findById(noticeIdx).orElseThrow(NotFoundNoticeException::new);
         return responseService.getSingleResult(notice);
     }
 

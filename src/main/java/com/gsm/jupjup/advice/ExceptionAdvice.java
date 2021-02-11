@@ -23,6 +23,7 @@ public class ExceptionAdvice {
     private final MessageSource messageSource;
 
     @ExceptionHandler(Exception.class)
+    //@ResponseStatus(HttpStatus.ACCEPTED)
     protected CommonResult defaultException(HttpServletRequest request, Exception e) {
         // 예외 처리의 메시지를 MessageSource에서 가져오도록 수정
         return responseService.getFailResult(Integer.valueOf(getMessage("unKnown.code")), getMessage("unKnown.msg"));
@@ -116,6 +117,8 @@ public class ExceptionAdvice {
     public CommonResult UserDoesNotExistException(HttpServletRequest request, AlreadyReturnedException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("AlreadyReturnedException.code")), getMessage("AlreadyReturnedException.msg"));
     }
-
-
+    @ExceptionHandler(NotFoundNoticeException.class)
+    public CommonResult NotFoundNoticeException(HttpServletRequest request, AlreadyReturnedException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("NotFoundNoticeException.code")), getMessage("NotFoundNoticeException.msg"));
+    }
 }
