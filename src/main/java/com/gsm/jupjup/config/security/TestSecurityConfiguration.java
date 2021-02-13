@@ -2,6 +2,9 @@ package com.gsm.jupjup.config.security;
 
 import com.gsm.jupjup.config.handler.CustomAccessDeniedHandler;
 import com.gsm.jupjup.config.handler.CustomAuthenticationEntryPointHandler;
+import com.gsm.jupjup.model.Admin;
+import com.gsm.jupjup.util.CookieUtil;
+import com.gsm.jupjup.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class TestSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     @Override
@@ -40,7 +43,7 @@ public class TestSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPointHandler())
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣어라.
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣어라.
     }
 
     @Override // ignore check swagger resource

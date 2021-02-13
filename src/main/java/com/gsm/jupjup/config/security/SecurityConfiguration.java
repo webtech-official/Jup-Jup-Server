@@ -2,6 +2,9 @@ package com.gsm.jupjup.config.security;
 
 import com.gsm.jupjup.config.handler.CustomAccessDeniedHandler;
 import com.gsm.jupjup.config.handler.CustomAuthenticationEntryPointHandler;
+import com.gsm.jupjup.model.Admin;
+import com.gsm.jupjup.util.CookieUtil;
+import com.gsm.jupjup.util.RedisUtil;
 import lombok.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     @Override
@@ -35,11 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt token으로 인증할것이므로 세션필요없으므로 생성안함.
                 .and()
                 .authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
-                .antMatchers("/*/signin", "/*/signup").permitAll() // 가입 및 인증 주소는 누구나 접근가능
-                .antMatchers("/*/member/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers().permitAll()
-                .antMatchers(HttpMethod.GET, "/exception/**", "helloworld/**").permitAll() // hellowworld로 시작하는 GET요청 리소스는 누구나 접근가능
+                .antMatchers("/*/signin", "/*/signup","/exception/**").permitAll() // 가입 및 인증 주소는 누구나 접근가능
                 .antMatchers("/*/admin/**").hasRole("ADMIN") // admin으로 시작하는 요청은 관리자만 접근 가능
                 .anyRequest().hasAnyRole("USER", "ADMIN")// 그외 나머지 요청은 모두 요청 가능
                 .and()
@@ -47,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPointHandler())
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣어라.
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣어라.
     }
 
     @Override // ignore check swagger resource

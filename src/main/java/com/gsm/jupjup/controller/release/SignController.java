@@ -11,17 +11,20 @@ import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.service.email.EmailService;
+import com.gsm.jupjup.util.CookieUtil;
+import com.gsm.jupjup.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Optional;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Api(tags = {"1. 회원"})
 @RequiredArgsConstructor
@@ -32,26 +35,40 @@ public class SignController {
 
     private String authKey_;
 
-    @Autowired
-    private EmailService mss;
+    private final EmailService mss;
     private final AdminRepo adminRepo;
     private final JwtTokenProvider jwtTokenProvider;
     private final ResponseService responseService;
     private final PasswordEncoder passwordEncoder;
+    private final RedisUtil redisUtil;
+    private final CookieUtil cookieUtil;
 
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
     @PostMapping(value = "/signin")
-    public SingleResult<String> signin(@ApiParam(value = "로그인 DTO", required = true) @RequestBody SignInDto signInDto) {
+    public SingleResult<Map<String, String>> signin(@ApiParam(value = "로그인 DTO", required = true) @RequestBody SignInDto signInDto,
+                                                    HttpServletResponse res, HttpServletRequest req) {
         Admin admin = adminRepo.findByEmail(signInDto.getEmail()).orElseThrow(CEmailSigninFailedException::new);
         /*
         프론트에서 어짜피 회원가입 모달에서 이메일 체크가 됬는지 확인
          */
         if(admin.getRoles().equals("ROLE_NOT_PERMITTED")){
             throw new CEmailSigninFailedException();
-        }
-        else if (!passwordEncoder.matches(signInDto.getPassword(), admin.getPassword()))
+        } else if (!passwordEncoder.matches(signInDto.getPassword(), admin.getPassword())) {
             throw new CEmailSigninFailedException();
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(admin.getEmail()), admin.getRoles()));
+        }
+
+        String token = jwtTokenProvider.generateToken(admin);
+        String refreshJwt = jwtTokenProvider.generateRefreshToken(admin);
+        Cookie accessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME, token);
+        Cookie refreshToken = cookieUtil.createCookie(jwtTokenProvider.REFRESH_TOKEN_NAME, refreshJwt);
+        redisUtil.setDataExpire(refreshJwt, admin.getUsername(), jwtTokenProvider.REFRESH_TOKEN_VALIDATION_SECOND);
+        res.addCookie(accessToken);
+        res.addCookie(refreshToken);
+
+        Map<String ,String> map = new HashMap<>();
+        map.put("accessToken", token);
+        map.put("refreshToken", refreshJwt);
+        return responseService.getSingleResult(map);
     }
 
     @ApiOperation(value = "가입", notes = "회원가입을 한다.")
