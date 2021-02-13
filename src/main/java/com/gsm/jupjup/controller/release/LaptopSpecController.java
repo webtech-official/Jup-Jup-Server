@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Api(tags = "노트북 사양")
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/admin")
 public class LaptopSpecController {
 
     private final LaptopSpecService laptopSpecService;

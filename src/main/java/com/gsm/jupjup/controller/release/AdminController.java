@@ -37,7 +37,7 @@ public class AdminController {
     }
 
     @ApiOperation(value = "기자재 등록", notes = "기자재를 등록한다.")
-    @PostMapping("/equipment")
+    @PostMapping("/admin/equipment")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -68,7 +68,7 @@ public class AdminController {
     }
 
     @ApiOperation(value = "기자재 수량 변경", notes = "기자재 수량을 변경한다.")
-    @PutMapping("/equipment/{name}")
+    @PutMapping("/admin/equipment/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -79,7 +79,7 @@ public class AdminController {
     }
 
     @ApiOperation(value = "기자재 전체 수정", notes = "기자재를 수정한다.")
-    @PutMapping("/equipmentAll/{oldName}")
+    @PutMapping("/admin/equipmentAll/{oldName}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -104,7 +104,7 @@ public class AdminController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    @DeleteMapping("/equipmnet/delete/{equipmentidx}")
+    @DeleteMapping("/admin/equipmnet/delete/{equipmentidx}")
     public CommonResult deleteByIdx(@ApiParam(value = "기자재 Idx", required = true) @PathVariable Long equipmentidx) throws Exception {
         equipmentService.deleteByEquipmentIdx(equipmentidx);
         return responseService.getSuccessResult();
@@ -114,7 +114,7 @@ public class AdminController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    @GetMapping("/applyview")
+    @GetMapping("/admin/applyview")
     public ListResult<Object> findAll(){
         List<Object> equipmentAllowListResult = adminService.findAll();
         return responseService.getListResult(equipmentAllowListResult);
@@ -125,7 +125,7 @@ public class AdminController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    @PutMapping("/approved/{eqa_Idx}")
+    @PutMapping("/admin/approved/{eqa_Idx}")
     public CommonResult ApprovedAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
         equipmentAllowService.SuccessAllow(eqa_Idx);
         return responseService.getSuccessResult();
@@ -136,7 +136,7 @@ public class AdminController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    @PutMapping("/reject/{eqa_Idx}")
+    @PutMapping("/admin/reject/{eqa_Idx}")
     public CommonResult RejectAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
         equipmentAllowService.FailureAllow(eqa_Idx);
         return responseService.getSuccessResult();
@@ -147,7 +147,7 @@ public class AdminController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    @PutMapping("/return/{eqa_Idx}")
+    @PutMapping("/admin/return/{eqa_Idx}")
     public CommonResult ReturnAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
         equipmentAllowService.ReturnAllow(eqa_Idx);
         return responseService.getSuccessResult();

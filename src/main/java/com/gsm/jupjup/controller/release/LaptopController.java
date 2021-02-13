@@ -27,7 +27,7 @@ public class LaptopController {
 
     //CREATE
     @ApiOperation(value = "노트북 등록", notes = "노트북을 등록한다.")
-    @PostMapping("/laptop")
+    @PostMapping("/admin/laptop")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -38,7 +38,7 @@ public class LaptopController {
 
     //READ
     @ApiOperation(value = "노트북 조회", notes = "노트북을 조회한다.")
-    @GetMapping("/laptop/{laptopSerialNumber}")
+    @GetMapping("/admin/laptop/{laptopSerialNumber}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -48,7 +48,7 @@ public class LaptopController {
 
     //UPDATE
     @ApiOperation(value = "노트북 수정", notes = "노트북을 수정한다.")
-    @PutMapping("/laptop/{laptopSerialNumber}")
+    @PutMapping("/admin/laptop/{laptopSerialNumber}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -60,7 +60,7 @@ public class LaptopController {
 
     //DELETE
     @ApiOperation(value = "노트북 삭제", notes = "노트북을 삭제한다.")
-    @DeleteMapping("/laptop/{laptopSerialNumber}")
+    @DeleteMapping("/admin/laptop/{laptopSerialNumber}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -71,7 +71,7 @@ public class LaptopController {
 
     //GET
     @ApiOperation(value = "노트북 전체 조회", notes = "노트북을 전체 조회한다.")
-    @GetMapping("/laptop")
+    @GetMapping("/admin/laptop")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })

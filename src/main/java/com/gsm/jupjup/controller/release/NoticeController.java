@@ -26,7 +26,7 @@ public class NoticeController {
     private ResponseService responseService;
 
     @ApiOperation(value = "공지사항 등록", notes = "관리자가 공지사항을 등록한다.")
-    @PostMapping("/notice")
+    @PostMapping("/admin/notice")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -36,7 +36,7 @@ public class NoticeController {
     }
 
     @ApiOperation(value = "공지사항 삭제", notes = "관리자가 공지사항을 삭제한다.")
-    @DeleteMapping("/notice/{noticeidx}")
+    @DeleteMapping("/admin/notice/{noticeidx}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -64,7 +64,7 @@ public class NoticeController {
     }
 
     @ApiOperation(value = "공지사항 수정", notes = "관리자가 공지 사항을 수정한다.")
-    @PutMapping("/notice/{noticeidx}")
+    @PutMapping("/admin/notice/{noticeidx}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
