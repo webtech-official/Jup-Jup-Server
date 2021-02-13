@@ -17,6 +17,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,7 @@ import java.util.*;
 public class SignController {
 
     private String authKey_;
+    private String refreshJwt = null;
 
     private final EmailService mss;
     private final AdminRepo adminRepo;
@@ -58,7 +61,7 @@ public class SignController {
         }
 
         String token = jwtTokenProvider.generateToken(admin);
-        String refreshJwt = jwtTokenProvider.generateRefreshToken(admin);
+        refreshJwt = jwtTokenProvider.generateRefreshToken(admin);
         Cookie accessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME, token);
         Cookie refreshToken = cookieUtil.createCookie(jwtTokenProvider.REFRESH_TOKEN_NAME, refreshJwt);
         redisUtil.setDataExpire(refreshJwt, admin.getUsername(), jwtTokenProvider.REFRESH_TOKEN_VALIDATION_SECOND);
@@ -104,4 +107,18 @@ public class SignController {
             System.out.println("인증번호가 올바르지 않습니다.");
         }
     }
+
+    @ApiOperation(value = "로그아웃", notes = "사용자가 로그아웃한다.")
+    @GetMapping("/logout")
+    public CommonResult LogOut(HttpServletResponse res){
+        Cookie accessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME, null);
+        accessToken.setMaxAge(0);
+        redisUtil.deleteData(refreshJwt);
+        Cookie refreshToken = cookieUtil.createCookie(jwtTokenProvider.REFRESH_TOKEN_NAME, null);
+        refreshToken.setMaxAge(0);
+        res.addCookie(accessToken);
+        res.addCookie(refreshToken);
+        return responseService.getSuccessResult();
+    }
+
 }
