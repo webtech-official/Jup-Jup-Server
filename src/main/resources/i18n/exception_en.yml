@@ -56,3 +56,6 @@ AlreadyReturnedException:
 NotFoundNoticeException:
   code: "-902"
   msg: "There are no announcements."
+ApproveApplicationFirstException:
+  code: "-657"
+  msg: "Please approve the application first."

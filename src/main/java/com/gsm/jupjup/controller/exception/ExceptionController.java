@@ -65,4 +65,7 @@ public class ExceptionController {
 
     @GetMapping(value = "/exception/NotFoundNoticeException")
     public CommonResult NotFoundNoticeException() {throw new NotFoundNoticeException();}
+
+    @GetMapping(value = "/exception/ApproveApplicationFirst")
+    public CommonResult ApproveApplicationFirstException() {throw new ApproveApplicationFirstException();}
 }

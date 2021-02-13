@@ -76,7 +76,7 @@ public class EquipmentServiceImpl implements EquipmentService{
     //????????
     @Override
     public void deleteByEquipmentIdx(Long idx){
-        Equipment equipment = equipmentRepo.findById(idx).orElseThrow(null);
+        Equipment equipment = equipmentRepo.findById(idx).orElseThrow(EquipmentNotFoundException::new);
         List<EquipmentAllow> equipmentAllows = equipmentAllowRepo.findByEquipment(equipment);
         for (EquipmentAllow equipmentAllow : equipmentAllows ) {
             equipmentAllow.setEquipment(null);

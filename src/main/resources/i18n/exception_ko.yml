@@ -55,3 +55,6 @@ AlreadyReturnedException:
 NotFoundNoticeException:
   code: "-902"
   msg: "공지 사항이 존재하지 않습니다."
+ApproveApplicationFirstException:
+  code: "-657"
+  msg: "먼저 신청을 승인해주세요."

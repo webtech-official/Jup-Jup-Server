@@ -137,9 +137,9 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         if(equipmentAllow.getIsReturn() == true){
             throw new AlreadyReturnedException();
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Waiting)){
-            System.out.println("먼저 신청을 승인해 주세요.");
+            throw new ApproveApplicationFirstException();
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
-            System.out.println("이미 거절된 신청입니다.");
+            throw new AlreadyApprovedAndRejectedException();
         } else {
             equipmentAllow.setIsReturn(true);
 
