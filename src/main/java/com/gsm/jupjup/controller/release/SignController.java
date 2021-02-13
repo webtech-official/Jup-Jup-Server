@@ -43,7 +43,10 @@ public class SignController {
     @PostMapping(value = "/signin")
     public SingleResult<String> signin(@ApiParam(value = "로그인 DTO", required = true) @RequestBody SignInDto signInDto) {
         Admin admin = adminRepo.findByEmail(signInDto.getEmail()).orElseThrow(CEmailSigninFailedException::new);
-        if(!admin.returnAuthStatus()){
+        /*
+        프론트에서 어짜피 회원가입 모달에서 이메일 체크가 됬는지 확인
+         */
+        if(admin.getRoles().equals("ROLE_NOT_PERMITTED")){
             throw new CEmailSigninFailedException();
         }
         else if (!passwordEncoder.matches(signInDto.getPassword(), admin.getPassword()))
@@ -62,7 +65,7 @@ public class SignController {
                     .password(passwordEncoder.encode(signUpDto.getPassword()))
                     .name(signUpDto.getName())
                     .classNumber(signUpDto.getClassNumber())
-                    .roles(Collections.singletonList("ROLE_USER"))
+                    .roles(Collections.singletonList("ROLE_NOT_PERMITTED"))
                     .build());
         } else {
             throw new CDuplicateEmailException();
@@ -73,12 +76,13 @@ public class SignController {
         return responseService.getSuccessResult();
     }
 
+    @ApiOperation(value = "회원가입 이메일 인증", notes = "로그인을 위한 이메일 인증입니다.")
     @Transactional
     @GetMapping("member/signUpConfirm")
     public void signUpConfirm(@RequestParam String email, @RequestParam String AuthKey){
         if(authKey_.equals(AuthKey)){
             Admin admin = adminRepo.findByEmail(email).orElseThrow(CEmailSigninFailedException::new);
-            admin.setAuthStatus(true);
+            admin.setRoles(Collections.singletonList("ROLE_USER"));
         } else {
             System.out.println("인증번호가 올바르지 않습니다.");
         }

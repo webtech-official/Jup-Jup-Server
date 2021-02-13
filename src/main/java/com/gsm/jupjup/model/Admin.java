@@ -36,14 +36,6 @@ public class Admin implements UserDetails {
     @Column(nullable = false, length = 100)
     private String name;
 
-    // authStatus의 기본값을 false로 부여.
-    @Column
-    private boolean authStatus = false;
-
-    public boolean returnAuthStatus(){
-        return authStatus;
-    }
-
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
