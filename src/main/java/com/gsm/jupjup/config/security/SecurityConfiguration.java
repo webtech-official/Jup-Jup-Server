@@ -40,8 +40,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers().permitAll()
                 .antMatchers(HttpMethod.GET, "/exception/**", "helloworld/**").permitAll() // hellowworld로 시작하는 GET요청 리소스는 누구나 접근가능
-                .antMatchers("/*/admin/**").hasRole("ADMIN")
-                .anyRequest().hasRole("USER") // 그외 나머지 요청은 모두 인증된 회원만 접근 가능
+                .antMatchers("/*/admin/**").hasRole("ADMIN") // admin으로 시작하는 요청은 관리자만 접근 가능
+                .anyRequest().hasAnyRole("USER", "ADMIN")// 그외 나머지 요청은 모두 요청 가능
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
