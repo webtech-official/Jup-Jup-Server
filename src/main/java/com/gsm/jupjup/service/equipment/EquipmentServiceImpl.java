@@ -12,6 +12,7 @@ import com.gsm.jupjup.model.Notice;
 import com.gsm.jupjup.model.QEquipment;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
 import com.gsm.jupjup.repo.EquipmentRepo;
+import com.gsm.jupjup.util.S3Uploader;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -40,16 +41,18 @@ public class EquipmentServiceImpl implements EquipmentService{
     @Autowired
     private JPAQueryFactory query;
 
+    @Autowired
+    private S3Uploader s3Uploader;
+
     @Override
     public void save(EquipmentUploadDto equipmentUploadDto) throws IOException {
         //Equipment name 을 기준으로 중복처리
         duplicateChk(equipmentUploadDto.getName());
         //파일 저장후 image Path 변수에 담기
-        String equipmentImgPath = SaveImgFile(equipmentUploadDto.getImg_equipment());
+        String equipmentImgPath = s3Uploader.upload(equipmentUploadDto.getImg_equipment(), "static");
         //equipmentUploadDto 에 file path 값 념겨
         equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
         Equipment equipment = equipmentUploadDto.toEntity();
-
         equipmentRepo.save(equipment);
     }
 

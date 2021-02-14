@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -20,11 +21,18 @@ import java.util.List;
 @SpringBootApplication
 @EnableJpaAuditing
 public class JupjupApplication implements CommandLineRunner {
-	private final AdminRepo adminRepo;
+
 	private final LaptopSpecRepo laptopSpecRepo;
 
+	public static final String APPLICATION_LOCATIONS = "spring.config.location="
+			+ "classpath:application.properties";
+
 	public static void main(String[] args) {
-		SpringApplication.run(JupjupApplication.class, args);
+//		SpringApplication
+//				.run(JupjupApplication.class, args);
+		new SpringApplicationBuilder(JupjupApplication.class)
+				.properties(APPLICATION_LOCATIONS)
+				.run(args);
 	}
 
 	@Bean
