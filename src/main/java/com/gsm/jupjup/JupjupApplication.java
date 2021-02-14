@@ -64,7 +64,5 @@ public class JupjupApplication implements CommandLineRunner {
 						.SSD("1pb")
 						.HDD("1tb")
 						.build());
-
-		List<LaptopSpec> savedLaptopSpecDomainList = laptopSpecRepo.saveAll(laptopSpecDomainList);
 	}
 }
