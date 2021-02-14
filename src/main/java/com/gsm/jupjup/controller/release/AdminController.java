@@ -38,7 +38,7 @@ public class AdminController {
     }
 
     @ApiOperation(value = "기자재 등록", notes = "기자재를 등록한다.")
-    @PostMapping(path = "/equipment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/admin/equipment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
