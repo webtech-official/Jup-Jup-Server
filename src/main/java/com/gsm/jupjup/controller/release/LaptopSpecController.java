@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Api(tags = "노트북 사양")
 @RestController
+@CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping("/v1/admin")
 public class LaptopSpecController {
 

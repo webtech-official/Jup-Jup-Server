@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionAdvice {
 
     private final ResponseService responseService;
-
     private final MessageSource messageSource;
 
     @ExceptionHandler(Exception.class)
@@ -53,6 +52,7 @@ public class ExceptionAdvice {
     public CommonResult authenticationEntryPointException(HttpServletRequest request, CAuthenticationEntryPointException e) {
         return responseService.getFailResult(Integer.valueOf(getMessage("entryPointException.code")), getMessage("entryPointException.msg"));
     }
+
     @ExceptionHandler(AccessDeniedException.class)
     public CommonResult AccessDeniedException(HttpServletRequest request, AccessDeniedException e) {
         return responseService.getFailResult(Integer.valueOf(getMessage("accessDenied.code")), getMessage("accessDenied.msg"));
@@ -92,10 +92,12 @@ public class ExceptionAdvice {
     public CommonResult EquipmentAllowNotFoundException(HttpServletRequest request, EquipmentAllowNotFoundException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentAllowNotFound.code")), getMessage("EquipmentAllowNotFound.msg"));
     }
+
     @ExceptionHandler(NotFoundLaptopException.class)
     public CommonResult EquipmentAllowNotFoundException(HttpServletRequest request, NotFoundLaptopException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("NotFoundLaptopException.code")), getMessage("NotFoundLaptopException.msg"));
     }
+
     @ExceptionHandler(NotFoundLaptopSpecException.class)
     public CommonResult EquipmentAllowNotFoundException(HttpServletRequest request, NotFoundLaptopSpecException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("NotFoundLaptopSpec.code")), getMessage("NotFoundLaptopSpec.msg"));
@@ -105,18 +107,22 @@ public class ExceptionAdvice {
     public CommonResult EquipmentAllowNotFoundException(HttpServletRequest request, EquipmentDuplicateException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("EquipmentDuplicateException.code")), getMessage("EquipmentDuplicateException.msg"));
     }
+
     @ExceptionHandler(UserDoesNotExistException.class)
     public CommonResult UserDoesNotExistException(HttpServletRequest request, UserDoesNotExistException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("UserDoesNotExistException.code")), getMessage("UserDoesNotExistException.msg"));
     }
+
     @ExceptionHandler(AlreadyApprovedAndRejectedException.class)
     public CommonResult UserDoesNotExistException(HttpServletRequest request, AlreadyApprovedAndRejectedException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("AlreadyApprovedAndRejectedException.code")), getMessage("AlreadyApprovedAndRejectedException.msg"));
     }
+
     @ExceptionHandler(AlreadyReturnedException.class)
     public CommonResult UserDoesNotExistException(HttpServletRequest request, AlreadyReturnedException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("AlreadyReturnedException.code")), getMessage("AlreadyReturnedException.msg"));
     }
+
     @ExceptionHandler(NotFoundNoticeException.class)
     public CommonResult NotFoundNoticeException(HttpServletRequest request, NotFoundNoticeException e){
         return responseService.getFailResult(Integer.valueOf(getMessage("NotFoundNoticeException.code")), getMessage("NotFoundNoticeException.msg"));

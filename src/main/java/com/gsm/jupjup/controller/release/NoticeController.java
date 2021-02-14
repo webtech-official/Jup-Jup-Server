@@ -9,21 +9,21 @@ import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.service.notice.NoticeService;
 import com.querydsl.jpa.impl.JPAQuery;
 import io.swagger.annotations.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Api(tags = {"6. 공지사항"})
 @RestController
+@CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping("/v1")
 public class NoticeController {
 
-    @Autowired
-    private NoticeService noticeService;
-
-    @Autowired
-    private ResponseService responseService;
+    private final NoticeService noticeService;
+    private final ResponseService responseService;
 
     @ApiOperation(value = "공지사항 등록", notes = "관리자가 공지사항을 등록한다.")
     @PostMapping("/admin/notice")
