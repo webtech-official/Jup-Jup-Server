@@ -8,7 +8,6 @@ import com.gsm.jupjup.model.Laptop;
 import java.util.List;
 
 public interface LaptopService {
-
     //노트북 저장
     String save(LaptopSaveReqDto laptopSaveReqDto);
 

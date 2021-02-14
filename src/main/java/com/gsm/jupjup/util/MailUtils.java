@@ -1,5 +1,6 @@
 package com.gsm.jupjup.util;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -8,10 +9,12 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 
+@RequiredArgsConstructor
 public class MailUtils {
-    private JavaMailSender mailSender;
-    private MimeMessage message;
-    private MimeMessageHelper messageHelper;
+
+    private final JavaMailSender mailSender;
+    private final MimeMessage message;
+    private final MimeMessageHelper messageHelper;
 
     public MailUtils(JavaMailSender mailSender) throws MessagingException {
         this.mailSender = mailSender;

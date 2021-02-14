@@ -12,7 +12,6 @@ import java.util.List;
 
 
 public interface NoticeService {
-
     //공지 사항 저장
     Long SaveNotice(NoticeSaveDto noticeSaveDto);
 

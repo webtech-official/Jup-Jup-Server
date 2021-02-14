@@ -9,6 +9,5 @@ import java.util.Optional;
 public interface EquipmentRepo extends JpaRepository<Equipment, Long> {
     Optional<Equipment> findByName(String name);
 
-
     Optional<Equipment> deleteAllByName(String name);
 }

@@ -20,6 +20,7 @@ import java.util.List;
 @Api(tags = {"2. 관리자"})
 @RestController
 @RequestMapping("/v1")
+@CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequiredArgsConstructor
 public class AdminController {
     private final EquipmentService equipmentService;

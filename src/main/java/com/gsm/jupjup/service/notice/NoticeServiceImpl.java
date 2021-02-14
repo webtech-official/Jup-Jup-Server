@@ -11,6 +11,7 @@ import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.repo.NoticeRepo;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,17 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class NoticeServiceImpl implements NoticeService {
 
-    @Autowired
-    private ResponseService responseService;
-
-    @Autowired
-    private NoticeRepo noticeRepo;
-
-    @Autowired
-    private JPAQueryFactory query;
+    private final ResponseService responseService;
+    private final NoticeRepo noticeRepo;
+    private final JPAQueryFactory query;
 
     @Override
     public Long SaveNotice(NoticeSaveDto noticeSaveDto) {

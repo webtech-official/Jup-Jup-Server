@@ -12,5 +12,4 @@ import javax.sql.rowset.Predicate;
 
 public interface NoticeRepo extends JpaRepository<Notice, Long> {
 
-
 }

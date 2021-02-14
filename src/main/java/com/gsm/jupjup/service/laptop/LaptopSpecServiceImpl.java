@@ -5,21 +5,20 @@ import com.gsm.jupjup.model.Laptop;
 import com.gsm.jupjup.model.LaptopSpec;
 import com.gsm.jupjup.repo.LaptopRepo;
 import com.gsm.jupjup.repo.LaptopSpecRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class LaptopSpecServiceImpl implements LaptopSpecService {
 
-    //DI
-    @Autowired
-    private LaptopSpecRepo laptopSpecRepo;
+    private final LaptopSpecRepo laptopSpecRepo;
+    private final LaptopRepo laptopRepo;
 
-    @Autowired
-    private LaptopRepo laptopRepo;
     @Override
     public Long save(LaptopSpecDto laptopSpecDto){
         return laptopSpecRepo.save(laptopSpecDto.toEntity()).getSpecIdx();

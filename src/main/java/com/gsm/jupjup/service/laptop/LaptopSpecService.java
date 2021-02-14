@@ -6,7 +6,6 @@ import com.gsm.jupjup.model.LaptopSpec;
 import java.util.List;
 
 public interface LaptopSpecService {
-
     //Spec 저장
     Long save(LaptopSpecDto laptopSpecDto);
 

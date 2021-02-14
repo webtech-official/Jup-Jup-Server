@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class MyPageServiceImpl implements MyPageService{
+
     final AdminRepo adminRepo;
     final EquipmentAllowRepo equipmentAllowRepo;
     final LaptopRepo laptopRepo;

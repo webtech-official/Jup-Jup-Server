@@ -4,7 +4,6 @@ import com.gsm.jupjup.dto.equipmentAllow.EquipmentAllowSaveDto;
 import com.gsm.jupjup.model.EquipmentAllow;
 
 public interface EquipmentAllowService {
-
     //기자재 신청
     void save(String NameOfEquipment, EquipmentAllowSaveDto equipmentAllowSaveDto);
 

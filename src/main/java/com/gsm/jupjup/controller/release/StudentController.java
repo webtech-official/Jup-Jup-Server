@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @Api(tags = {"3. 학생"})
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping("/v1")
 public class StudentController {
     private final EquipmentAllowService equipmentAllowService;
