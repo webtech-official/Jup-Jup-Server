@@ -29,20 +29,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class EquipmentServiceImpl implements EquipmentService{
 
-    @Autowired
-    private EquipmentRepo equipmentRepo;
-
-    @Autowired
-    private EquipmentAllowRepo equipmentAllowRepo;
-
-    @Autowired
-    private JPAQueryFactory query;
-
-    @Autowired
-    private S3Uploader s3Uploader;
+    private final EquipmentRepo equipmentRepo;
+    private final EquipmentAllowRepo equipmentAllowRepo;
+    private final JPAQueryFactory query;
+    private final S3Uploader s3Uploader;
 
     @Override
     public void save(EquipmentUploadDto equipmentUploadDto) throws IOException {

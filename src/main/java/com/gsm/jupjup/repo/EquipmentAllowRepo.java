@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface EquipmentAllowRepo extends JpaRepository<EquipmentAllow, Long> {
-
     List<EquipmentAllow> findByAdmin(Admin admin);
 
     List<Object> findAllBy();

@@ -16,11 +16,8 @@ public interface LaptopRepo extends JpaRepository<Laptop, String> {
 
     List<Laptop> findByAdmin(Admin admin);
 
-
     @Query("select distinct a, b from Laptop a inner join LaptopSpec b on a.laptopSpec.specIdx = b.specIdx")
     List<Laptop> findAllBy();
 
-
     List<Laptop> findByLaptopSpec(LaptopSpec laptopSpec);
-
 }

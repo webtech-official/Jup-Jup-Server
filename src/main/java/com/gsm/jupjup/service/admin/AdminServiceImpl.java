@@ -12,7 +12,6 @@ public class AdminServiceImpl implements AdminService{
 
     private final EquipmentAllowRepo equipmentAllowRepo;
 
-
     @Override
     public List<Object> findAll(){
         List<Object> equipmentAllow = equipmentAllowRepo.findAllBy();

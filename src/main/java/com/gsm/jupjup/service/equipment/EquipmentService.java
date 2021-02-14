@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.List;
 
 public interface EquipmentService {
-
     //기자재 저장
     void save(EquipmentUploadDto equipmentUploadDto) throws IOException;
 

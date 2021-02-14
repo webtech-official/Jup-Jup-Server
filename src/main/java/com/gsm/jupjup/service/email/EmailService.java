@@ -1,6 +1,7 @@
 package com.gsm.jupjup.service.email;
 
 import com.gsm.jupjup.util.MailUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
@@ -9,17 +10,20 @@ import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
+@RequiredArgsConstructor
 @Service("mss")
 public class EmailService {
-    @Autowired
-    private JavaMailSenderImpl mailSender;
+
+    private final JavaMailSenderImpl mailSender;
     //인증 키 크기 지정 변수
     private int size;
+
     //인증 키 생성
     private String getKey(int size){
         this.size = size;
         return getAuthCode();
     }
+
     //인증코드 난수 발생.
     private String getAuthCode(){
         Random random = new Random();
@@ -31,6 +35,7 @@ public class EmailService {
         }
         return buffer.toString();
     }
+
     //인증 메일 보내기.
     public String sendAuthMail(String email){
         //6자리 난수 인증번호 생성.
