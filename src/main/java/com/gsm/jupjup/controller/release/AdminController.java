@@ -10,6 +10,7 @@ import com.gsm.jupjup.service.equipment.EquipmentAllowService;
 import com.gsm.jupjup.service.equipment.EquipmentService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,11 +38,11 @@ public class AdminController {
     }
 
     @ApiOperation(value = "기자재 등록", notes = "기자재를 등록한다.")
-    @PostMapping("/admin/equipment")
+    @PostMapping(path = "/equipment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult save(@ApiParam(value = "기자재 이미지", required = true) @RequestParam("img_equipment") MultipartFile img_equipment,
+    public CommonResult save(@ApiParam(value = "기자재 이미지", required = false) @RequestParam(value = "img_equipment",required = false) MultipartFile img_equipment,
                              @ApiParam(value = "기자재 이름", required = true) @RequestParam String name,
                              @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
                              @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception {
