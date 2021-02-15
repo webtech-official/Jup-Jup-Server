@@ -157,8 +157,10 @@
 			<artifactId>spring-cloud-starter-aws-messaging</artifactId>
 			<version>2.2.1.RELEASE</version>
 		</dependency>
+
+
 		
-    </dependencies>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
