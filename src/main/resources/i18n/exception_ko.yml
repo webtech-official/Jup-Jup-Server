@@ -1,7 +1,6 @@
 # exception_ko.yml
 unKnown:
   code: "-9999"
-  msg: "알 수 없는 오류가 발생하였습니다."
 userNotFound:
   code: "-1000"
   msg: "존재하지 않는 회원입니다."
@@ -52,3 +51,9 @@ AlreadyApprovedAndRejectedException:
 AlreadyReturnedException:
   code: "-236"
   msg: "이미 반납된 신청입니다."
+NotFoundNoticeException:
+  code: "-902"
+  msg: "공지 사항이 존재하지 않습니다."
+ApproveApplicationFirstException:
+  code: "-657"
+  msg: "먼저 신청을 승인해주세요."

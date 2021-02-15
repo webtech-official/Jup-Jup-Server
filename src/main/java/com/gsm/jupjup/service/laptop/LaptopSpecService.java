@@ -1,20 +1,20 @@
 package com.gsm.jupjup.service.laptop;
 
-import com.gsm.jupjup.dto.laptopSpec.LaptopSpecSaveRequestDto;
-import com.gsm.jupjup.repo.LaptopSpecRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.gsm.jupjup.dto.laptopSpec.LaptopSpecDto;
+import com.gsm.jupjup.model.LaptopSpec;
 
-@Service
-public class LaptopSpecService {
+import java.util.List;
 
-    //DI
-    @Autowired
-    private LaptopSpecRepo laptopSpecRepo;
+public interface LaptopSpecService {
+    //Spec 저장
+    Long save(LaptopSpecDto laptopSpecDto);
 
-    @Transactional
-    public Long save(LaptopSpecSaveRequestDto laptopSpecSaveRequestDto){
-        return laptopSpecRepo.save(laptopSpecSaveRequestDto.toEntity()).getSpecIdx();
-    }
+    List<LaptopSpec> findAll();
+
+    LaptopSpec findBySpecIdx(Long SpecIdx);
+
+    void updateBySpecIdx(Long SpecIdx, LaptopSpecDto laptopSpecDto);
+
+    void deleteBySpecIdx(Long SpecIdx);
+
 }
