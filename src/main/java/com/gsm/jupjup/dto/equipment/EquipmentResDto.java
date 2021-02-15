@@ -11,20 +11,21 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EquipmentResDto {
     private String name;
-    private byte[] img_equipment;
+    private String img_equipmentLocation;
     private String content;
     private int count;
 
     @Builder
-    public EquipmentResDto(String name, String content, byte[] img_equipment, int count){
+    public EquipmentResDto(String name, String content, String img_equipment, int count){
         this.name = name;
         this.content = content;
-        this.img_equipment = img_equipment;
+        this.img_equipmentLocation = img_equipment;
         this.count = count;
     }
 
     public EquipmentResDto(Equipment equipmentDomain){
         this.name = equipmentDomain.getName();
+        this.img_equipmentLocation = equipmentDomain.getImg_equipment();
         this.content = equipmentDomain.getContent();
         this.count = equipmentDomain.getCount();
     }

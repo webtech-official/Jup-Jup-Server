@@ -2,6 +2,7 @@ package com.gsm.jupjup.util;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.gsm.jupjup.advice.exception.FileExtensionNotMatchImageException;
 import com.gsm.jupjup.advice.exception.ImageNotFoundException;
@@ -48,6 +49,10 @@ public class S3Uploader {
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
         return amazonS3Client.getUrl(bucket, fileName).toString();
+    }
+
+    public void deleteS3(String fileName){
+        amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
     }
 
     private void removeNewFile(File targetFile) {
@@ -100,6 +105,16 @@ public class S3Uploader {
         nameOfImg.append("." + imageExtension);
 
         return nameOfImg.toString();
+    }
+
+    /** ImgLocation 에서 파일 이름 가져오는 method
+     * @param fileLocation
+     * @return
+     */
+    public String getLocationFileName(String fileLocation){
+        String[] fileLocationSplit = fileLocation.split("/");
+        System.out.println(fileLocationSplit[fileLocationSplit.length - 1]);
+        return "static/" + fileLocationSplit[fileLocationSplit.length - 1];
     }
 }
 
