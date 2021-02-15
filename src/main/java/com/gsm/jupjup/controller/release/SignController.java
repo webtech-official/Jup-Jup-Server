@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.*;
 
 @Api(tags = {"1. 회원"})
@@ -76,7 +77,7 @@ public class SignController {
 
     @ApiOperation(value = "가입", notes = "회원가입을 한다.")
     @PostMapping(value = "/signup")
-    public CommonResult signup(@ApiParam(value = "회원 가입 DTO", required = true) @RequestBody SignUpDto signUpDto) {
+    public CommonResult signup(@ApiParam(value = "회원 가입 DTO", required = true) @Valid @RequestBody SignUpDto signUpDto) {
         //이메일 중복
         Optional<Admin> admin = adminRepo.findByEmail(signUpDto.getEmail());
         if(admin.isEmpty()){
