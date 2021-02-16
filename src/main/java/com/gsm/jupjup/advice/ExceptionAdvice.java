@@ -133,4 +133,8 @@ public class ExceptionAdvice {
         return responseService.getFailResult(Integer.valueOf(getMessage("ApproveApplicationFirstException.code")), getMessage("ApproveApplicationFirstException.msg"));
     }
 
+    @ExceptionHandler(EmailNotVerifiedException.class)
+    public CommonResult ApproveApplicationFirstException(HttpServletRequest request, EmailNotVerifiedException e){
+        return responseService.getFailResult(Integer.valueOf(getMessage("EmailNotVerifiedException.code")), getMessage("EmailNotVerifiedException.msg"));
+    }
 }

@@ -57,3 +57,6 @@ NotFoundNoticeException:
 ApproveApplicationFirstException:
   code: "-657"
   msg: "먼저 신청을 승인해주세요."
+EmailNotVerifiedException:
+  code: "-947"
+  msg: "이메일 인증을 해주세요."
