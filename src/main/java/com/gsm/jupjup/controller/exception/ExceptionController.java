@@ -68,4 +68,7 @@ public class ExceptionController {
 
     @GetMapping(value = "/exception/ApproveApplicationFirst")
     public CommonResult ApproveApplicationFirstException() {throw new ApproveApplicationFirstException();}
+
+    @GetMapping(value = "/exception/EmailNotVerifiedException")
+    public CommonResult EmailNotVerifiedException() {throw new EmailNotVerifiedException();}
 }

@@ -58,3 +58,6 @@ NotFoundNoticeException:
 ApproveApplicationFirstException:
   code: "-657"
   msg: "Please approve the application first."
+EmailNotVerifiedException:
+  code: "-947"
+  msg: "Please verify your email."

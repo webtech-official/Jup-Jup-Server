@@ -2,6 +2,7 @@ package com.gsm.jupjup.controller.release;
 
 import com.gsm.jupjup.advice.exception.CDuplicateEmailException;
 import com.gsm.jupjup.advice.exception.CEmailSigninFailedException;
+import com.gsm.jupjup.advice.exception.EmailNotVerifiedException;
 import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.dto.admin.SignInDto;
 import com.gsm.jupjup.dto.admin.SignUpDto;
@@ -55,8 +56,8 @@ public class SignController {
         /*
         프론트에서 어짜피 회원가입 모달에서 이메일 체크가 됬는지 확인
          */
-        if(admin.getRoles().equals("ROLE_NOT_PERMITTED")){
-            throw new CEmailSigninFailedException();
+        if(admin.getRoles().contains("ROLE_NOT_PERMITTED")){
+            throw new EmailNotVerifiedException();
         } else if (!passwordEncoder.matches(signInDto.getPassword(), admin.getPassword())) {
             throw new CEmailSigninFailedException();
         }
