@@ -3,6 +3,7 @@ package com.gsm.jupjup.pojo;
 import com.gsm.jupjup.model.Admin;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -14,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AdminTest {
 
     @Test
+    @DisplayName("Admin Domain Test")
     public void AdminTest() throws Exception {
         //given
         Admin admin = Admin.builder()
@@ -28,8 +30,8 @@ public class AdminTest {
         List<String> roles = admin.getRoles();
 
         //then
-        assertThat(admin.getEmail()).isEqualTo("s19066@gsm.hs.kr");
-        assertThat(admin.getRoles()).contains("ROLE_USER");
+        assertThat(email).isEqualTo("s19066@gsm.hs.kr");
+        assertThat(roles).contains("ROLE_USER");
     }
 
 }

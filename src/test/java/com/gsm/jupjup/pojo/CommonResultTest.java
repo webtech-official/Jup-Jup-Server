@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.*;
 public class CommonResultTest {
 
     @Test
-    @DisplayName("응답 테스트")
+    @DisplayName("CommonResult Domain Test")
     public void ResponseTest() throws Exception {
         //given
         CommonResult commonResult = new CommonResult();
@@ -23,8 +23,8 @@ public class CommonResultTest {
         String msg = commonResult.getMsg();
 
         //then
-        assertThat(commonResult.getCode()).isEqualTo(200);
-        assertThat(commonResult.getMsg()).isEqualTo("성공하였습니다");
+        assertThat(code).isEqualTo(200);
+        assertThat(msg).isEqualTo("성공하였습니다");
     }
 
 
