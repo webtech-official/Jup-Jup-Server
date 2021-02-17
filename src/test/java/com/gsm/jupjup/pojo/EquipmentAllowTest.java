@@ -5,6 +5,7 @@ import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.response.EquipmentAllowEnum;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -14,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class EquipmentAllowTest {
     
     @Test
+    @DisplayName("EquipmentAllow Domain Test")
     public void EquipmentAllowTest() throws Exception {
         //given
         Admin admin = Admin.builder()
