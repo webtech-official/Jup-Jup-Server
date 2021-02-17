@@ -83,20 +83,9 @@ public class EquipmentServiceImpl implements EquipmentService{
     }
 
     @Override
-    public List<EquipmentResDto> findAll() throws IOException {
+    public List<Equipment> findAll() throws IOException {
         List<Equipment> equipmentList = equipmentRepo.findAll();
-        List<EquipmentResDto> equipmentResDtoList = new ArrayList<>();
-
-        // equipment List 를 equipmentResDtoList 형식에 밪게 변환해서 추가해주는 for 문
-        for(Equipment e : equipmentList){
-            //img 를 byte 로 바꿔서 변환
-            byte[] EquipmentByteImg = getImgByte(e.getImg_equipment());
-            //Equipment 값을 EquipmentResDto 로 가공해서 변환
-            equipmentResDtoList.add(
-                    new EquipmentResDto(e)
-            );
-        }
-        return equipmentResDtoList;
+        return equipmentList;
     }
 
 

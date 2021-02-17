@@ -65,7 +65,7 @@ public class AdminController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public ListResult<EquipmentResDto> equipmentFindAll() throws IOException {
+    public ListResult<Equipment> equipmentFindAll() throws IOException {
         return responseService.getListResult(equipmentService.findAll());
     }
 

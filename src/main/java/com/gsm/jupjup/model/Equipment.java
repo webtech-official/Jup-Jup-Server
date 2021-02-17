@@ -20,9 +20,7 @@ public class Equipment {
     private String content;
 
     private int count;
-
-    @Lob
-    private String img_equipment; //BLOB
+    private String img_equipment;
 
     public void updateAll(EquipmentUploadDto equipmentUploadDto) {
         this.name = equipmentUploadDto.getName();
