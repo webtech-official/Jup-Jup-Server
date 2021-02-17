@@ -34,7 +34,7 @@ public class SwaggerConfiguration {
 
     @Bean
     public Docket apiTest() {
-        version = "v1";
+        version = "v2";
         title = "JupJup API " + version;
 
         return new Docket(DocumentationType.SWAGGER_2)
@@ -42,7 +42,7 @@ public class SwaggerConfiguration {
                 .groupName(version)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.gsm.jupjup.controller.release"))
-                .paths(PathSelectors.ant("/v1/**"))
+                .paths(PathSelectors.ant("/v2/**"))
                 .build()
                 .apiInfo(apiInfo(title, version))
                 .useDefaultResponseMessages(false);

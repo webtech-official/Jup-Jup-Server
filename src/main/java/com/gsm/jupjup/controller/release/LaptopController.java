@@ -20,7 +20,7 @@ import java.util.List;
 @Api(tags = {"4. 노트북"})
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
-@RequestMapping("/v1")
+@RequestMapping("/v2")
 public class LaptopController {
     //Dependency Injection
     private final LaptopService laptopService;

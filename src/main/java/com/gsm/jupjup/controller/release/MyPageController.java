@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = {"5. 마이페이지"})
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v2")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 public class MyPageController {

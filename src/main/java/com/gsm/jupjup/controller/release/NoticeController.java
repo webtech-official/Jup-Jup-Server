@@ -19,7 +19,7 @@ import java.util.List;
 @Api(tags = {"6. 공지사항"})
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
-@RequestMapping("/v1")
+@RequestMapping("/v2")
 public class NoticeController {
 
     private final NoticeService noticeService;

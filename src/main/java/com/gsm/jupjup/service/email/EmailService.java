@@ -47,7 +47,7 @@ public class EmailService {
             sendMail.setSubject("JubJub 회원인증 이메일 입니다.");
             sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>")
                     .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-                    .append("<a href='http://localhost:8080/v1/member/signUpConfirm?email=")
+                    .append("<a href='http://localhost:8080/v2/member/signUpConfirm?email=")
                     .append(email)
                     .append("&AuthKey=")
                     .append(authKey)

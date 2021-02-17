@@ -34,7 +34,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
-@RequestMapping(value = "/v1")
+@RequestMapping(value = "/v2")
 public class SignController {
 
     private String authKey_;
