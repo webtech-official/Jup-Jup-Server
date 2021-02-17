@@ -2,6 +2,7 @@ package com.gsm.jupjup.model.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -18,4 +19,5 @@ public class CommonResult {
 
     @ApiModelProperty(value = "응답 메시지")
     private String msg;
+
 }
