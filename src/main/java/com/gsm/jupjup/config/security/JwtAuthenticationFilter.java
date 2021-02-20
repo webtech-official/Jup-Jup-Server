@@ -45,19 +45,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwtToken = httpServletRequest.getHeader("Authorization");
 
         String username = null;
-        String jwt = null;
         String refreshJwt = null;
         String refreshUname = null;
 
         try{
             if(jwtToken != null){
-                jwt = jwtToken;
-                username = jwtTokenProvider.getUserName(jwt);
+                username = jwtTokenProvider.getUserName(jwtToken);
             }
             if(username!=null){
                 UserDetails userDetails = customUserDetailService.loadUserByUsername(username);
 
-                if(jwtTokenProvider.validateToken(jwt,userDetails)){
+                if(jwtTokenProvider.validateToken(jwtToken, userDetails)){
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                     usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
@@ -84,9 +82,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                     Admin admin = new Admin();
                     admin.setEmail(refreshUname);
-                    String newToken =jwtTokenProvider.generateToken(admin);
+                    String newToken = jwtTokenProvider.generateToken(admin);
 
-                    Cookie newAccessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME,newToken);
+                    Cookie newAccessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME, newToken);
                     httpServletResponse.addCookie(newAccessToken);
                 }
             }
