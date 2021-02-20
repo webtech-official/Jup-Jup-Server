@@ -27,9 +27,9 @@ public class MyPageController {
     @ApiOperation(value = "회원 기자재 조회", notes = "내가 빌린 기자재를 조회한다.")
     @GetMapping("/myequipment")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public ListResult<EquipmentAllow> findMyEqiupment(){
+    public ListResult<EquipmentAllow> findMyEqiupment(@RequestHeader String Authorization){
         return responseService.getListResult(myPageService.findMyEquipment());
     }
 
@@ -37,9 +37,9 @@ public class MyPageController {
     @ApiOperation(value = "회원 노트북 조회", notes = "나의 노트북을 조회한다.")
     @GetMapping("/mylaptop")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public ListResult<Laptop> findMyLaptop(){
+    public ListResult<Laptop> findMyLaptop(@RequestHeader String Authorization){
         return responseService.getListResult(myPageService.findMyLaptop());
     }
 

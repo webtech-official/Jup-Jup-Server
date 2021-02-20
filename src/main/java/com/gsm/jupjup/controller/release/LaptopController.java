@@ -30,9 +30,10 @@ public class LaptopController {
     @ApiOperation(value = "노트북 등록", notes = "노트북을 등록한다.")
     @PostMapping("/admin/laptop")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody LaptopSaveReqDto laptopSaveReqDto){
+    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody LaptopSaveReqDto laptopSaveReqDto,
+                             @RequestHeader String Authorization){
         laptopService.save(laptopSaveReqDto);
         return responseService.getSuccessResult();
     }
@@ -41,9 +42,10 @@ public class LaptopController {
     @ApiOperation(value = "노트북 조회", notes = "노트북을 조회한다.")
     @GetMapping("/admin/laptop/{laptopSerialNumber}")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public SingleResult<Laptop> findByLaptopSerialNumber(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber){
+    public SingleResult<Laptop> findByLaptopSerialNumber(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber,
+                                                         @RequestHeader String Authorization){
         return responseService.getSingleResult(laptopService.findByLaptopSerialNumber(laptopSerialNumber));
     }
 
@@ -51,10 +53,11 @@ public class LaptopController {
     @ApiOperation(value = "노트북 수정", notes = "노트북을 수정한다.")
     @PutMapping("/admin/laptop/{laptopSerialNumber}")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     public CommonResult update(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber,
-                               @ApiParam(value = "노트북 수정 DTO", required = true) @RequestBody LaptopUpdateReqDto laptopUpdateReqDto){
+                               @ApiParam(value = "노트북 수정 DTO", required = true) @RequestBody LaptopUpdateReqDto laptopUpdateReqDto,
+                               @RequestHeader String Authorization){
         laptopService.update(laptopSerialNumber, laptopUpdateReqDto);
         return responseService.getSuccessResult();
     }
@@ -63,9 +66,10 @@ public class LaptopController {
     @ApiOperation(value = "노트북 삭제", notes = "노트북을 삭제한다.")
     @DeleteMapping("/admin/laptop/{laptopSerialNumber}")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult delete(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber){
+    public CommonResult delete(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber,
+                               @RequestHeader String Authorization){
         laptopService.delete(laptopSerialNumber);
         return responseService.getSuccessResult();
     }
@@ -74,9 +78,9 @@ public class LaptopController {
     @ApiOperation(value = "노트북 전체 조회", notes = "노트북을 전체 조회한다.")
     @GetMapping("/admin/laptop")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public ListResult<Laptop> findAll(){
+    public ListResult<Laptop> findAll(@RequestHeader String Authorization){
         return responseService.getListResult(laptopService.findAll());
     }
 

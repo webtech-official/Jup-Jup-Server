@@ -72,7 +72,6 @@ public class SignController {
 
         Map<String ,String> map = new HashMap<>();
         map.put("accessToken", token);
-        map.put("refreshToken", refreshJwt);
         return responseService.getSingleResult(map);
     }
 

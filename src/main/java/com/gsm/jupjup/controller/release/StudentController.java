@@ -21,11 +21,12 @@ public class StudentController {
 
     @ApiOperation(value = "기자재 신청", notes = "기자재를 신청한다.")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @PostMapping("/equipmentallow/{name}")
     public CommonResult save(@ApiParam(value = "기자재 신청 이름", required = true) @PathVariable() String name,
-                             @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto) {
+                             @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto,
+                             @RequestHeader String Authorization) {
         equipmentAllowService.save(name, equipmentAllowSaveDto);
         return responseService.getSuccessResult();
     }

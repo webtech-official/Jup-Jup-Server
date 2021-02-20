@@ -41,7 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
-        final Cookie jwtToken = cookieUtil.getCookie(httpServletRequest,jwtTokenProvider.ACCESS_TOKEN_NAME);
+//        final Cookie jwtToken = cookieUtil.getCookie(httpServletRequest,jwtTokenProvider.ACCESS_TOKEN_NAME);
+        String jwtToken = httpServletRequest.getHeader("Authorization");
 
         String username = null;
         String jwt = null;
@@ -50,7 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try{
             if(jwtToken != null){
-                jwt = jwtToken.getValue();
+                jwt = jwtToken;
                 username = jwtTokenProvider.getUserName(jwt);
             }
             if(username!=null){
