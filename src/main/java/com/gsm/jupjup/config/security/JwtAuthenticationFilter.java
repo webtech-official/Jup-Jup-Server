@@ -1,5 +1,6 @@
 package com.gsm.jupjup.config.security;
 
+import com.gsm.jupjup.advice.exception.CAuthenticationEntryPointException;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.util.CookieUtil;
 import com.gsm.jupjup.util.RedisUtil;
@@ -41,7 +42,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
-//        final Cookie jwtToken = cookieUtil.getCookie(httpServletRequest,jwtTokenProvider.ACCESS_TOKEN_NAME);
+        final Cookie cookieToken = cookieUtil.getCookie(httpServletRequest,jwtTokenProvider.ACCESS_TOKEN_NAME);
+        if(cookieToken == null) {
+            throw new CAuthenticationEntryPointException();
+        }
         String jwtToken = httpServletRequest.getHeader("Authorization");
 
         String username = null;
