@@ -3,6 +3,7 @@ package com.gsm.jupjup.service.email;
 import com.gsm.jupjup.util.MailUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 

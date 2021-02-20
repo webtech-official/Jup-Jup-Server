@@ -25,7 +25,7 @@ public class JupjupApplication implements CommandLineRunner {
 	private final LaptopSpecRepo laptopSpecRepo;
 
 	public static final String APPLICATION_LOCATIONS = "spring.config.location="
-			+ "classpath:application.properties";
+			+ "classpath:application.yml";
 
 	public static void main(String[] args) {
 //		SpringApplication

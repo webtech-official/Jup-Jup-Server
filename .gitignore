@@ -34,4 +34,4 @@ build/
 .vscode/
 
 ###Sensitive Code###
-src/main/resources/application.properties
+src/main/resources/application.yml
