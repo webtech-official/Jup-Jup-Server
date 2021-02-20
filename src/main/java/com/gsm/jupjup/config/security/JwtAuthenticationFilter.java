@@ -43,9 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
         final Cookie cookieToken = cookieUtil.getCookie(httpServletRequest,jwtTokenProvider.ACCESS_TOKEN_NAME);
-        if(cookieToken == null) {
-            throw new CAuthenticationEntryPointException();
-        }
         String jwtToken = httpServletRequest.getHeader("Authorization");
 
         String username = null;
