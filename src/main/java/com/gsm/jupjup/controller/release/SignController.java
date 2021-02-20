@@ -14,9 +14,7 @@ import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.service.email.EmailService;
 import com.gsm.jupjup.util.CookieUtil;
 import com.gsm.jupjup.util.RedisUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -109,9 +107,13 @@ public class SignController {
         }
     }
 
+
     @ApiOperation(value = "로그아웃", notes = "사용자가 로그아웃한다.")
     @GetMapping("/logout")
-    public CommonResult LogOut(HttpServletResponse res){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public CommonResult LogOut(HttpServletResponse res, @RequestHeader String Authorization){
         Cookie accessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME, null);
         accessToken.setMaxAge(0);
         redisUtil.deleteData(refreshJwt);
