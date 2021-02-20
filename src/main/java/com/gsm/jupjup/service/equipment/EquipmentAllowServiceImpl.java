@@ -28,6 +28,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
     public final AdminRepo adminRepo;
 
     @Override
+    @Transactional
     public void save(String NameOfEquipment, EquipmentAllowSaveDto equipmentAllowSaveDto) {
         //신청할 기자제 수량 0체크
         zeroChk(equipmentAllowSaveDto.getAmount());
