@@ -84,7 +84,9 @@ public class AdminController {
     }
 
     @ApiOperation(value = "기자재 전체 수정", notes = "기자재를 수정한다.")
-    @PutMapping("/admin/equipmentAll/{oldName}")
+    @PutMapping(value="/admin/equipmentAll/{oldName}",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
