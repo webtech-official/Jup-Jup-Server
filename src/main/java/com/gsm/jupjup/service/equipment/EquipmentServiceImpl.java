@@ -15,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -125,16 +122,5 @@ public class EquipmentServiceImpl implements EquipmentService{
         throw new EquipmentDuplicateException();
     }
 
-    /**
-     * img 가 저징된 path 를 받아서 img 를 byte[]로 변환
-     * @param imgPath
-     * @return
-     * @throws IOException
-     */
-    public byte[] getImgByte(String imgPath) throws IOException {
-        File img = new File(imgPath);
-
-        return Files.readAllBytes(img.toPath());
-    }
 
 }
