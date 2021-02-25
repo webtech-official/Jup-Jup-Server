@@ -113,9 +113,10 @@ public class S3Uploader {
      * @return
      */
     public String getLocationFileName(String fileLocation){
-        String[] fileLocationSplit = fileLocation.split("/");
-        System.out.println(fileLocationSplit[fileLocationSplit.length - 1]);
-        return "static/" + fileLocationSplit[fileLocationSplit.length - 1];
+        String[] splitFileLocationSplit = fileLocation.split("/");
+        int splitFileLocationSplitLen = splitFileLocationSplit.length;
+
+        return splitFileLocationSplit[splitFileLocationSplitLen - 2] + "/" + splitFileLocationSplit[splitFileLocationSplitLen - 1];
     }
 }
 
