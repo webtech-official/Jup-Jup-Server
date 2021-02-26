@@ -93,6 +93,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         }
 
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers",
+                "content-type, x-gwt-module-base, x-gwt-permutation");
         filterChain.doFilter(httpServletRequest,httpServletResponse);
     }
 }
