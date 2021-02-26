@@ -1,5 +1,7 @@
 package com.gsm.jupjup.util;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -8,16 +10,12 @@ import com.gsm.jupjup.advice.exception.FileExtensionNotMatchImageException;
 import com.gsm.jupjup.advice.exception.ImageNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
+import java.io.*;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.Optional;
 
@@ -40,10 +38,14 @@ public class S3Uploader {
         return upload(uploadFile, dirName);
     }
 
-    private String upload(File uploadFile, String dirName) {
+    private String upload(File uploadFile, String dirName) throws UnsupportedEncodingException {
         String fileName = dirName + "/" + uploadFile.getName();
+        //file 저장후 UTF-8 로 변환후 저장
         String uploadImageUrl = putS3(uploadFile, fileName);
+        uploadImageUrl = URLDecoder.decode(uploadImageUrl, "UTF-8");  //url UTF-8 로 변환
+
         removeNewFile(uploadFile);
+
         return uploadImageUrl;
     }
 
@@ -53,7 +55,16 @@ public class S3Uploader {
     }
 
     public void deleteS3(String fileName){
-        amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
+        try {
+            //Delete 객체 생성
+            DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(this.bucket, fileName);
+            //Delete
+            this.amazonS3Client.deleteObject(deleteObjectRequest);
+        } catch (AmazonServiceException e) {
+            e.printStackTrace();
+        } catch (SdkClientException e) {
+            e.printStackTrace();
+        }
     }
 
     private void removeNewFile(File targetFile) {
@@ -100,9 +111,11 @@ public class S3Uploader {
     public String imgNameMake(MultipartFile img, String imageExtension){
         StringBuilder nameOfImg = new StringBuilder();
 
+        // 원래파일 에서 확장자를 제거
         String originalName = img.getOriginalFilename().replace("." + img.getContentType().split("/")[1], "");
         nameOfImg.append(originalName);
         nameOfImg.append(new Date().getTime());
+        // 파일에서 확장자를 다시 이어붙이기
         nameOfImg.append("." + imageExtension);
 
         return nameOfImg.toString();

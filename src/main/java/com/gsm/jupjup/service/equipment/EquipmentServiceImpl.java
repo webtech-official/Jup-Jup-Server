@@ -53,18 +53,24 @@ public class EquipmentServiceImpl implements EquipmentService{
         if(!oldName.equals(equipmentUploadDto.getName())){
             duplicateChk(equipmentUploadDto.getName());
         }
-        String oldFileName = s3Uploader.getLocationFileName(equipment.getImg_equipment());
-        s3Uploader.deleteS3(oldFileName);
+
+        String oldFileS3Location = s3Uploader.getLocationFileName(equipment.getImg_equipment());
+        s3Uploader.deleteS3(oldFileS3Location);
+
         String equipmentImgPath = s3Uploader.upload(equipmentUploadDto.getImg_equipment(), "static");
         equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
         equipment.updateAll(equipmentUploadDto);
     }
 
-    //????????
+
     @Override
     public void deleteByEquipmentIdx(Long idx){
         Equipment equipment = equipmentRepo.findById(idx).orElseThrow(EquipmentNotFoundException::new);
+        String imgName = s3Uploader.getLocationFileName(equipment.getImg_equipment());
         List<EquipmentAllow> equipmentAllows = equipmentAllowRepo.findByEquipment(equipment);
+
+        s3Uploader.deleteS3(imgName);
+
         for (EquipmentAllow equipmentAllow : equipmentAllows ) {
             equipmentAllow.setEquipment(null);
         }
