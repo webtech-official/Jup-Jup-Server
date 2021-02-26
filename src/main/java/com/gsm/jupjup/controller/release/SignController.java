@@ -30,6 +30,7 @@ import java.util.*;
 
 @Api(tags = {"1. 회원"})
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping(value = "/v2")
 public class SignController {

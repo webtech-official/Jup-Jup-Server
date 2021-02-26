@@ -6,6 +6,9 @@ import com.gsm.jupjup.util.CookieUtil;
 import com.gsm.jupjup.util.RedisUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -93,10 +96,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         }
 
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers",
-                "content-type, x-gwt-module-base, x-gwt-permutation");
         filterChain.doFilter(httpServletRequest,httpServletResponse);
     }
 }
