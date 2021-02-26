@@ -30,7 +30,6 @@ import java.util.*;
 
 @Api(tags = {"1. 회원"})
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/v2")
 public class SignController {
@@ -109,7 +108,7 @@ public class SignController {
 
 
     @ApiOperation(value = "로그아웃", notes = "사용자가 로그아웃한다.")
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
