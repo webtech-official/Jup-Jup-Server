@@ -31,7 +31,7 @@ import java.util.*;
 @Api(tags = {"1. 회원"})
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
+@CrossOrigin(origins = "http://192.168.0.25:3000") //해당 origin 승인하기
 @RequestMapping(value = "/v2")
 public class SignController {
 

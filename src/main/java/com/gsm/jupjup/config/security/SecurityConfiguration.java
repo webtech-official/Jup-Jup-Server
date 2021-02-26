@@ -59,6 +59,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") //모든 요청에 대해서
-                .allowedOrigins("http://localhost:3000"); //허용할 오리진들
+                .allowedOrigins("http://192.168.0.25:3000"); //허용할 오리진들
     }
 }
