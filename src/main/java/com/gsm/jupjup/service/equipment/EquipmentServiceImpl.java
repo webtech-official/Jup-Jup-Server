@@ -15,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -56,18 +53,24 @@ public class EquipmentServiceImpl implements EquipmentService{
         if(!oldName.equals(equipmentUploadDto.getName())){
             duplicateChk(equipmentUploadDto.getName());
         }
-        String oldFileName = s3Uploader.getLocationFileName(equipment.getImg_equipment());
-        s3Uploader.deleteS3(oldFileName);
+
+        String oldFileS3Location = s3Uploader.getLocationFileName(equipment.getImg_equipment());
+        s3Uploader.deleteS3(oldFileS3Location);
+
         String equipmentImgPath = s3Uploader.upload(equipmentUploadDto.getImg_equipment(), "static");
         equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
         equipment.updateAll(equipmentUploadDto);
     }
 
-    //????????
+
     @Override
     public void deleteByEquipmentIdx(Long idx){
         Equipment equipment = equipmentRepo.findById(idx).orElseThrow(EquipmentNotFoundException::new);
+        String imgName = s3Uploader.getLocationFileName(equipment.getImg_equipment());
         List<EquipmentAllow> equipmentAllows = equipmentAllowRepo.findByEquipment(equipment);
+
+        s3Uploader.deleteS3(imgName);
+
         for (EquipmentAllow equipmentAllow : equipmentAllows ) {
             equipmentAllow.setEquipment(null);
         }
@@ -125,16 +128,5 @@ public class EquipmentServiceImpl implements EquipmentService{
         throw new EquipmentDuplicateException();
     }
 
-    /**
-     * img 가 저징된 path 를 받아서 img 를 byte[]로 변환
-     * @param imgPath
-     * @return
-     * @throws IOException
-     */
-    public byte[] getImgByte(String imgPath) throws IOException {
-        File img = new File(imgPath);
-
-        return Files.readAllBytes(img.toPath());
-    }
 
 }
