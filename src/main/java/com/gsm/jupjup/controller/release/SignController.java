@@ -31,7 +31,6 @@ import java.util.*;
 @Api(tags = {"1. 회원"})
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping(value = "/v2")
 public class SignController {
 
@@ -75,7 +74,7 @@ public class SignController {
 
     @ApiOperation(value = "가입", notes = "회원가입을 한다.")
     @PostMapping(value = "/signup")
-    public CommonResult signup(@ApiParam(value = "회원 가입 DTO", required = true) @Valid @RequestBody SignUpDto signUpDto) {
+    public CommonResult signup(@ApiParam(value = "회원 가입 DTO", required = true) @RequestBody SignUpDto signUpDto) {
         //이메일 중복
         Optional<Admin> admin = adminRepo.findByEmail(signUpDto.getEmail());
         if(admin.isEmpty()){
@@ -109,7 +108,7 @@ public class SignController {
 
 
     @ApiOperation(value = "로그아웃", notes = "사용자가 로그아웃한다.")
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
