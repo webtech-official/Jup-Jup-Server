@@ -66,12 +66,12 @@ public class EquipmentServiceImpl implements EquipmentService{
     @Override
     public void deleteByEquipmentIdx(Long idx){
         Equipment equipment = equipmentRepo.findById(idx).orElseThrow(EquipmentNotFoundException::new);
-        String imgName = s3Uploader.getLocationFileName(equipment.getImg_equipment());
+        String s3ImgLocation = s3Uploader.getLocationFileName(equipment.getImg_equipment()); // s3리소스 Location 가져오기
         List<EquipmentAllow> equipmentAllows = equipmentAllowRepo.findByEquipment(equipment);
 
-        s3Uploader.deleteS3(imgName);
+        s3Uploader.deleteS3(s3ImgLocation);
 
-        for (EquipmentAllow equipmentAllow : equipmentAllows ) {
+        for (EquipmentAllow equipmentAllow : equipmentAllows) {
             equipmentAllow.setEquipment(null);
         }
         equipmentRepo.deleteById(idx);

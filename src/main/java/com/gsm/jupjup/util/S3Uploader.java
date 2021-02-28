@@ -102,8 +102,7 @@ public class S3Uploader {
 
     /**
      * 기자재 img 이름을 만들어주는 method
-     * 현재 시간 + 사진이름 으로 만들어 img 이름을 반환하는 매서드
-     *         이미지 이름, 이미지 확장자
+     * (현재 시간 + 원래 이름 + 확장자) 형식으로 파일이름을 반환하는 매서드
      * @param img, imageExtension
      * @return nameOfImg
      */
@@ -126,13 +125,14 @@ public class S3Uploader {
      * @return
      */
     public String getLocationFileName(String fileLocation){
-        //원본파일이름을 추출하기위해 슬래시(/) 기준으로 나눔, 원본 파일이름은 배열의 끝방에 있다.
+        //원본파일이름을 추출하기위해 슬래시("/") 기준으로 나눔, 원본 파일이름은 배열의 끝방에 있다.
         String[] splitFileLocationSplit = fileLocation.split("/");
         //배열의 끝방에 있는 원본파일이름을 추출하기위해 배열의 끝방 구하기
-        int splitFileLocationSplitLen = splitFileLocationSplit.length - 1;
+        int splitFileLocationSplitLastIdx = splitFileLocationSplit.length - 1;
         // 원본파일 이름
-        String s3ImgOriginalImgName = splitFileLocationSplit[splitFileLocationSplitLen];
+        String s3ImgOriginalImgName = splitFileLocationSplit[splitFileLocationSplitLastIdx];
 
+        //저장할 위치와, 파일이름을 추가해서 리턴
         return S3_EQUIPMENT_IMG_SAVE_LOCATION + s3ImgOriginalImgName;
     }
 }
