@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
-public class ResolverConfiguration {
+public class MultipartResolverConfiguration {
 
     @Bean
     public MultipartResolver multipartResolver() {
