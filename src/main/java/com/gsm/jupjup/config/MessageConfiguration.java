@@ -21,7 +21,6 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 @Configuration
-@EnableWebMvc
 public class MessageConfiguration implements WebMvcConfigurer {
 
     @Bean // 세션에 지역설정. default는 KOREAN = 'ko'
