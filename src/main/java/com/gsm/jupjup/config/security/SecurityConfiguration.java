@@ -1,6 +1,5 @@
 package com.gsm.jupjup.config.security;
 
-import com.google.common.collect.ImmutableList;
 import com.gsm.jupjup.config.handler.CustomAccessDeniedHandler;
 import com.gsm.jupjup.config.handler.CustomAuthenticationEntryPointHandler;
 import lombok.*;
@@ -13,12 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -41,21 +34,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt token으로 인증할것이므로 세션필요없으므로 생성안함.
                 .and()
                 .authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
-                .antMatchers("/*/signin", "/*/signup","/exception/**", "/*/member/**").permitAll() // 가입 및 인증 주소는 누구나 접근가능
+                .antMatchers("/*/signin", "/*/signup","/exception/**", "/*/member/**").permitAll() // 가입 및 인증 주소, 오류, 이메일 인증은 누구나 접근가능
                 .antMatchers("/*/admin/**").hasRole("ADMIN") // admin으로 시작하는 요청은 관리자만 접근 가능
                 .anyRequest().hasAnyRole("USER", "ADMIN")// 그외 나머지 요청은 모두 요청 가능
                 .and()
-                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
+                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler()) //관리자 에러
                 .and()
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPointHandler())
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPointHandler()) //로그인 에러
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);  // jwt token 필터를 id/password 인증 필터 전에 넣어라.
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);  // jwt token 필터를 id/password 인증 필터 전에 넣음
     }
 
-    @Override // ignore check swagger resource
+    @Override // ignore check swagger, h2 database resource
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
                 "/swagger-ui.html", "/webjars/**", "/swagger/**", "/h2-console/**", "/configuration/ui");
     }
 }
-

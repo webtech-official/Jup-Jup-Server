@@ -52,6 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String refreshJwt = null;
         String refreshUname = null;
 
+        //Access Token 검사
         try{
             if(jwtToken != null){
                 username = jwtTokenProvider.getUserName(jwtToken);
@@ -74,6 +75,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         }
 
+        //reFresh Token 발급하기
         try{
             if(refreshJwt != null){
                 refreshUname = redisUtil.getData(refreshJwt);
