@@ -26,8 +26,7 @@ public class LaptopSpecController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @PostMapping("/laptop-spec")
-    public CommonResult save(@ApiParam(value = "노트북 스펙 정보", required = true) @RequestBody LaptopSpecDto laptopSpecDto,
-                             @RequestHeader String Authorization){
+    public CommonResult save(@ApiParam(value = "노트북 스펙 정보", required = true) @RequestBody LaptopSpecDto laptopSpecDto){
         laptopSpecService.save(laptopSpecDto);
         return responseService.getSuccessResult();
     }
@@ -37,7 +36,7 @@ public class LaptopSpecController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @GetMapping("/laptop-spec")
-    public ListResult<LaptopSpec> findALl(@RequestHeader String Authorization){
+    public ListResult<LaptopSpec> findALl(){
         return responseService.getListResult(laptopSpecService.findAll());
     }
 
@@ -46,8 +45,7 @@ public class LaptopSpecController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @GetMapping("/laptop-spec/{specIdx}")
-    public CommonResult findByIdx(@ApiParam(value = "노트북 스펙 Idx", required = true) @PathVariable Long specIdx,
-                                  @RequestHeader String Authorization){
+    public CommonResult findByIdx(@ApiParam(value = "노트북 스펙 Idx", required = true) @PathVariable Long specIdx){
         return responseService.getSingleResult(laptopSpecService.findBySpecIdx(specIdx));
     }
 
@@ -57,8 +55,7 @@ public class LaptopSpecController {
     })
     @PutMapping("/laptop-spec/{specIdx}")
     public CommonResult update(@ApiParam(value = "노트북 스펙 Idx", required = true) @PathVariable Long specIdx,
-                               @ApiParam(value = "New 노트북 스펙 정보", required = true) @RequestBody LaptopSpecDto laptopSpecDto,
-                               @RequestHeader String Authorization){
+                               @ApiParam(value = "New 노트북 스펙 정보", required = true) @RequestBody LaptopSpecDto laptopSpecDto){
         laptopSpecService.updateBySpecIdx(specIdx, laptopSpecDto);
         return responseService.getSuccessResult();
     }
@@ -68,8 +65,7 @@ public class LaptopSpecController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @DeleteMapping("/laptop-spec/{specIdx}")
-    public CommonResult deleteBySpecIdx(@ApiParam(value = "노트북 스펙 Idx", required = true) @PathVariable Long specIdx,
-                                        @RequestHeader String Authorization){
+    public CommonResult deleteBySpecIdx(@ApiParam(value = "노트북 스펙 Idx", required = true) @PathVariable Long specIdx){
         laptopSpecService.deleteBySpecIdx(specIdx);
         return responseService.getSuccessResult();
     }

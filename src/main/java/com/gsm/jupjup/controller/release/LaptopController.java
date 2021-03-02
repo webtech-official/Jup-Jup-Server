@@ -32,8 +32,7 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody LaptopSaveReqDto laptopSaveReqDto,
-                             @RequestHeader String Authorization){
+    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody LaptopSaveReqDto laptopSaveReqDto){
         laptopService.save(laptopSaveReqDto);
         return responseService.getSuccessResult();
     }
@@ -44,8 +43,7 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public SingleResult<Laptop> findByLaptopSerialNumber(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber,
-                                                         @RequestHeader String Authorization){
+    public SingleResult<Laptop> findByLaptopSerialNumber(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber){
         return responseService.getSingleResult(laptopService.findByLaptopSerialNumber(laptopSerialNumber));
     }
 
@@ -56,8 +54,7 @@ public class LaptopController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     public CommonResult update(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber,
-                               @ApiParam(value = "노트북 수정 DTO", required = true) @RequestBody LaptopUpdateReqDto laptopUpdateReqDto,
-                               @RequestHeader String Authorization){
+                               @ApiParam(value = "노트북 수정 DTO", required = true) @RequestBody LaptopUpdateReqDto laptopUpdateReqDto){
         laptopService.update(laptopSerialNumber, laptopUpdateReqDto);
         return responseService.getSuccessResult();
     }
@@ -68,8 +65,7 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult delete(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber,
-                               @RequestHeader String Authorization){
+    public CommonResult delete(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber){
         laptopService.delete(laptopSerialNumber);
         return responseService.getSuccessResult();
     }
@@ -80,7 +76,7 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public ListResult<Laptop> findAll(@RequestHeader String Authorization){
+    public ListResult<Laptop> findAll(){
         return responseService.getListResult(laptopService.findAll());
     }
 

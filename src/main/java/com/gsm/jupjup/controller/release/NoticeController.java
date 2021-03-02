@@ -31,8 +31,7 @@ public class NoticeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult saveNotice(@ApiParam(value = "공지 사항 등록 정보", required = true) @RequestBody NoticeSaveDto noticeSaveDto,
-                                   @RequestHeader String Authorization) {
+    public CommonResult saveNotice(@ApiParam(value = "공지 사항 등록 정보", required = true) @RequestBody NoticeSaveDto noticeSaveDto) {
         noticeService.SaveNotice(noticeSaveDto);
         return responseService.getSuccessResult();
     }
@@ -42,8 +41,7 @@ public class NoticeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult deleteNotice(@ApiParam(value = "공지 사항 Idx", required = true) @PathVariable Long noticeidx,
-                                     @RequestHeader String Authorization){
+    public CommonResult deleteNotice(@ApiParam(value = "공지 사항 Idx", required = true) @PathVariable Long noticeidx){
         noticeService.DeleteNotice(noticeidx);
         return responseService.getSuccessResult();
     }
@@ -53,7 +51,7 @@ public class NoticeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public ListResult<Notice> FindAllNotice(@RequestHeader String Authorization){
+    public ListResult<Notice> FindAllNotice(){
         return noticeService.FindAllNotice();
     }
 
@@ -62,8 +60,7 @@ public class NoticeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public SingleResult<Notice> FindNoticeByNoticeIdx(@ApiParam(value = "공지 사항 Idx", required = true) @PathVariable Long noticeidx,
-                                                      @RequestHeader String Authorization){
+    public SingleResult<Notice> FindNoticeByNoticeIdx(@ApiParam(value = "공지 사항 Idx", required = true) @PathVariable Long noticeidx){
         return noticeService.FindByNoticeIdx(noticeidx);
     }
 
@@ -73,8 +70,7 @@ public class NoticeController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     public CommonResult updateNotice(@ApiParam(value = "공지 사항 수정 정보", required = true) @RequestBody NoticeSaveDto noticeSaveDto,
-                                     @ApiParam(value = "공지 사항 Idx", required = true) @PathVariable Long noticeidx,
-                                     @RequestHeader String Authorization){
+                                     @ApiParam(value = "공지 사항 Idx", required = true) @PathVariable Long noticeidx){
         noticeService.UpdateNotice(noticeSaveDto, noticeidx);
         return responseService.getSuccessResult();
     }

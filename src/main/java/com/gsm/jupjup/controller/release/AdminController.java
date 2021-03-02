@@ -34,8 +34,7 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     public SingleResult<EquipmentResDto> EquipmentFindByName(
-            @ApiParam(value = "기자재 이름", required = true) @PathVariable String name,
-            @RequestHeader String Authorization) throws Exception {
+            @ApiParam(value = "기자재 이름", required = true) @PathVariable String name) throws Exception {
         return responseService.getSingleResult(equipmentService.findByName(name));
     }
 
@@ -47,8 +46,7 @@ public class AdminController {
     public CommonResult save(@ApiParam(value = "기자재 이미지", required = false) @RequestParam(value = "img_equipment",required = false) MultipartFile img_equipment,
                              @ApiParam(value = "기자재 이름", required = true) @RequestParam String name,
                              @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
-                             @ApiParam(value = "기자재 개수", required = true) @RequestParam int count,
-                             @RequestHeader String Authorization) throws Exception {
+                             @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception {
         EquipmentUploadDto equipmentUploadDto
                 = EquipmentUploadDto.builder()
                 .img_equipment(img_equipment)
@@ -67,7 +65,7 @@ public class AdminController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public ListResult<Equipment> equipmentFindAll(@RequestHeader String Authorization) throws IOException {
+    public ListResult<Equipment> equipmentFindAll() throws IOException {
         return responseService.getListResult(equipmentService.findAll());
     }
 
@@ -77,8 +75,7 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     public CommonResult update(@ApiParam(value = "기자재 이름", required = true) @PathVariable String name,
-                               @ApiParam(value = "변경 기자재 수량", required = true) @RequestParam int count,
-                               @RequestHeader String Authorization) throws Exception {
+                               @ApiParam(value = "변경 기자재 수량", required = true) @RequestParam int count) throws Exception {
         equipmentService.update(name, count);
         return responseService.getSuccessResult();
     }
@@ -94,8 +91,7 @@ public class AdminController {
                                 @ApiParam(value = "기자재 이미지", required = false) @RequestParam(value = "img_equipment",required = false) MultipartFile img_equipment,
                                 @ApiParam(value = "기자재 이름", required = true) @RequestParam String newName,
                                 @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
-                                @ApiParam(value = "기자재 개수", required = true) @RequestParam int count,
-                                @RequestHeader String Authorization) throws Exception, NotFoundImageHandler {
+                                @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception, NotFoundImageHandler {
         equipmentService.AllUpdate(
                 oldName,
                 new EquipmentUploadDto().builder()
@@ -113,8 +109,7 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @DeleteMapping("/admin/equipmnet/delete/{equipmentidx}")
-    public CommonResult deleteByIdx(@ApiParam(value = "기자재 Idx", required = true) @PathVariable Long equipmentidx,
-                                    @RequestHeader String Authorization) throws Exception {
+    public CommonResult deleteByIdx(@ApiParam(value = "기자재 Idx", required = true) @PathVariable Long equipmentidx) throws Exception {
         equipmentService.deleteByEquipmentIdx(equipmentidx);
         return responseService.getSuccessResult();
     };
@@ -124,7 +119,7 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @GetMapping("/admin/applyview")
-    public ListResult<Object> findAll(@RequestHeader String Authorization){
+    public ListResult<Object> findAll(){
         List<Object> equipmentAllowListResult = adminService.findAll();
         return responseService.getListResult(equipmentAllowListResult);
     }
@@ -135,8 +130,7 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @PutMapping("/admin/approved/{eqa_Idx}")
-    public CommonResult ApprovedAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx,
-                                      @RequestHeader String Authorization){
+    public CommonResult ApprovedAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
         equipmentAllowService.SuccessAllow(eqa_Idx);
         return responseService.getSuccessResult();
     }
@@ -147,8 +141,7 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @PutMapping("/admin/reject/{eqa_Idx}")
-    public CommonResult RejectAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx,
-                                    @RequestHeader String Authorization){
+    public CommonResult RejectAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
         equipmentAllowService.FailureAllow(eqa_Idx);
         return responseService.getSuccessResult();
     }
@@ -159,8 +152,7 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @PutMapping("/admin/return/{eqa_Idx}")
-    public CommonResult ReturnAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx,
-                                    @RequestHeader String Authorization){
+    public CommonResult ReturnAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
         equipmentAllowService.ReturnAllow(eqa_Idx);
         return responseService.getSuccessResult();
     }
@@ -171,8 +163,7 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @PostMapping("/equipment/{keyword}")
-    public ListResult<Equipment> findByKeyWord(@ApiParam(value = "검색 KeyWord", required = true) @PathVariable String keyword,
-                                               @RequestHeader String Authorization) throws Exception {
+    public ListResult<Equipment> findByKeyWord(@ApiParam(value = "검색 KeyWord", required = true) @PathVariable String keyword) throws Exception {
         return responseService.getListResult(equipmentService.findByKeyword(keyword));
     }
 }
