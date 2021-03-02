@@ -13,6 +13,10 @@ public class CustomUserDetailService implements UserDetailsService {
 
     private final AdminRepo adminRepo;
 
+    /**
+     * 유저 정보를 가져오는 메서드
+     * @param email
+     */
     public UserDetails loadUserByUsername(String email) {
         return adminRepo.findByEmail(email).orElseThrow(CUserNotFoundException::new);
     }

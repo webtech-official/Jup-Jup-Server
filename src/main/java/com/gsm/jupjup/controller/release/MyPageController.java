@@ -29,7 +29,7 @@ public class MyPageController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public ListResult<EquipmentAllow> findMyEqiupment(@RequestHeader String Authorization){
+    public ListResult<EquipmentAllow> findMyEqiupment(){
         return responseService.getListResult(myPageService.findMyEquipment());
     }
 
@@ -39,7 +39,7 @@ public class MyPageController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public ListResult<Laptop> findMyLaptop(@RequestHeader String Authorization){
+    public ListResult<Laptop> findMyLaptop(){
         return responseService.getListResult(myPageService.findMyLaptop());
     }
 
