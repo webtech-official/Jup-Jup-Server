@@ -32,6 +32,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/v2")
+@CrossOrigin("http://localhost:3000")
 public class SignController {
 
     private String authKey_;
