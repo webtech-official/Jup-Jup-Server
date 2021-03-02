@@ -110,10 +110,7 @@ public class SignController {
 
     @ApiOperation(value = "로그아웃", notes = "사용자가 로그아웃한다.")
     @PostMapping("/logout")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    public CommonResult LogOut(HttpServletResponse res, @RequestHeader String Authorization){
+    public CommonResult LogOut(HttpServletResponse res){
         Cookie accessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME, null);
         accessToken.setMaxAge(0);
         redisUtil.deleteData(refreshJwt);
