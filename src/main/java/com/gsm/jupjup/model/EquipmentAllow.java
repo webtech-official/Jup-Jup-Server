@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Builder
-public class EquipmentAllow extends BaseTimeEntity{
+public class EquipmentAllow extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

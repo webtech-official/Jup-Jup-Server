@@ -25,8 +25,7 @@ public class StudentController {
     })
     @PostMapping("/equipmentallow/{name}")
     public CommonResult save(@ApiParam(value = "기자재 신청 이름", required = true) @PathVariable() String name,
-                             @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto,
-                             @RequestHeader String Authorization) {
+                             @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto) {
         equipmentAllowService.save(name, equipmentAllowSaveDto);
         return responseService.getSuccessResult();
     }

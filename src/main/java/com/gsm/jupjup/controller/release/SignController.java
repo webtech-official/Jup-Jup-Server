@@ -16,6 +16,7 @@ import com.gsm.jupjup.util.CookieUtil;
 import com.gsm.jupjup.util.RedisUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +33,8 @@ import java.util.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/v2")
+@CrossOrigin("http://localhost:3000")
+@Slf4j
 public class SignController {
 
     private String authKey_;
@@ -90,6 +93,7 @@ public class SignController {
         }
         //임의의 authKey 생성 & 이메일 발송
         authKey_ = mss.sendAuthMail(signUpDto.getEmail());
+        log.info("이메일 보냄");
 
         return responseService.getSuccessResult();
     }
@@ -112,7 +116,7 @@ public class SignController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult LogOut(HttpServletResponse res, @RequestHeader String Authorization){
+    public CommonResult LogOut(HttpServletResponse res){
         Cookie accessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME, null);
         accessToken.setMaxAge(0);
         redisUtil.deleteData(refreshJwt);
