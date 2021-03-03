@@ -8,6 +8,7 @@ import com.gsm.jupjup.dto.admin.SignInDto;
 import com.gsm.jupjup.dto.admin.SignUpDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.response.CommonResult;
+import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.repo.AdminRepo;
@@ -18,6 +19,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +53,7 @@ public class SignController {
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
     @PostMapping(value = "/signin")
     public SingleResult<Map<String, String>> signin(@ApiParam(value = "로그인 DTO", required = true) @RequestBody SignInDto signInDto,
-                                                    HttpServletResponse res, HttpServletRequest req) {
+                                                  HttpServletResponse res, HttpServletRequest req) {
         Admin admin = adminRepo.findByEmail(signInDto.getEmail()).orElseThrow(CEmailSigninFailedException::new);
         /*
         프론트에서 어짜피 회원가입 모달에서 이메일 체크가 됬는지 확인
@@ -70,8 +72,11 @@ public class SignController {
         res.addCookie(accessToken);
         res.addCookie(refreshToken);
 
+        Iterator<? extends GrantedAuthority> authorityIterator = admin.getAuthorities().iterator();
+        String authority = authorityIterator.next().toString();
         Map<String ,String> map = new HashMap<>();
         map.put("accessToken", token);
+        map.put("authority", authority);
         return responseService.getSingleResult(map);
     }
 
