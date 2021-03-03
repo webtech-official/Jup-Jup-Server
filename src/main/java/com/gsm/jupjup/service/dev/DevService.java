@@ -10,10 +10,9 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 @Service
-public class dev {
+public class DevService {
 
     private final AdminRepo adminRepo;
-
 
     /**
      * 어드민으로 변경하기
