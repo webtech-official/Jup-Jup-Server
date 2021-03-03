@@ -31,9 +31,6 @@ public class EquipmentAllow extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private EquipmentAllowEnum equipmentEnum;
 
-    @Column
-    private Boolean isReturn;
-
     @ManyToOne
     @JoinColumn(name = "equ_Idx")
     private Equipment equipment;

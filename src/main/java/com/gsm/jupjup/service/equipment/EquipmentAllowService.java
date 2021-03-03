@@ -21,4 +21,7 @@ public interface EquipmentAllowService {
 
     //반납 요청 처리
     void ReturnAllow(Long eqa_Idx);
+
+    //대여 요청 처리
+    void Rental(Long eqa_Idx);
 }

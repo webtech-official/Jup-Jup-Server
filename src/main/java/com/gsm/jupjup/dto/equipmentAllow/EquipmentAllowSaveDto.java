@@ -26,7 +26,6 @@ public class EquipmentAllowSaveDto {
                 .equipmentEnum(EquipmentAllowEnum.ROLE_Waiting)
                 .amount(this.amount)
                 .reason(this.reason)
-                .isReturn(this.isReturn)
                 .build();
     }
 }

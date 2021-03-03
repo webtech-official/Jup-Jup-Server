@@ -13,8 +13,6 @@ import lombok.*;
 @Builder
 public class LaptopSaveReqDto {
     private String laptopSerialNumber;
-    private String laptopName;
-    private String laptopBrand;
     private String studentName;
     private String classNumber;
     private Long specIdx;
@@ -23,8 +21,6 @@ public class LaptopSaveReqDto {
         return Laptop.builder()
                 .admin(admin)
                 .laptopSerialNumber(this.laptopSerialNumber)
-                .laptopName(this.laptopName)
-                .laptopBrand(this.laptopBrand)
                 .studentName(this.studentName)
                 .classNumber(this.classNumber)
                 .laptopSpec(laptopSpec)

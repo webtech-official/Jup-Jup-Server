@@ -157,6 +157,17 @@ public class AdminController {
         return responseService.getSuccessResult();
     }
 
+    //대여
+    @ApiOperation(value = "대여", notes = "유저가 기자재를 신청하고 싸인을 하면 대여 성공")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @PutMapping("/admin/rental/{eqa_Idx}")
+    public CommonResult Rental_Equipment(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
+        equipmentAllowService.Rental(eqa_Idx);
+        return responseService.getSuccessResult();
+    }
+
     //기자재 키워드(이름) 검색
     @ApiOperation(value = "키워드 검색", notes = "유저가 키원드를 사용하여 기자재를 조회한다.")
     @ApiImplicitParams({

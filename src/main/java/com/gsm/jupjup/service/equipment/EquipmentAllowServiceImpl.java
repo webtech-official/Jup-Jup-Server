@@ -10,6 +10,7 @@ import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
 import com.gsm.jupjup.repo.EquipmentRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
     public final EquipmentAllowRepo equipmentAllowRepo;
@@ -106,10 +108,12 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)){
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setIsReturn(false);
             equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Accept);
         }
     }
+
+
+
 
     @Transactional
     @Override
@@ -117,6 +121,8 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
         if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)){
             throw new AlreadyApprovedAndRejectedException();
+        } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Rental)) {
+            log.info("이메 대여된 신청입니다.");
         } else {
             equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Reject);
             //신청한 제품
@@ -135,14 +141,14 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
     @Override
     public void ReturnAllow(Long eqa_Idx){
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
-        if(equipmentAllow.getIsReturn() == true){
+        if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Return)){
             throw new AlreadyReturnedException();
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Waiting)){
             throw new ApproveApplicationFirstException();
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setIsReturn(true);
+            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Return);
 
             //신청한 제품
             Equipment equipment = equipmentAllow.getEquipment();
@@ -155,6 +161,22 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
             equipment.updateAmount(now + new_c);
         }
     }
+
+    @Transactional
+    @Override
+    public void Rental(Long eqa_Idx) {
+        EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
+        if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Return)){
+            throw new AlreadyReturnedException();
+        } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Waiting)){
+            throw new ApproveApplicationFirstException();
+        } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
+            throw new AlreadyApprovedAndRejectedException();
+        } else {
+            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Rental);
+        }
+    }
+
 
     //현재 사용자의 ID를 Return
     public static Admin currentUser() {

@@ -13,11 +13,4 @@ public class LaptopResponseDto {
     private String laptopSerialNumber;
     private String laptopName;
     private String laptopBrand;
-
-    @Builder
-    public LaptopResponseDto(Laptop entity){
-        this.laptopSerialNumber = entity.getLaptopSerialNumber();
-        this.laptopName = entity.getLaptopName();
-        this.laptopBrand = entity.getLaptopBrand();
-    }
 }

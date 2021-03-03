@@ -77,6 +77,9 @@ public class SignController {
         Map<String ,String> map = new HashMap<>();
         map.put("accessToken", token);
         map.put("authority", authority);
+        map.put("name", admin.getName());
+        map.put("classNum", admin.getClassNumber());
+        map.put("email", admin.getEmail());
         return responseService.getSingleResult(map);
     }
 
