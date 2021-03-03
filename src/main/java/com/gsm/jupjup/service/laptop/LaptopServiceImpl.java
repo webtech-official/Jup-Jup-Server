@@ -36,16 +36,7 @@ public class LaptopServiceImpl implements LaptopService{
         //Laptop 도매인 객체 만들기
         Laptop laptop = laptopSaveReqDto.toEntity(admin, laptopSpec);
         //Success, return LaptopName
-        return laptopRepo.save(laptop).getLaptopName();
-    }
-
-    @Transactional
-    @Override
-    public String update(String laptopSerialNumber, LaptopUpdateReqDto laptopSaveRequestDto){
-        Laptop laptop = laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(NotFoundLaptopException::new);
-        laptop.update(laptopSaveRequestDto.getLaptopName(), laptopSaveRequestDto.getLaptopBrand());
-        // 성공시 laptopSerialNumber을 반환.
-        return laptopSerialNumber;
+        return laptopRepo.save(laptop).getLaptopSerialNumber();
     }
 
     @Transactional

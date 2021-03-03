@@ -11,9 +11,6 @@ public interface LaptopService {
     //노트북 저장
     String save(LaptopSaveReqDto laptopSaveReqDto);
 
-    //노트북 정보 업데이트
-    String update(String laptopSerialNumber, LaptopUpdateReqDto laptopSaveRequestDto);
-
     //노트북 삭제
     void delete(String laptopSerialNumber);
 

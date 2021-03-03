@@ -33,6 +33,14 @@ public class LaptopSpec extends BaseTimeEntity {
     @Column
     private String HDD;
 
+    @Column
+    // 노트북 이름
+    private String laptopName;
+
+    @Column
+    // 노트북 제조사
+    private String laptopBrand;
+
     public void update(LaptopSpecDto laptopSpecDto){
         this.CPU = laptopSpecDto.getCPU();
         this.GPU = laptopSpecDto.getGPU();

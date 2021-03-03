@@ -23,14 +23,6 @@ public class Laptop extends BaseTimeEntity {
     // 노트북 시리얼 번호
     private String laptopSerialNumber;
 
-    @Column
-    // 노트북 이름
-    private String laptopName;
-
-    @Column
-    // 노트북 제조사
-    private String laptopBrand;
-
     private String studentName;
     private String classNumber;
 
@@ -43,9 +35,4 @@ public class Laptop extends BaseTimeEntity {
     @JoinColumn(name = "adminIdx")
     private Admin admin;
 
-    //update에 사용할 생성자
-    public void update(String laptopName, String laptopBrand){
-        this.laptopName = laptopName;
-        this.laptopBrand = laptopBrand;
-    }
 }

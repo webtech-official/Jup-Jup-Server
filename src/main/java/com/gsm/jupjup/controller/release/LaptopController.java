@@ -47,18 +47,6 @@ public class LaptopController {
         return responseService.getSingleResult(laptopService.findByLaptopSerialNumber(laptopSerialNumber));
     }
 
-    //UPDATE
-    @ApiOperation(value = "노트북 수정", notes = "노트북을 수정한다.")
-    @PutMapping("/admin/laptop/{laptopSerialNumber}")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    public CommonResult update(@ApiParam(value = "노트북 시리얼넘버", required = true) @PathVariable String laptopSerialNumber,
-                               @ApiParam(value = "노트북 수정 DTO", required = true) @RequestBody LaptopUpdateReqDto laptopUpdateReqDto){
-        laptopService.update(laptopSerialNumber, laptopUpdateReqDto);
-        return responseService.getSuccessResult();
-    }
-
     //DELETE
     @ApiOperation(value = "노트북 삭제", notes = "노트북을 삭제한다.")
     @DeleteMapping("/admin/laptop/{laptopSerialNumber}")
