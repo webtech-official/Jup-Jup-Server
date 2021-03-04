@@ -8,8 +8,7 @@ import com.gsm.jupjup.dto.admin.SignInDto;
 import com.gsm.jupjup.dto.admin.SignUpDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.response.CommonResult;
-import com.gsm.jupjup.model.response.ListResult;
-import com.gsm.jupjup.model.response.ResponseService;
+import com.gsm.jupjup.service.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.service.email.EmailService;
@@ -18,9 +17,7 @@ import com.gsm.jupjup.util.RedisUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.util.*;
 
 @Api(tags = {"1. 회원"})

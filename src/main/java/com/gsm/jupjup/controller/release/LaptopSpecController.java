@@ -4,15 +4,14 @@ import com.gsm.jupjup.dto.laptopSpec.LaptopSpecDto;
 import com.gsm.jupjup.model.LaptopSpec;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ListResult;
-import com.gsm.jupjup.model.response.ResponseService;
+import com.gsm.jupjup.service.response.ResponseService;
 import com.gsm.jupjup.service.laptop.LaptopSpecService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.type.StringNVarcharType;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@Api(tags = "노트북 사양")
+@Api(tags = "7. 노트북 사양")
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping("/v2/admin")

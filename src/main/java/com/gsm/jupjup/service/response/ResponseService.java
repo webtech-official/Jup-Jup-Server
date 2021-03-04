@@ -1,5 +1,8 @@
-package com.gsm.jupjup.model.response;
+package com.gsm.jupjup.service.response;
 
+import com.gsm.jupjup.model.response.CommonResult;
+import com.gsm.jupjup.model.response.ListResult;
+import com.gsm.jupjup.model.response.SingleResult;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

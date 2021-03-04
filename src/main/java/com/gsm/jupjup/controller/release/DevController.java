@@ -4,7 +4,7 @@ package com.gsm.jupjup.controller.release;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ListResult;
-import com.gsm.jupjup.model.response.ResponseService;
+import com.gsm.jupjup.service.response.ResponseService;
 import com.gsm.jupjup.service.dev.DevService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Api(tags = {"dev"})
+@Api(tags = {"8. dev"})
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping("/v2")

@@ -8,6 +8,7 @@ import com.gsm.jupjup.model.response.*;
 import com.gsm.jupjup.service.admin.AdminService;
 import com.gsm.jupjup.service.equipment.EquipmentAllowService;
 import com.gsm.jupjup.service.equipment.EquipmentService;
+import com.gsm.jupjup.service.response.ResponseService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

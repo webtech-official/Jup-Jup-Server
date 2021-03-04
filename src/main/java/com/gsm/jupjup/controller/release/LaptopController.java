@@ -1,20 +1,15 @@
 package com.gsm.jupjup.controller.release;
 
-import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveReqDto;
-import com.gsm.jupjup.dto.laptop.LaptopUpdateReqDto;
 import com.gsm.jupjup.model.Laptop;
-import com.gsm.jupjup.model.LaptopSpec;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ListResult;
-import com.gsm.jupjup.model.response.ResponseService;
+import com.gsm.jupjup.service.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.service.laptop.LaptopService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Api(tags = {"4. 노트북"})
