@@ -78,4 +78,8 @@ public class EquipmentAllow extends BaseTimeEntity {
         this.admin = admin;
         this.equipment = equipment;
     }
+
+    public void deleteEquipment() {
+        this.equipment = null;
+    }
 }

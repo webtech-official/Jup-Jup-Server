@@ -72,7 +72,7 @@ public class LaptopSpecServiceImpl implements LaptopSpecService {
         LaptopSpec laptopSpec = laptopSpecRepo.findBySpecIdx(SpecIdx);
         List<Laptop> laptopList = laptopRepo.findByLaptopSpec(laptopSpec);
         for (Laptop laptop : laptopList) {
-            laptop.setLaptopSpec(null);
+            laptop.deleteSpec();
         }
         laptopSpecRepo.deleteById(SpecIdx);
     }
