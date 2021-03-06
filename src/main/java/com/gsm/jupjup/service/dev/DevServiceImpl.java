@@ -25,7 +25,7 @@ public class DevServiceImpl implements DevService{
     public void changeAdmin(Long admin_Idx) {
         Admin admin = adminRepo.findById(admin_Idx).orElseThrow(null);
         //어드민 바꾸기
-        admin.setRoles(Collections.singletonList("ROLE_ADMIN"));
+        admin.change_ROLE_ADMIN();
     }
 
     /**

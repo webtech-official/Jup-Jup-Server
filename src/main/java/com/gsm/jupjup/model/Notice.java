@@ -2,17 +2,14 @@ package com.gsm.jupjup.model;
 
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.dto.notice.NoticeSaveDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Data
+@Getter
 @Entity
 @Builder
 @NoArgsConstructor

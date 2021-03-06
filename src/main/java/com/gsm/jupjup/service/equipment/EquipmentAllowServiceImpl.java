@@ -48,14 +48,10 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         int result = equipmentAmountCount(equipment.getCount(), equipmentAllowSaveDto.getAmount());
         equipment.updateAmount(result);
 
-        //toEntity로 연관관계가 맻여진 equipmentAllow생성
+        //연관 관계 매핑
         EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity();
-        equipmentAllow.setEquipment(equipment);
-
-        //UserEmail을 가져와서 Admin과 연관관계 매핑
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(UserDoesNotExistException::new);
-        equipmentAllow.setAdmin(admin);
-
+        equipmentAllow.Relation_Mapping(equipment, admin);
         equipmentAllowRepo.save(equipmentAllow);
     }
 
@@ -129,7 +125,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)){
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Accept);
+            equipmentAllow.change_ROLE_Accept();
         }
     }
 
@@ -146,15 +142,13 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Rental)) {
             log.info("이메 대여된 신청입니다.");
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Reject);
+            equipmentAllow.change_ROLE_Reject();
             //신청한 제품
             Equipment equipment = equipmentAllow.getEquipment();
-
             // 신청 갯수
             int now = equipmentAllow.getAmount();
             //원래 제품 갯수
             int new_c = equipment.getCount();
-
             equipment.updateAmount(now + new_c);
         }
     }
@@ -174,16 +168,13 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Return);
-
+            equipmentAllow.change_ROLE_Return();
             //신청한 제품
             Equipment equipment = equipmentAllow.getEquipment();
-
             // 신청 갯수
             int now = equipmentAllow.getAmount();
             //원래 제품 갯수
             int new_c = equipment.getCount();
-
             equipment.updateAmount(now + new_c);
         }
     }
@@ -203,7 +194,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Rental);
+            equipmentAllow.change_ROLE_Rental();
         }
     }
 
