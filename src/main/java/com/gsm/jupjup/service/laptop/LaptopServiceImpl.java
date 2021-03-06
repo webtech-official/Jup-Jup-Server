@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class LaptopServiceImpl implements LaptopService{
 

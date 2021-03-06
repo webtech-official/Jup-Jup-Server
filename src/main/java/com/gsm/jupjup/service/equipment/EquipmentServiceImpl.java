@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class EquipmentServiceImpl implements EquipmentService{
 

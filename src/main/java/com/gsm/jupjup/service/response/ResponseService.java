@@ -4,10 +4,12 @@ import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.SingleResult;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service // 해당 Class가 Service임을 명시합니다.
+    @Transactional(readOnly = true)
 public class ResponseService {
 
     // enum으로 api 요청 결과에 대한 code, message를 정의합니다.
