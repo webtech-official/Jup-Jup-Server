@@ -14,6 +14,9 @@ public class AdminServiceImpl implements AdminService{
 
     private final EquipmentAllowRepo equipmentAllowRepo;
 
+    /**
+     * 기자재 신청 모두 찾기 => 관리자
+     */
     @Override
     public List<Object> findAll(){
         List<Object> equipmentAllow = equipmentAllowRepo.findAllBy();

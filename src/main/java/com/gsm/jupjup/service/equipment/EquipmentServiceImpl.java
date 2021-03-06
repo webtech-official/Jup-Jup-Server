@@ -100,8 +100,8 @@ public class EquipmentServiceImpl implements EquipmentService{
     }
 
     /**
-     *
-     * @param keyword
+     * 기자재 키워드 검색
+     * @param keyword // 검색 키워드
      * @return
      * query = query.where(qUserEntity.email.like(userEmail)); //지정된 str(userEmail)과 같으면 return
      * query = query.where(qUserEntity.email.contains(userEmail)); //지정된 str(userEmail)이 포함되는 경우 true를 return

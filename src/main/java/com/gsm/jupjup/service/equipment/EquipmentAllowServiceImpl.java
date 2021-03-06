@@ -30,6 +30,11 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
     public final EquipmentService equipmentService;
     public final AdminRepo adminRepo;
 
+    /**
+     * 기자재 신청
+     * @param NameOfEquipment // 기자재 이름
+     * @param equipmentAllowSaveDto // 신청 정보 DTO
+     */
     @Override
     @Transactional
     public void save(String NameOfEquipment, EquipmentAllowSaveDto equipmentAllowSaveDto) {
@@ -39,7 +44,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         //기자제 이름으로 equipment 테이블을 조회
         Equipment equipment = equipmentService.equipmentFindBy(NameOfEquipment);
 
-        // 수량 체크 및 변경
+        // 신청 수량 체크 및 변경
         int result = equipmentAmountCount(equipment.getCount(), equipmentAllowSaveDto.getAmount());
         equipment.updateAmount(result);
 
@@ -54,12 +59,22 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         equipmentAllowRepo.save(equipmentAllow);
     }
 
+    /**
+     * 해당 신청 찾기
+     * @param eqa_idx //신청 번호
+     * @return
+     */
     @Override
     public EquipmentAllow findById(Long eqa_idx){
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_idx);
         return equipmentAllow;
     }
 
+    /**
+     * 신청 NULL 검사
+     * @param idx //신청 번호
+     * @return
+     */
     @Override
     public EquipmentAllow equipmentAllowFindBy(Long idx){
         return equipmentAllowRepo.findById(idx).orElseThrow(EquipmentAllowNotFoundException::new);
@@ -102,6 +117,10 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 //        }
 //    }
 
+    /**
+     * 신청 승인
+     * @param eqa_Idx // 기자재 신청 번호
+     */
     @Transactional
     @Override
     public void SuccessAllow(Long eqa_Idx){
@@ -113,9 +132,10 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         }
     }
 
-
-
-
+    /**
+     * 신청 거절
+     * @param eqa_Idx // 기자재 신청 번호
+     */
     @Transactional
     @Override
     public void FailureAllow(Long eqa_Idx){
@@ -138,6 +158,10 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         }
     }
 
+    /**
+     * 가자재 반납
+     * @param eqa_Idx // 기자재 신청 번호
+     */
     @Transactional
     @Override
     public void ReturnAllow(Long eqa_Idx){
@@ -163,6 +187,10 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         }
     }
 
+    /**
+     * 가자재 빌림
+     * @param eqa_Idx // 기자재 신청 번호
+     */
     @Transactional
     @Override
     public void Rental(Long eqa_Idx) {
@@ -178,15 +206,18 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         }
     }
 
-
-    //현재 사용자의 ID를 Return
+    /**
+     * 현재 사용자의 ID를 Return
+     */
     public static Admin currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Admin user = (Admin) authentication.getPrincipal();
         return user;
     }
 
-    //현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
+    /**
+     * 현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
+     */
     public static boolean hasAdminRole() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
