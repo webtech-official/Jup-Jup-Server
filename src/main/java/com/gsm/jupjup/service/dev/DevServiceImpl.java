@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class DevServiceImpl {
+public class DevServiceImpl implements DevService{
 
     private final AdminRepo adminRepo;
 
@@ -21,6 +21,7 @@ public class DevServiceImpl {
      * @param admin_Idx 회원 번호
      */
     @Transactional
+    @Override
     public void changeAdmin(Long admin_Idx) {
         Admin admin = adminRepo.findById(admin_Idx).orElseThrow(null);
         //어드민 바꾸기
@@ -30,6 +31,7 @@ public class DevServiceImpl {
     /**
      * 유저 검색하기
      */
+    @Override
     public List<Admin> findAllAdmin() {
         List<Admin> admin = adminRepo.findAll();
         return admin;
