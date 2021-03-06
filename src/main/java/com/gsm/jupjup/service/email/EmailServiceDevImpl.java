@@ -25,8 +25,8 @@ public class EmailServiceDevImpl implements EmailService {
 
     /**
      * 인증 키 생성
-     * @param size //인증 키 사이즈
-     * @return
+     * @param size 인증 키 사이즈
+     * @return AuthCode
      */
     private String getKey(int size){
         this.size = size;
@@ -49,7 +49,7 @@ public class EmailServiceDevImpl implements EmailService {
 
     /**
      * 인증 메일 보내기
-     * @param email //인증 이메일
+     * @param email 인증 이메일
      */
     @Override
     public String sendAuthMail(String email){

@@ -32,8 +32,8 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
     /**
      * 기자재 신청
-     * @param NameOfEquipment // 기자재 이름
-     * @param equipmentAllowSaveDto // 신청 정보 DTO
+     * @param NameOfEquipment 기자재 이름
+     * @param equipmentAllowSaveDto 신청 정보 DTO
      */
     @Override
     @Transactional
@@ -61,8 +61,8 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
     /**
      * 해당 신청 찾기
-     * @param eqa_idx //신청 번호
-     * @return
+     * @param eqa_idx 신청 번호
+     * @return equipmentAllow
      */
     @Override
     public EquipmentAllow findById(Long eqa_idx){
@@ -71,9 +71,9 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
     }
 
     /**
-     * 신청 NULL 검사
-     * @param idx //신청 번호
-     * @return
+     * 신청 NULL 검사 및 해당 신청 찾아오기
+     * @param idx 신청 번호
+     * @return EquipmentAllow
      */
     @Override
     public EquipmentAllow equipmentAllowFindBy(Long idx){
@@ -84,11 +84,12 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         if(num == 0) throw new EquipmentAllowAmountZeroException();
     }
 
-    /** 기자재를 신청할 수 있는지 계산해주는 함수
+    /**
+     * 기자재를 신청할 수 있는지 계산해주는 함수
      * 신청하면 남은 기자제를 반환함
      * 신청할 수 있는 수량이 아니면(결과가 음수라면) 예외 발
-     * @param equipmentCount   //신청할 수 있는 기자재의 양
-     * @param equipmentAllowAmount  //사용자가 신청하려고 하는 기자재의 양
+     * @param equipmentCount 신청할 수 있는 기자재의 양
+     * @param equipmentAllowAmount 사용자가 신청하려고 하는 기자재의 양
      * @return 남은 기자재 양
      */
     public int equipmentAmountCount(int equipmentCount, int equipmentAllowAmount){
@@ -119,7 +120,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
     /**
      * 신청 승인
-     * @param eqa_Idx // 기자재 신청 번호
+     * @param eqa_Idx 기자재 신청 번호
      */
     @Transactional
     @Override
@@ -134,7 +135,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
     /**
      * 신청 거절
-     * @param eqa_Idx // 기자재 신청 번호
+     * @param eqa_Idx 기자재 신청 번호
      */
     @Transactional
     @Override
@@ -160,7 +161,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
     /**
      * 가자재 반납
-     * @param eqa_Idx // 기자재 신청 번호
+     * @param eqa_Idx 기자재 신청 번호
      */
     @Transactional
     @Override
@@ -189,7 +190,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
     /**
      * 가자재 빌림
-     * @param eqa_Idx // 기자재 신청 번호
+     * @param eqa_Idx 기자재 신청 번호
      */
     @Transactional
     @Override
@@ -208,6 +209,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
     /**
      * 현재 사용자의 ID를 Return
+     * @return Admin
      */
     public static Admin currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -217,6 +219,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
     /**
      * 현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
+     * @return boolean
      */
     public static boolean hasAdminRole() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -18,7 +18,7 @@ public class DevServiceImpl {
 
     /**
      * 어드민으로 변경하기
-     * @param admin_Idx // 회원 번호
+     * @param admin_Idx 회원 번호
      */
     @Transactional
     public void changeAdmin(Long admin_Idx) {
