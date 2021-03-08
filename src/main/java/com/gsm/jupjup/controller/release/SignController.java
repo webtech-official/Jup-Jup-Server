@@ -136,7 +136,7 @@ public class SignController {
     }
 
     @ApiOperation(value = "회원 정보 가져오기", notes = "회원 정보를 가져온다")
-    @PostMapping("/userinfo")
+    @GetMapping("/userinfo")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })

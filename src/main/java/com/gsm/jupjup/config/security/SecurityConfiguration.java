@@ -39,10 +39,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*/admin/**").hasRole("ADMIN") // admin으로 시작하는 요청은 관리자만 접근 가능
                 .anyRequest().hasAnyRole("USER", "ADMIN")// 그외 나머지 요청은 모두 요청 가능
                 .and()
-                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler()) //관리자 에러
-                .and()
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPointHandler()) //로그인 에러
-                .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);  // jwt token 필터를 id/password 인증 필터 전에 넣음
     }
 
