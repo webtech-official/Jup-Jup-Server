@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 public class Equipment extends BaseTimeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long equ_Idx;
 
     private String name;
