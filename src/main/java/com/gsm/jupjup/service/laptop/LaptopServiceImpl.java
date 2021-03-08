@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class LaptopServiceImpl implements LaptopService{
 
@@ -29,6 +30,11 @@ public class LaptopServiceImpl implements LaptopService{
     private final LaptopSpecRepo laptopSpecRepo;
     private final AdminRepo adminRepo;
 
+    /**
+     * 노트북 저장
+     * @param laptopSaveReqDto 노트북 저장 정보
+     * @return 노트북 시리얼 번호
+     */
     @Override
     public String save(LaptopSaveReqDto laptopSaveReqDto){
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(CUserNotFoundException::new);
@@ -39,6 +45,10 @@ public class LaptopServiceImpl implements LaptopService{
         return laptopRepo.save(laptop).getLaptopSerialNumber();
     }
 
+    /**
+     * 해당 노트북 삭제
+     * @param laptopSerialNumber 노트북 시리얼 번호
+     */
     @Transactional
     @Override
     public void delete(String laptopSerialNumber){
@@ -46,25 +56,40 @@ public class LaptopServiceImpl implements LaptopService{
         laptopRepo.delete(laptop);
     }
 
+    /**
+     * 해당 노트북 검색
+     * @param laptopSerialNumber 노트북 시리얼 번호
+     * @return Laptop
+     */
     @Override
     public Laptop findByLaptopSerialNumber(String laptopSerialNumber){
         return laptopRepo.findByLaptopSerialNumber(laptopSerialNumber).orElseThrow(NotFoundLaptopException::new);
     }
 
+    /**
+     * 노트북 모두 검색
+     * @return List<Laptop>
+     */
     //모두 찾기
     @Override
     public List<Laptop> findAll(){
         return laptopRepo.findAllBy();
     }
 
-    //현재 사용자의 ID를 Return
+    /**
+     * 현재 사용자의 ID를 Return
+     * @return Admin
+     */
     public static Admin currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Admin user = (Admin) authentication.getPrincipal();
         return user;
     }
 
-    //현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
+    /**
+     * 현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
+     * @return boolean
+     */
     public static boolean hasAdminRole() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

@@ -2,13 +2,11 @@ package com.gsm.jupjup.controller.release;
 
 import com.gsm.jupjup.dto.equipmentAllow.EquipmentAllowSaveDto;
 import com.gsm.jupjup.model.response.CommonResult;
-import com.gsm.jupjup.model.response.ResponseService;
+import com.gsm.jupjup.service.response.ResponseService;
 import com.gsm.jupjup.service.equipment.EquipmentAllowService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = {"3. 학생"})
 @RestController

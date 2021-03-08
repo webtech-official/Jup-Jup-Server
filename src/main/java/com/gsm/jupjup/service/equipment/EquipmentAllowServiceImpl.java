@@ -21,6 +21,7 @@ import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Slf4j
 public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
@@ -29,6 +30,11 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
     public final EquipmentService equipmentService;
     public final AdminRepo adminRepo;
 
+    /**
+     * 기자재 신청
+     * @param NameOfEquipment 기자재 이름
+     * @param equipmentAllowSaveDto 신청 정보 DTO
+     */
     @Override
     @Transactional
     public void save(String NameOfEquipment, EquipmentAllowSaveDto equipmentAllowSaveDto) {
@@ -38,27 +44,33 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         //기자제 이름으로 equipment 테이블을 조회
         Equipment equipment = equipmentService.equipmentFindBy(NameOfEquipment);
 
-        // 수량 체크 및 변경
+        // 신청 수량 체크 및 변경
         int result = equipmentAmountCount(equipment.getCount(), equipmentAllowSaveDto.getAmount());
         equipment.updateAmount(result);
 
-        //toEntity로 연관관계가 맻여진 equipmentAllow생성
+        //연관 관계 매핑
         EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity();
-        equipmentAllow.setEquipment(equipment);
-
-        //UserEmail을 가져와서 Admin과 연관관계 매핑
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(UserDoesNotExistException::new);
-        equipmentAllow.setAdmin(admin);
-
+        equipmentAllow.Relation_Mapping(equipment, admin);
         equipmentAllowRepo.save(equipmentAllow);
     }
 
+    /**
+     * 해당 신청 찾기
+     * @param eqa_idx 신청 번호
+     * @return equipmentAllow
+     */
     @Override
     public EquipmentAllow findById(Long eqa_idx){
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_idx);
         return equipmentAllow;
     }
 
+    /**
+     * 신청 NULL 검사 및 해당 신청 찾아오기
+     * @param idx 신청 번호
+     * @return EquipmentAllow
+     */
     @Override
     public EquipmentAllow equipmentAllowFindBy(Long idx){
         return equipmentAllowRepo.findById(idx).orElseThrow(EquipmentAllowNotFoundException::new);
@@ -68,11 +80,12 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         if(num == 0) throw new EquipmentAllowAmountZeroException();
     }
 
-    /** 기자재를 신청할 수 있는지 계산해주는 함수
+    /**
+     * 기자재를 신청할 수 있는지 계산해주는 함수
      * 신청하면 남은 기자제를 반환함
      * 신청할 수 있는 수량이 아니면(결과가 음수라면) 예외 발
-     * @param equipmentCount   //신청할 수 있는 기자재의 양
-     * @param equipmentAllowAmount  //사용자가 신청하려고 하는 기자재의 양
+     * @param equipmentCount 신청할 수 있는 기자재의 양
+     * @param equipmentAllowAmount 사용자가 신청하려고 하는 기자재의 양
      * @return 남은 기자재 양
      */
     public int equipmentAmountCount(int equipmentCount, int equipmentAllowAmount){
@@ -101,6 +114,10 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 //        }
 //    }
 
+    /**
+     * 신청 승인
+     * @param eqa_Idx 기자재 신청 번호
+     */
     @Transactional
     @Override
     public void SuccessAllow(Long eqa_Idx){
@@ -108,13 +125,14 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)){
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Accept);
+            equipmentAllow.change_ROLE_Accept();
         }
     }
 
-
-
-
+    /**
+     * 신청 거절
+     * @param eqa_Idx 기자재 신청 번호
+     */
     @Transactional
     @Override
     public void FailureAllow(Long eqa_Idx){
@@ -124,19 +142,21 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Rental)) {
             log.info("이메 대여된 신청입니다.");
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Reject);
+            equipmentAllow.change_ROLE_Reject();
             //신청한 제품
             Equipment equipment = equipmentAllow.getEquipment();
-
             // 신청 갯수
             int now = equipmentAllow.getAmount();
             //원래 제품 갯수
             int new_c = equipment.getCount();
-
             equipment.updateAmount(now + new_c);
         }
     }
 
+    /**
+     * 가자재 반납
+     * @param eqa_Idx 기자재 신청 번호
+     */
     @Transactional
     @Override
     public void ReturnAllow(Long eqa_Idx){
@@ -148,20 +168,21 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Return);
-
+            equipmentAllow.change_ROLE_Return();
             //신청한 제품
             Equipment equipment = equipmentAllow.getEquipment();
-
             // 신청 갯수
             int now = equipmentAllow.getAmount();
             //원래 제품 갯수
             int new_c = equipment.getCount();
-
             equipment.updateAmount(now + new_c);
         }
     }
 
+    /**
+     * 가자재 빌림
+     * @param eqa_Idx 기자재 신청 번호
+     */
     @Transactional
     @Override
     public void Rental(Long eqa_Idx) {
@@ -173,19 +194,24 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Rental);
+            equipmentAllow.change_ROLE_Rental();
         }
     }
 
-
-    //현재 사용자의 ID를 Return
+    /**
+     * 현재 사용자의 ID를 Return
+     * @return Admin
+     */
     public static Admin currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Admin user = (Admin) authentication.getPrincipal();
         return user;
     }
 
-    //현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
+    /**
+     * 현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
+     * @return boolean
+     */
     public static boolean hasAdminRole() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

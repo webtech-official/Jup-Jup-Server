@@ -4,10 +4,12 @@ import com.gsm.jupjup.config.handler.NotFoundImageHandler;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.Equipment;
+import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.response.*;
 import com.gsm.jupjup.service.admin.AdminService;
 import com.gsm.jupjup.service.equipment.EquipmentAllowService;
 import com.gsm.jupjup.service.equipment.EquipmentService;
+import com.gsm.jupjup.service.response.ResponseService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -23,9 +25,9 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequiredArgsConstructor
 public class AdminController {
+    private final AdminService adminService;
     private final EquipmentService equipmentService;
     private final EquipmentAllowService equipmentAllowService;
-    private final AdminService adminService;
     private final ResponseService responseService; // 결과를 처리할 Service
 
     @ApiOperation(value = "기자재 조회", notes = "기자재를 조회한다.")
@@ -119,8 +121,8 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @GetMapping("/admin/applyview")
-    public ListResult<Object> findAll(){
-        List<Object> equipmentAllowListResult = adminService.findAll();
+    public ListResult<EquipmentAllow> findAll(){
+        List<EquipmentAllow> equipmentAllowListResult = adminService.findAll();
         return responseService.getListResult(equipmentAllowListResult);
     }
 
@@ -176,5 +178,25 @@ public class AdminController {
     @PostMapping("/equipment/{keyword}")
     public ListResult<Equipment> findByKeyWord(@ApiParam(value = "검색 KeyWord", required = true) @PathVariable String keyword) throws Exception {
         return responseService.getListResult(equipmentService.findByKeyword(keyword));
+    }
+
+    //기자재 상태 검색
+    @ApiOperation(value = "EquipmentAllowEnum 검색", notes = "관리자가 기자재의 상태로 검색한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @PostMapping("/admin/equipmentallow/{equipmentAllowEnum}")
+    public ListResult<EquipmentAllow> findByEquipmentAllowEnum(@ApiParam(value = "검색 상태", required = true) @PathVariable EquipmentAllowEnum equipmentAllowEnum) throws Exception {
+        return responseService.getListResult(adminService.findByEquipmentAllowEnum(equipmentAllowEnum));
+    }
+
+    //신청 학생 이름 검색
+    @ApiOperation(value = "학생 이름 검색", notes = "관리자가 기자재를 신청한 학생의 이름으로 조회한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @PostMapping("/admin/equipmentallow/name")
+    public ListResult<EquipmentAllow> findByName(@ApiParam(value = "학생 이름", required = true) @RequestParam String name) throws Exception {
+        return responseService.getListResult(adminService.findByStudentName(name));
     }
 }

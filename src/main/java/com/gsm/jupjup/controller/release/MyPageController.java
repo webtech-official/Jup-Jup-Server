@@ -4,7 +4,7 @@ package com.gsm.jupjup.controller.release;
 import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.Laptop;
 import com.gsm.jupjup.model.response.ListResult;
-import com.gsm.jupjup.model.response.ResponseService;
+import com.gsm.jupjup.service.response.ResponseService;
 import com.gsm.jupjup.service.mypage.MyPageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

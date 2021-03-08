@@ -8,7 +8,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -41,6 +40,10 @@ public class LaptopSpec extends BaseTimeEntity {
     // 노트북 제조사
     private String laptopBrand;
 
+    /**
+     * 기자재 스팩 업데이트 메소드
+     * @param laptopSpecDto 가자재 스팩 정보
+     */
     public void update(LaptopSpecDto laptopSpecDto){
         this.CPU = laptopSpecDto.getCPU();
         this.GPU = laptopSpecDto.getGPU();

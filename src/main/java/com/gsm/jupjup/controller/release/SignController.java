@@ -8,8 +8,7 @@ import com.gsm.jupjup.dto.admin.SignInDto;
 import com.gsm.jupjup.dto.admin.SignUpDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.response.CommonResult;
-import com.gsm.jupjup.model.response.ListResult;
-import com.gsm.jupjup.model.response.ResponseService;
+import com.gsm.jupjup.service.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.service.email.EmailService;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.util.*;
 
 @Api(tags = {"1. 회원"})
@@ -112,7 +110,7 @@ public class SignController {
     public void signUpConfirm(@RequestParam String email, @RequestParam String AuthKey){
         if(authKey_.equals(AuthKey)){
             Admin admin = adminRepo.findByEmail(email).orElseThrow(CEmailSigninFailedException::new);
-            admin.setRoles(Collections.singletonList("ROLE_USER"));
+            admin.change_ROLE_USER();
         } else {
             System.out.println("인증번호가 올바르지 않습니다.");
         }
@@ -133,6 +131,17 @@ public class SignController {
         res.addCookie(accessToken);
         res.addCookie(refreshToken);
         return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "유저정보 가져오기", notes = "현재 로그인된 유저 정보를 가져온다.")
+    @PostMapping("/userinfo")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public Admin UserGet(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Admin user = (Admin) authentication.getPrincipal();
+        return user;
     }
 
 }
