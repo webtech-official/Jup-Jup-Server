@@ -17,7 +17,9 @@ import com.gsm.jupjup.util.RedisUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -108,7 +110,7 @@ public class SignController {
     public void signUpConfirm(@RequestParam String email, @RequestParam String AuthKey){
         if(authKey_.equals(AuthKey)){
             Admin admin = adminRepo.findByEmail(email).orElseThrow(CEmailSigninFailedException::new);
-            admin.setRoles(Collections.singletonList("ROLE_USER"));
+            admin.change_ROLE_USER();
         } else {
             System.out.println("인증번호가 올바르지 않습니다.");
         }
@@ -129,6 +131,17 @@ public class SignController {
         res.addCookie(accessToken);
         res.addCookie(refreshToken);
         return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "유저정보 가져오기", notes = "현재 로그인된 유저 정보를 가져온다.")
+    @PostMapping("/userinfo")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public Admin UserGet(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Admin user = (Admin) authentication.getPrincipal();
+        return user;
     }
 
 }

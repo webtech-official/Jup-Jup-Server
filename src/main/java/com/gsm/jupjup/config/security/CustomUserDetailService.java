@@ -16,6 +16,7 @@ public class CustomUserDetailService implements UserDetailsService {
     /**
      * 유저 정보를 가져오는 메서드
      * @param email
+     * @return UserDetails => Admin
      */
     public UserDetails loadUserByUsername(String email) {
         return adminRepo.findByEmail(email).orElseThrow(CUserNotFoundException::new);

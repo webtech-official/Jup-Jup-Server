@@ -5,27 +5,37 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
+/**
+ * 이메일 인증 서비스 => Dev 환경
+ */
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service("mss")
 @Profile("dev")
 public class EmailServiceDevImpl implements EmailService {
 
     private final JavaMailSenderImpl mailSender;
-    //인증 키 크기 지정 변수
-    private int size;
+    private int size;     //인증 키 크기 지정 변수
 
-    //인증 키 생성
+    /**
+     * 인증 키 생성
+     * @param size 인증 키 사이즈
+     * @return AuthCode
+     */
     private String getKey(int size){
         this.size = size;
         return getAuthCode();
     }
 
-    //인증코드 난수 발생.
+    /**
+     * 인증코드 난수 발생
+     */
     private String getAuthCode(){
         Random random = new Random();
         StringBuffer buffer = new StringBuffer();
@@ -37,13 +47,14 @@ public class EmailServiceDevImpl implements EmailService {
         return buffer.toString();
     }
 
-    //인증 메일 보내기.
+    /**
+     * 인증 메일 보내기
+     * @param email 인증 이메일
+     */
     @Override
     public String sendAuthMail(String email){
-        //6자리 난수 인증번호 생성.
-        String authKey = getKey(6);
+        String authKey = getKey(6);   //6자리 난수 인증번호 생성
 
-        //인증메일 보내기.
         try {
             MailUtils sendMail = new MailUtils(mailSender);
             sendMail.setSubject("JubJub 회원인증 이메일 입니다.");

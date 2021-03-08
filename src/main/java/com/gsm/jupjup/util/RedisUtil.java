@@ -13,22 +13,42 @@ public class RedisUtil {
 
     private final StringRedisTemplate stringRedisTemplate;
 
+    /**
+     * 데이터 가져오기
+     * @param key 키
+     * @return valueOperations => 값
+     */
     public String getData(String key){
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
         return valueOperations.get(key);
     }
 
+    /**
+     * 데이터 지정
+     * @param key 키
+     * @param value 값
+     */
     public void setData(String key, String value){
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
         valueOperations.set(key,value);
     }
 
+    /**
+     * 만료일 지정
+     * @param key 키
+     * @param value 값
+     * @param duration 시간
+     */
     public void setDataExpire(String key,String value,long duration){
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
         Duration expireDuration = Duration.ofSeconds(duration);
         valueOperations.set(key,value,expireDuration);
     }
 
+    /**
+     * 데이터 삭제
+     * @param key 키
+     */
     public void deleteData(String key){
         stringRedisTemplate.delete(key);
     }

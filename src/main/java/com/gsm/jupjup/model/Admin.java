@@ -11,12 +11,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
 @Entity
-@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -77,4 +77,25 @@ public class Admin extends BaseTimeEntity implements UserDetails {
         return true;
     }
 
+
+    /**
+     * ROLE_ADMIN으로 바꾸는 로직
+     */
+    public void change_ROLE_ADMIN(){
+        this.roles = Collections.singletonList("ROLE_ADMIN");
+    }
+
+    /**
+     * ROLE_USER으로 바꾸는 로직
+     */
+    public void change_ROLE_USER() {
+        this.roles = Collections.singletonList("ROLE_USER");
+    }
+
+    /**
+     * Email Setter
+     */
+    public void Email_Change(String email){
+        this.email = email;
+    }
 }

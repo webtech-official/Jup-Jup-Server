@@ -39,6 +39,12 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    /**
+     * 토큰을 가져오기 위한 정보(Claims) 등록
+     * @param token 토큰
+     * @return Claims
+     * @throws ExpiredJwtException 에러 처리
+     */
     public Claims extractAllClaims(String token) throws ExpiredJwtException {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey(SECRET_KEY))
@@ -48,23 +54,49 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
 
     }
 
+    /**
+     * 사용자 정보 가져오기
+     * @param token 토큰
+     * @return UserEmail
+     */
     public String getUserName(String token) {
         return extractAllClaims(token).get("username", String.class);
     }
 
+    /**
+     * 토큰 만료 검사
+     * @param token 토큰
+     * @return Boolean
+     */
     public Boolean isTokenExpired(String token) {
         final Date expiration = extractAllClaims(token).getExpiration();
         return expiration.before(new Date());
     }
 
+    /**
+     * Access Token 생성
+     * @param admin 회원 정보
+     * @return Access Token
+     */
     public String generateToken(Admin admin) {
         return doGenerateToken(admin.getUsername(), TOKEN_VALIDATION_SECOND);
     }
 
+    /**
+     * Refresh Token 생성
+     * @param admin 회원 정보
+     * @return Refresh Token
+     */
     public String generateRefreshToken(Admin admin) {
         return doGenerateToken(admin.getUsername(), REFRESH_TOKEN_VALIDATION_SECOND);
     }
 
+    /**
+     * 토큰 생성
+     * @param username UserEmail
+     * @param expireTime 만료 시간
+     * @return Token
+     */
     public String doGenerateToken(String username, long expireTime) {
 
         Claims claims = Jwts.claims();
@@ -79,6 +111,12 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
         return jwt;
     }
 
+    /**
+     * 토큰 만료 검사 (최종)
+     * @param token 토큰
+     * @param userDetails userDetails
+     * @return Boolean
+     */
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUserName(token);
 
