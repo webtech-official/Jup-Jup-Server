@@ -26,6 +26,10 @@ public class Notice extends BaseTimeEntity {
     //Admin 외래키 매핑
     private Long adminIdx;
 
+    /**
+     * 공지사항 업데이트 메소드
+     * @param noticeSaveDto 공지사항 업데이트 정보
+     */
     public void updateAll(NoticeSaveDto noticeSaveDto) {
         this.title = noticeSaveDto.getTitle();
         this.content = noticeSaveDto.getContent();
