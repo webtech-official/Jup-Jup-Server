@@ -1,5 +1,6 @@
 package com.gsm.jupjup.service.admin;
 
+import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.response.EquipmentAllowEnum;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
