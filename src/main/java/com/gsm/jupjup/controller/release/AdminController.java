@@ -186,7 +186,17 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @PostMapping("/admin/equipmentallow/{equipmentAllowEnum}")
-    public ListResult<EquipmentAllow> findByKeyWord(@ApiParam(value = "검색 상태", required = true) @PathVariable EquipmentAllowEnum equipmentAllowEnum) throws Exception {
+    public ListResult<EquipmentAllow> findByEquipmentAllowEnum(@ApiParam(value = "검색 상태", required = true) @PathVariable EquipmentAllowEnum equipmentAllowEnum) throws Exception {
         return responseService.getListResult(adminService.findByEquipmentAllowEnum(equipmentAllowEnum));
+    }
+
+    //신청 학생 이름 검색
+    @ApiOperation(value = "학생 이름 검색", notes = "관리자가 기자재를 신청한 학생의 이름으로 조회한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @PostMapping("/admin/equipmentallow/name")
+    public ListResult<EquipmentAllow> findByName(@ApiParam(value = "학생 이름", required = true) @RequestParam String name) throws Exception {
+        return responseService.getListResult(adminService.findByStudentName(name));
     }
 }

@@ -36,4 +36,15 @@ public class AdminServiceImpl implements AdminService{
         List<EquipmentAllow> equipmentAllow = equipmentAllowRepo.findByEquipmentEnum(equipmentAllowEnum);
         return equipmentAllow;
     }
+
+    /**
+     * 기자재 신청 학생 이름 조회
+     * @param name 학생 이름
+     * @return EquipmentAllow
+     */
+    @Override
+    public List<EquipmentAllow> findByStudentName(String name) {
+        List<EquipmentAllow> equipmentAllows = equipmentAllowRepo.findByAdmin_Name(name);
+        return equipmentAllows;
+    }
 }

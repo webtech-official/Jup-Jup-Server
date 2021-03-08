@@ -12,4 +12,6 @@ public interface AdminService {
     //EquipmentAllowEnum따라 조회
     List<EquipmentAllow> findByEquipmentAllowEnum(EquipmentAllowEnum equipmentAllowEnum);
 
+    //기자재 신청 학생 검색
+    List<EquipmentAllow> findByStudentName(String name);
 }

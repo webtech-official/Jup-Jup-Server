@@ -17,4 +17,6 @@ public interface EquipmentAllowRepo extends JpaRepository<EquipmentAllow, Long> 
     List<EquipmentAllow> findByEquipment(Equipment equipment);
 
     List<EquipmentAllow> findByEquipmentEnum(EquipmentAllowEnum equipmentAllowEnum);
+
+    List<EquipmentAllow> findByAdmin_Name(String name);
 }
