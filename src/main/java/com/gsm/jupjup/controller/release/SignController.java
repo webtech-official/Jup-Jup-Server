@@ -2,6 +2,7 @@ package com.gsm.jupjup.controller.release;
 
 import com.gsm.jupjup.advice.exception.CDuplicateEmailException;
 import com.gsm.jupjup.advice.exception.CEmailSigninFailedException;
+import com.gsm.jupjup.advice.exception.CUserNotFoundException;
 import com.gsm.jupjup.advice.exception.EmailNotVerifiedException;
 import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.dto.admin.SignInDto;
@@ -143,6 +144,6 @@ public class SignController {
     public CommonResult UserInfo(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
-        return responseService.getSingleResult(adminRepo.findByEmail(id));
+        return responseService.getSingleResult(adminRepo.findByEmail(id).orElseThrow(CUserNotFoundException::new));
     }
 }
