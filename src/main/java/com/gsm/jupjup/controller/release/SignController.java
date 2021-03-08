@@ -137,8 +137,8 @@ public class SignController {
 
     @ApiOperation(value = "회원 정보 가져오기", notes = "회원 정보를 가져온다")
     @GetMapping("/userinfo")
-    public CommonResult UserInfo(@RequestHeader String authorization){
-        String userEmail = jwtTokenProvider.getUserName(authorization);
+    public CommonResult UserInfo(@RequestHeader String Authorization){
+        String userEmail = jwtTokenProvider.getUserName(Authorization);
         Admin admin = adminRepo.findByEmail(userEmail).orElseThrow(null);
         return responseService.getSingleResult(admin);
     }
