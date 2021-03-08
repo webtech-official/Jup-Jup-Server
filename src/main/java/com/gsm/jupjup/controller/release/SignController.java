@@ -140,9 +140,9 @@ public class SignController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public Admin UserInfo(@RequestHeader String authorization){
+    public CommonResult UserInfo(@RequestHeader String authorization){
         String userEmail = jwtTokenProvider.getUserName(authorization);
         Admin admin = adminRepo.findByEmail(userEmail).orElseThrow(null);
-        return admin;
+        return responseService.getSingleResult(admin);
     }
 }
