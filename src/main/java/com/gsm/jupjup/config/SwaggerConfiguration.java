@@ -45,7 +45,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public Docket apiTest() {
+    public Docket ApiV2_Release() {
         version = "v2";
         title = "JupJup API " + version;
 
@@ -55,6 +55,23 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.gsm.jupjup.controller.release"))
                 .paths(PathSelectors.ant("/v2/**"))
+                .build()
+                .apiInfo(apiInfo(title, version))
+                .useDefaultResponseMessages(false);
+
+    }
+
+    @Bean
+    public Docket ApiV2_Exception() {
+        version = "exception";
+        title = "JupJup API " + version;
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
+                .groupName(version)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.gsm.jupjup.controller.exception"))
+                .paths(PathSelectors.ant("/exception/**"))
                 .build()
                 .apiInfo(apiInfo(title, version))
                 .useDefaultResponseMessages(false);

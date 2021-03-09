@@ -17,10 +17,6 @@ public class EquipmentAllowSaveDto {
     private int amount;
     private String reason;
 
-    @JsonIgnore
-    private Boolean isReturn = false;
-
-
     public EquipmentAllow toEntity(){
         return EquipmentAllow.builder()
                 .equipmentEnum(EquipmentAllowEnum.ROLE_Waiting)
