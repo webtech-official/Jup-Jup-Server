@@ -68,8 +68,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
     /**
      * 기자재를 신청할 수 있는지 계산해주는 함수
      * 신청하면 남은 기자제를 반환함
-     * 신청할 수 있는 수량이 아니면(결과가 음수라면) 예외 발
-     *
+     * 신청할 수 있는 수량이 아니면(결과가 음수라면) 예외 발생
      * @param equipmentCount       //신청할 수 있는 기자재의 양
      * @param equipmentAllowAmount //사용자가 신청하려고 하는 기자재의 양
      * @return 남은 기자재 양
