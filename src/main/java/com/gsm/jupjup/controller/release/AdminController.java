@@ -54,8 +54,6 @@ public class AdminController {
                 .content(content)
                 .count(count)
                 .build();
-        //기자재 등록 중복 처리
-
         equipmentService.save(equipmentUploadDto);
         return responseService.getSuccessResult();
     }
@@ -112,7 +110,7 @@ public class AdminController {
     public CommonResult deleteByIdx(@ApiParam(value = "기자재 Idx", required = true) @PathVariable Long equipmentidx) throws Exception {
         equipmentService.deleteByEquipmentIdx(equipmentidx);
         return responseService.getSuccessResult();
-    };
+    }
 
     @ApiOperation(value = "신청 전체 조회", notes = "신청을 조회한다.")
     @ApiImplicitParams({
