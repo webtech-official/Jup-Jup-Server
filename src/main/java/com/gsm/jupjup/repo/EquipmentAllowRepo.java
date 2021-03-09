@@ -11,7 +11,7 @@ import java.util.List;
 public interface EquipmentAllowRepo extends JpaRepository<EquipmentAllow, Long> {
     List<EquipmentAllow> findByAdmin(Admin admin);
 
-    List<Object> findAllBy();
+    List<EquipmentAllow> findAllBy();
 
     List<EquipmentAllow> findByEquipment(Equipment equipment);
 }

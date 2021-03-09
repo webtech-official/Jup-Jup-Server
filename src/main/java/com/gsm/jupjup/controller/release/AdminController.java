@@ -4,6 +4,7 @@ import com.gsm.jupjup.config.handler.NotFoundImageHandler;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.Equipment;
+import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.response.*;
 import com.gsm.jupjup.service.admin.AdminService;
 import com.gsm.jupjup.service.equipment.EquipmentAllowService;
@@ -117,8 +118,8 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @GetMapping("/admin/applyview")
-    public ListResult<Object> findAll(){
-        List<Object> equipmentAllowListResult = adminService.findAll();
+    public ListResult<EquipmentAllow> findAll(){
+        List<EquipmentAllow> equipmentAllowListResult = adminService.findAll();
         return responseService.getListResult(equipmentAllowListResult);
     }
 

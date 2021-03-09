@@ -15,6 +15,7 @@ public class DevServiceImpl implements DevService {
 
     /**
      * 어드민으로 변경하기
+     * @param admin_Idx 유저 번호
      */
     @Transactional
     @Override
@@ -25,7 +26,8 @@ public class DevServiceImpl implements DevService {
     }
 
     /**
-     * 유저 검색하기
+     * 유저 전체 검색
+     * @return List<Admin>
      */
     @Override
     public List<Admin> findAllAdmin() {

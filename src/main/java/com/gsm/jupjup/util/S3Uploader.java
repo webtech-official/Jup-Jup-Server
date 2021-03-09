@@ -90,7 +90,7 @@ public class S3Uploader {
 
     /** img 예외처리 method
      * img 를 예외체크를 해서 아무 예외도 나오지 않는다면 ture 를 반환한다.
-     * @param img
+     * @param img 이미지
      * @throws ImageNotFoundException, FileExtensionNotMatchImageException
      */
     private void imgChk(MultipartFile img){
@@ -103,12 +103,11 @@ public class S3Uploader {
     /**
      * 기자재 img 이름을 만들어주는 method
      * (현재 시간 + 원래 이름 + 확장자) 형식으로 파일이름을 반환하는 매서드
-     * @param img, imageExtension
+     * @param img, imageExtension 에러 처리
      * @return nameOfImg
      */
     public String imgNameMake(MultipartFile img){
         StringBuilder nameOfImg = new StringBuilder();
-
         String imgContentType = img.getContentType().split("/")[1];
         // 원래파일 이름 에서 확장자를 제거
         String originalName = img.getOriginalFilename().replace("." + imgContentType, "");
@@ -116,13 +115,12 @@ public class S3Uploader {
         nameOfImg.append(new Date().getTime());
         // 파일에서 확장자를 다시 이어붙이기
         nameOfImg.append("." + imgContentType);
-
         return nameOfImg.toString();
     }
 
     /** DB 에 저장되어있는 ImgLocation 에서 파일 이름 가져오는 method
-     * @param fileLocation
-     * @return
+     * @param fileLocation 파일 위치
+     * @return 저장할 위치와, 파일이름을 추가해서 리턴
      */
     public String getLocationFileName(String fileLocation){
         //원본파일이름을 추출하기위해 슬래시("/") 기준으로 나눔, 원본 파일이름은 배열의 끝방에 있다.
@@ -131,8 +129,6 @@ public class S3Uploader {
         int splitFileLocationSplitLastIdx = splitFileLocationSplit.length - 1;
         // 원본파일 이름
         String s3ImgOriginalImgName = splitFileLocationSplit[splitFileLocationSplitLastIdx];
-
-        //저장할 위치와, 파일이름을 추가해서 리턴
         return S3_EQUIPMENT_IMG_SAVE_LOCATION + s3ImgOriginalImgName;
     }
 }
