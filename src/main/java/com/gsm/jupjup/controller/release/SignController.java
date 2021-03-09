@@ -113,7 +113,7 @@ public class SignController {
     public void signUpConfirm(@RequestParam String email, @RequestParam String AuthKey){
         if(authKey_.equals(AuthKey)){
             Admin admin = adminRepo.findByEmail(email).orElseThrow(CEmailSigninFailedException::new);
-            admin.setRoles(Collections.singletonList("ROLE_USER"));
+            admin.Change_User();
         } else {
             System.out.println("인증번호가 올바르지 않습니다.");
         }
