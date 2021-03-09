@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -35,4 +34,8 @@ public class Laptop extends BaseTimeEntity {
     @JoinColumn(name = "adminIdx")
     private Admin admin;
 
+    //================== 비지니스 메소드 ======================//
+    public void Delete_LaptopSpec() {
+        this.laptopSpec = null;
+    }
 }

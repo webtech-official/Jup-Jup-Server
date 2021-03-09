@@ -8,7 +8,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

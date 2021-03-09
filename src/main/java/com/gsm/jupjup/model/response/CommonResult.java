@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 public class CommonResult {
 
     //응답 성공여부 : true/false
