@@ -31,7 +31,7 @@ public class AdminController {
     private final ResponseService responseService; // 결과를 처리할 Service
 
     @ApiOperation(value = "기자재 조회 - IDX", notes = "기자재를 조회한다.")
-    @GetMapping("/equipment/findidx/{idx}")
+    @GetMapping("/equipment/findidx/{eq_idx}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })

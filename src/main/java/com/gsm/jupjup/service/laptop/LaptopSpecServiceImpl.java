@@ -13,27 +13,47 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class LaptopSpecServiceImpl implements LaptopSpecService {
 
     private final LaptopSpecRepo laptopSpecRepo;
     private final LaptopRepo laptopRepo;
 
+    /**
+     * 노트북 스팩 저장
+     * @param laptopSpecDto 노트북 스팩 저장 정보
+     * @return 노트북 스팩 번호
+     */
     @Override
     public Long save(LaptopSpecDto laptopSpecDto){
         return laptopSpecRepo.save(laptopSpecDto.toEntity()).getSpecIdx();
     }
 
+    /**
+     * 노트북 스팩 모두 검색
+     * @return List<LaptopSpec>
+     */
     @Override
     public List<LaptopSpec> findAll() {
         return laptopSpecRepo.findAll();
     }
 
+    /**
+     * 해당 노트북 스팩 검색
+     * @param SpecIdx 노트북 스팩 번호
+     * @return LaptopSpec
+     */
     @Override
     public LaptopSpec findBySpecIdx(Long SpecIdx) {
         return laptopSpecRepo.findBySpecIdx(SpecIdx);
     }
 
+    /**
+     * 해당 노트북 스팩 수정
+     * @param specIdx 노트북 스팩 번호
+     * @param laptopSpecDto 노트북 스팩 수정 정보
+     */
     @Override
     @Transactional
     public void updateBySpecIdx(Long specIdx, LaptopSpecDto laptopSpecDto) {
@@ -41,6 +61,10 @@ public class LaptopSpecServiceImpl implements LaptopSpecService {
         laptopSpec.update(laptopSpecDto);
     }
 
+    /**
+     * 해당 노트북 스팩 삭제
+     * @param SpecIdx 노트북 스팩 번호
+     */
     @Override
     public void deleteBySpecIdx(Long SpecIdx) {
         //프론트에서 한번 분기 처리

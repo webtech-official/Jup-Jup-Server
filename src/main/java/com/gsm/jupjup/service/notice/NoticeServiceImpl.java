@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class NoticeServiceImpl implements NoticeService {
 
@@ -30,6 +31,11 @@ public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepo noticeRepo;
     private final JPAQueryFactory query;
 
+    /**
+     * 공지사항 저장
+     * @param noticeSaveDto 공지사항 저장 정보
+     * @return 공지사항 번호
+     */
     @Override
     public Long SaveNotice(NoticeSaveDto noticeSaveDto) {
         //현재 로그인된 사용자 구하기
@@ -38,6 +44,11 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeRepo.save(noticeSaveDto.toEntity()).getNotice_Idx();
     }
 
+    /**
+     * 공지사항 수정
+     * @param noticeSaveDto 공지사항 수정 정보
+     * @param noticeIdx 공지사항 수정 번호
+     */
     @Transactional
     @Override
     public void UpdateNotice(NoticeSaveDto noticeSaveDto, Long noticeIdx) {
@@ -45,23 +56,40 @@ public class NoticeServiceImpl implements NoticeService {
         notice.updateAll(noticeSaveDto);
     }
 
+    /**
+     * 공지사항 삭제
+     * @param noticeIdx 공지사항 번호
+     */
     @Transactional
     @Override
     public void DeleteNotice(Long noticeIdx) {
         noticeRepo.deleteById(noticeIdx);
     }
 
+    /**
+     * 전체 공지사항 검색
+     * @return ListResult<Notice>
+     */
     @Override
     public ListResult<Notice> FindAllNotice() {
         return responseService.getListResult(noticeRepo.findAll());
     }
 
+    /**
+     * 해당 공지사항 검색
+     * @param noticeIdx 공지사항 번호
+     * @return SingleResult<Notice>
+     */
     @Override
     public SingleResult<Notice> FindByNoticeIdx(Long noticeIdx) {
         Notice notice = noticeRepo.findById(noticeIdx).orElseThrow(NotFoundNoticeException::new);
         return responseService.getSingleResult(notice);
     }
 
+    /**
+     * 공지사항 전체 검색 (QueryDSL 사용)
+     * @return List<Notice>
+     */
     @Override
     public List<Notice> findALL(){
         QNotice qNotice = QNotice.notice;
@@ -72,15 +100,20 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeList;
     }
 
-
-    //현재 사용자의 ID를 Return
+    /**
+     * 현재 사용자 ID 검색
+     * @return Admin
+     */
     public static Admin currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Admin user = (Admin) authentication.getPrincipal();
         return user;
     }
 
-    //현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
+    /**
+     * 현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
+     * @return boolean
+     */
     public static boolean hasAdminRole() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
