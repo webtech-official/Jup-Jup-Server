@@ -31,5 +31,4 @@ public interface EquipmentService {
 
     //기자재 키워드 검색
     List<Equipment> findByKeyword(String keyword) throws Exception;
-
 }

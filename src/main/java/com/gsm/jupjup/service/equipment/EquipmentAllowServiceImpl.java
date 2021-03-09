@@ -43,41 +43,39 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         equipment.updateAmount(result);
 
         //toEntity로 연관관계가 맻여진 equipmentAllow생성
-        EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity();
-        equipmentAllow.setEquipment(equipment);
-
-        //UserEmail을 가져와서 Admin과 연관관계 매핑
         Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(UserDoesNotExistException::new);
-        equipmentAllow.setAdmin(admin);
+        EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity();
+        equipmentAllow.EquipmentAdmin_Mapping(admin, equipment);
 
         equipmentAllowRepo.save(equipmentAllow);
     }
 
     @Override
-    public EquipmentAllow findById(Long eqa_idx){
+    public EquipmentAllow findById(Long eqa_idx) {
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_idx);
         return equipmentAllow;
     }
 
     @Override
-    public EquipmentAllow equipmentAllowFindBy(Long idx){
+    public EquipmentAllow equipmentAllowFindBy(Long idx) {
         return equipmentAllowRepo.findById(idx).orElseThrow(EquipmentAllowNotFoundException::new);
     }
 
-    public void zeroChk(int num){
-        if(num == 0) throw new EquipmentAllowAmountZeroException();
+    public void zeroChk(int num) {
+        if (num == 0) throw new EquipmentAllowAmountZeroException();
     }
 
-    /** 기자재를 신청할 수 있는지 계산해주는 함수
+    /**
+     * 기자재를 신청할 수 있는지 계산해주는 함수
      * 신청하면 남은 기자제를 반환함
-     * 신청할 수 있는 수량이 아니면(결과가 음수라면) 예외 발
-     * @param equipmentCount   //신청할 수 있는 기자재의 양
-     * @param equipmentAllowAmount  //사용자가 신청하려고 하는 기자재의 양
+     * 신청할 수 있는 수량이 아니면(결과가 음수라면) 예외 발생
+     * @param equipmentCount       //신청할 수 있는 기자재의 양
+     * @param equipmentAllowAmount //사용자가 신청하려고 하는 기자재의 양
      * @return 남은 기자재 양
      */
-    public int equipmentAmountCount(int equipmentCount, int equipmentAllowAmount){
+    public int equipmentAmountCount(int equipmentCount, int equipmentAllowAmount) {
         int result = equipmentCount - equipmentAllowAmount;
-        if(result >= 0)
+        if (result >= 0)
             return result;
         else
             throw new EquipmentAllowAmountExceedException();
@@ -103,28 +101,26 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
     @Transactional
     @Override
-    public void SuccessAllow(Long eqa_Idx){
+    public void SuccessAllow(Long eqa_Idx) {
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
-        if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)){
+        if (equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Accept);
+            equipmentAllow.Change_Accept();
         }
     }
 
 
-
-
     @Transactional
     @Override
-    public void FailureAllow(Long eqa_Idx){
+    public void FailureAllow(Long eqa_Idx) {
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
-        if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)){
+        if (equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
             throw new AlreadyApprovedAndRejectedException();
-        } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Rental)) {
+        } else if (equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Rental)) {
             log.info("이메 대여된 신청입니다.");
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Reject);
+            equipmentAllow.Change_Reject();
             //신청한 제품
             Equipment equipment = equipmentAllow.getEquipment();
 
@@ -139,16 +135,16 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
     @Transactional
     @Override
-    public void ReturnAllow(Long eqa_Idx){
+    public void ReturnAllow(Long eqa_Idx) {
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
-        if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Return)){
+        if (equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Return)) {
             throw new AlreadyReturnedException();
-        } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Waiting)){
+        } else if (equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Waiting)) {
             throw new ApproveApplicationFirstException();
-        } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
+        } else if (equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Return);
+            equipmentAllow.Change_Return();
 
             //신청한 제품
             Equipment equipment = equipmentAllow.getEquipment();
@@ -166,14 +162,14 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
     @Override
     public void Rental(Long eqa_Idx) {
         EquipmentAllow equipmentAllow = equipmentAllowFindBy(eqa_Idx);
-        if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Return)){
+        if (equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Return)) {
             throw new AlreadyReturnedException();
-        } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Waiting)){
+        } else if (equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Waiting)) {
             throw new ApproveApplicationFirstException();
-        } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
+        } else if (equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Rental);
+            equipmentAllow.Change_Rental();
         }
     }
 

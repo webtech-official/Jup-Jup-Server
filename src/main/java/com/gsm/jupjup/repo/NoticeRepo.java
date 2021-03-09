@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.rowset.Predicate;
 
+@Repository
 public interface NoticeRepo extends JpaRepository<Notice, Long> {
 
 }
