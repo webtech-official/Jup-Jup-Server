@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class EquipmentServiceImpl implements EquipmentService{
 
@@ -27,6 +28,11 @@ public class EquipmentServiceImpl implements EquipmentService{
     private final JPAQueryFactory query;
     private final S3Uploader s3Uploader;
 
+    /**
+     * 기자재 저장
+     * @param equipmentUploadDto 기자재 저장 정보
+     * @throws IOException 에러 처리
+     */
     @Override
     public void save(EquipmentUploadDto equipmentUploadDto) throws IOException {
         //Equipment name 을 기준으로 중복처리
@@ -39,6 +45,11 @@ public class EquipmentServiceImpl implements EquipmentService{
         equipmentRepo.save(equipment);
     }
 
+    /**
+     * 기자재 수량 추가
+     * @param name 기자재 이름
+     * @param count 기자재 수량
+     */
     @Transactional
     @Override
     public void update(String name, int count) {
@@ -46,6 +57,12 @@ public class EquipmentServiceImpl implements EquipmentService{
         equipment.updateAmount(equipment.getCount() + count);
     }
 
+    /**
+     * 기자재 모든 컬럼 수정
+     * @param oldName 기자재 전 이름
+     * @param equipmentUploadDto 기자재 수정 정보
+     * @throws IOException 에러 처리
+     */
     @Transactional
     @Override
     public void AllUpdate(String oldName, EquipmentUploadDto equipmentUploadDto) throws IOException {
@@ -62,7 +79,10 @@ public class EquipmentServiceImpl implements EquipmentService{
         equipment.updateAll(equipmentUploadDto);
     }
 
-
+    /**
+     * 기자재 삭제
+     * @param idx 기자재 번호
+     */
     @Override
     public void deleteByEquipmentIdx(Long idx){
         Equipment equipment = equipmentRepo.findById(idx).orElseThrow(EquipmentNotFoundException::new);
@@ -77,6 +97,12 @@ public class EquipmentServiceImpl implements EquipmentService{
         equipmentRepo.deleteById(idx);
     }
 
+    /**
+     * 기자재 이름 검색
+     * @param name 기자재 이름
+     * @return EquipmentResDto
+     * @throws IOException 에러 처리
+     */
     @Override
     public EquipmentResDto findByName(String name) throws IOException {
         Equipment equipment = equipmentFindBy(name);
@@ -85,23 +111,31 @@ public class EquipmentServiceImpl implements EquipmentService{
         return equipmentResDto;
     }
 
+    /**
+     * 기자재 전체 검색
+     * @return List<Equipment>
+     * @throws IOException 에러 처리
+     */
     @Override
     public List<Equipment> findAll() throws IOException {
         List<Equipment> equipmentList = equipmentRepo.findAll();
         return equipmentList;
     }
 
-
+    /**
+     * Equipment 를 name 으로 찾고 Entity 만드는 매서드
+     * @param name 기자재 이름
+     * @return Equipment
+     */
     @Override
-    //Equipment 를 name 으로 찾고 Entity 만드는 매서드
     public Equipment equipmentFindBy(String name){
         return equipmentRepo.findByName(name).orElseThrow(EquipmentNotFoundException::new);
     }
 
     /**
-     *
-     * @param keyword
-     * @return
+     * 해당 키워드를 기준으로 기자재 검색
+     * @param keyword 검색 키워드
+     * @return List<Equipment>
      * query = query.where(qUserEntity.email.like(userEmail)); //지정된 str(userEmail)과 같으면 return
      * query = query.where(qUserEntity.email.contains(userEmail)); //지정된 str(userEmail)이 포함되는 경우 true를 return
      */
