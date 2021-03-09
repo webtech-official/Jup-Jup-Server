@@ -26,6 +26,11 @@ public class AdminServiceImpl implements AdminService{
         return equipmentAllow;
     }
 
+    /**
+     * 기자재 IDX 검색
+     * @param idx 기자재 번호
+     * @return Equipment
+     */
     @Override
     public Equipment findByIdx(Long idx) {
         Equipment equipment = equipmentRepo.findById(idx).orElseThrow(null);
