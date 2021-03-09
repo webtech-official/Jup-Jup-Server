@@ -12,10 +12,10 @@ public interface EquipmentService {
     void save(EquipmentUploadDto equipmentUploadDto) throws IOException;
 
     //수량 업데이트
-    void update(String name, int count);
+    void update(Long eq_idx, int count);
 
     //기자재 전부 업데이트
-    void AllUpdate(String oldName, EquipmentUploadDto equipmentUploadDto) throws IOException;
+    void AllUpdate(Long eq_idx, EquipmentUploadDto equipmentUploadDto) throws IOException;
 
     //기자재 이름 삭제
     void deleteByEquipmentIdx(Long idx);

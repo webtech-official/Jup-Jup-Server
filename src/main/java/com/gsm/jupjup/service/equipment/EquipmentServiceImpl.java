@@ -47,27 +47,27 @@ public class EquipmentServiceImpl implements EquipmentService{
 
     /**
      * 기자재 수량 추가
-     * @param name 기자재 이름
+     * @param eq_idx 기자재 번호
      * @param count 기자재 수량
      */
     @Transactional
     @Override
-    public void update(String name, int count) {
-        Equipment equipment = equipmentFindBy(name);
+    public void update(Long eq_idx, int count) {
+        Equipment equipment = equipmentRepo.findById(eq_idx).orElseThrow(null);
         equipment.updateAmount(equipment.getCount() + count);
     }
 
     /**
      * 기자재 모든 컬럼 수정
-     * @param oldName 기자재 전 이름
+     * @param eq_idx 기자재 번호
      * @param equipmentUploadDto 기자재 수정 정보
      * @throws IOException 에러 처리
      */
     @Transactional
     @Override
-    public void AllUpdate(String oldName, EquipmentUploadDto equipmentUploadDto) throws IOException {
-        Equipment equipment = equipmentFindBy(oldName);
-        if(!oldName.equals(equipmentUploadDto.getName())){
+    public void AllUpdate(Long eq_idx, EquipmentUploadDto equipmentUploadDto) throws IOException {
+        Equipment equipment = equipmentRepo.findById(eq_idx).orElseThrow(null);
+        if(!equipment.getName().equals(equipmentUploadDto.getName())){
             duplicateChk(equipmentUploadDto.getName());
         }
 

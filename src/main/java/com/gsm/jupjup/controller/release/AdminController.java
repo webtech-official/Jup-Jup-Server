@@ -80,30 +80,30 @@ public class AdminController {
     }
 
     @ApiOperation(value = "기자재 수량 변경", notes = "기자재 수량을 변경한다.")
-    @PutMapping("/admin/equipment/{name}")
+    @PutMapping("/admin/equipment/{eq_idx}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult update(@ApiParam(value = "기자재 이름", required = true) @PathVariable String name,
+    public CommonResult update(@ApiParam(value = "기자재 IDX", required = true) @PathVariable Long eq_idx,
                                @ApiParam(value = "변경 기자재 수량", required = true) @RequestParam int count) throws Exception {
-        equipmentService.update(name, count);
+        equipmentService.update(eq_idx, count);
         return responseService.getSuccessResult();
     }
 
     @ApiOperation(value = "기자재 전체 수정", notes = "기자재를 수정한다.")
-    @PutMapping(value="/admin/equipmentAll/{oldName}",
+    @PutMapping(value="/admin/equipmentAll/{eq_idx}",
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult update( @ApiParam(value = "수정할 기자재 이름", required = true) @PathVariable String oldName,
+    public CommonResult update( @ApiParam(value = "수정할 기자재 IDX", required = true) @PathVariable Long eq_idx,
                                 @ApiParam(value = "기자재 이미지", required = false) @RequestParam(value = "img_equipment",required = false) MultipartFile img_equipment,
                                 @ApiParam(value = "기자재 이름", required = true) @RequestParam String newName,
                                 @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
                                 @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception, NotFoundImageHandler {
         equipmentService.AllUpdate(
-                oldName,
+                eq_idx,
                 new EquipmentUploadDto().builder()
                         .name(newName)
                         .content(content)
@@ -118,9 +118,9 @@ public class AdminController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    @DeleteMapping("/admin/equipmnet/delete/{equipmentidx}")
-    public CommonResult deleteByIdx(@ApiParam(value = "기자재 Idx", required = true) @PathVariable Long equipmentidx) throws Exception {
-        equipmentService.deleteByEquipmentIdx(equipmentidx);
+    @DeleteMapping("/admin/equipmnet/delete/{eq_idx}")
+    public CommonResult deleteByIdx(@ApiParam(value = "기자재 Idx", required = true) @PathVariable Long eq_idx) throws Exception {
+        equipmentService.deleteByEquipmentIdx(eq_idx);
         return responseService.getSuccessResult();
     }
 
