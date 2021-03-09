@@ -24,18 +24,29 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequiredArgsConstructor
 public class AdminController {
+
     private final EquipmentService equipmentService;
     private final EquipmentAllowService equipmentAllowService;
     private final AdminService adminService;
     private final ResponseService responseService; // 결과를 처리할 Service
 
-    @ApiOperation(value = "기자재 조회", notes = "기자재를 조회한다.")
+    @ApiOperation(value = "기자재 조회 - IDX", notes = "기자재를 조회한다.")
+    @GetMapping("/equipment/{idx}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public SingleResult<Equipment> EquipmentFindByIdx(
+            @ApiParam(value = "기자재 IDX", required = true) @PathVariable Long idx) {
+        return responseService.getSingleResult(adminService.findByIdx(idx));
+    }
+
+    @ApiOperation(value = "기자재 조회 - Name", notes = "기자재를 조회한다.")
     @GetMapping("/equipment/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public SingleResult<EquipmentResDto> EquipmentFindByName(
-            @ApiParam(value = "기자재 이름", required = true) @PathVariable String name) throws Exception {
+    public SingleResult<EquipmentResDto> EquipmentFindByIdx(
+            @ApiParam(value = "기자재 Name", required = true) @PathVariable String name) throws IOException {
         return responseService.getSingleResult(equipmentService.findByName(name));
     }
 
