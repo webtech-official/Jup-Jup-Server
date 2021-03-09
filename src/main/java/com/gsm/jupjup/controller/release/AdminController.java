@@ -31,7 +31,7 @@ public class AdminController {
     private final ResponseService responseService; // 결과를 처리할 Service
 
     @ApiOperation(value = "기자재 조회 - IDX", notes = "기자재를 조회한다.")
-    @GetMapping("/equipment/{idx}")
+    @GetMapping("/equipment/findidx/{idx}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -41,7 +41,7 @@ public class AdminController {
     }
 
     @ApiOperation(value = "기자재 조회 - Name", notes = "기자재를 조회한다.")
-    @GetMapping("/equipment/{name}")
+    @GetMapping("/equipment/findname/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
