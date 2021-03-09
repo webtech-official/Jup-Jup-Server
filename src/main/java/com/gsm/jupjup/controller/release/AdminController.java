@@ -4,6 +4,7 @@ import com.gsm.jupjup.config.handler.NotFoundImageHandler;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.model.Equipment;
+import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.response.*;
 import com.gsm.jupjup.service.admin.AdminService;
 import com.gsm.jupjup.service.equipment.EquipmentAllowService;
@@ -23,18 +24,29 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequiredArgsConstructor
 public class AdminController {
+
     private final EquipmentService equipmentService;
     private final EquipmentAllowService equipmentAllowService;
     private final AdminService adminService;
     private final ResponseService responseService; // 결과를 처리할 Service
 
-    @ApiOperation(value = "기자재 조회", notes = "기자재를 조회한다.")
+    @ApiOperation(value = "기자재 조회 - IDX", notes = "기자재를 조회한다.")
+    @GetMapping("/equipment/{idx}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public SingleResult<Equipment> EquipmentFindByIdx(
+            @ApiParam(value = "기자재 IDX", required = true) @PathVariable Long idx) {
+        return responseService.getSingleResult(adminService.findByIdx(idx));
+    }
+
+    @ApiOperation(value = "기자재 조회 - Name", notes = "기자재를 조회한다.")
     @GetMapping("/equipment/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public SingleResult<EquipmentResDto> EquipmentFindByName(
-            @ApiParam(value = "기자재 이름", required = true) @PathVariable String name) throws Exception {
+    public SingleResult<EquipmentResDto> EquipmentFindByIdx(
+            @ApiParam(value = "기자재 Name", required = true) @PathVariable String name) throws IOException {
         return responseService.getSingleResult(equipmentService.findByName(name));
     }
 
@@ -54,8 +66,6 @@ public class AdminController {
                 .content(content)
                 .count(count)
                 .build();
-        //기자재 등록 중복 처리
-
         equipmentService.save(equipmentUploadDto);
         return responseService.getSuccessResult();
     }
@@ -112,15 +122,15 @@ public class AdminController {
     public CommonResult deleteByIdx(@ApiParam(value = "기자재 Idx", required = true) @PathVariable Long equipmentidx) throws Exception {
         equipmentService.deleteByEquipmentIdx(equipmentidx);
         return responseService.getSuccessResult();
-    };
+    }
 
     @ApiOperation(value = "신청 전체 조회", notes = "신청을 조회한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @GetMapping("/admin/applyview")
-    public ListResult<Object> findAll(){
-        List<Object> equipmentAllowListResult = adminService.findAll();
+    public ListResult<EquipmentAllow> findAll(){
+        List<EquipmentAllow> equipmentAllowListResult = adminService.findAll();
         return responseService.getListResult(equipmentAllowListResult);
     }
 

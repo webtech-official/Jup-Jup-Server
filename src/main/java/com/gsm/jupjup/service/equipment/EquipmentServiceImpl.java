@@ -72,7 +72,7 @@ public class EquipmentServiceImpl implements EquipmentService{
         s3Uploader.deleteS3(s3ImgLocation);
 
         for (EquipmentAllow equipmentAllow : equipmentAllows) {
-            equipmentAllow.setEquipment(null);
+            equipmentAllow.Delete_EquipmentAllow();
         }
         equipmentRepo.deleteById(idx);
     }
