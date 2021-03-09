@@ -36,8 +36,8 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     public SingleResult<Equipment> EquipmentFindByIdx(
-            @ApiParam(value = "기자재 IDX", required = true) @PathVariable Long idx) {
-        return responseService.getSingleResult(adminService.findByIdx(idx));
+            @ApiParam(value = "기자재 IDX", required = true) @PathVariable Long eq_idx) {
+        return responseService.getSingleResult(adminService.findByIdx(eq_idx));
     }
 
     @ApiOperation(value = "기자재 조회 - Name", notes = "기자재를 조회한다.")
