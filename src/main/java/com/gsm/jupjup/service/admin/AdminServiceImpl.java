@@ -25,7 +25,8 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Admin UserInfo() {
-        return currentUser();
+        Admin admin = currentUser();
+        return adminRepo.findAllByEmail(admin.getEmail());
     }
 
     //현재 사용자의 ID를 Return
