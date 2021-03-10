@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @SpringBootApplication
 @EnableJpaAuditing
-public class JupjupApplication implements CommandLineRunner {
+public class JupjupApplication {
 
 	private final LaptopSpecRepo laptopSpecRepo;
 
@@ -40,29 +40,4 @@ public class JupjupApplication implements CommandLineRunner {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		final List<LaptopSpec> laptopSpecDomainList = Arrays.asList(
-				LaptopSpec.builder()
-						.CPU("intel-i7")
-						.GPU("LadeonPro5600")
-						.RAM("16gb")
-						.SSD("256gb")
-						.HDD("1tb")
-						.build(),
-				LaptopSpec.builder()
-						.CPU("intel-i9")
-						.GPU("Pro3455")
-						.RAM("15gb")
-						.SSD("356gb")
-						.HDD("1tb")
-						.build(),
-				LaptopSpec.builder()
-						.CPU("intel-i9")
-						.GPU("sexy")
-						.RAM("256gb")
-						.SSD("1pb")
-						.HDD("1tb")
-						.build());
-	}
 }
