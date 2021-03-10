@@ -27,7 +27,8 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Admin UserInfo() {
-        String email = currentUser().getEmail();
+        Admin admin = currentUser();
+        String email = admin.getEmail();
         return adminRepo.findAllByEmail(email);
     }
 
