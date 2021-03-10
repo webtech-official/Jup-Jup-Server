@@ -138,12 +138,12 @@ public class SignController {
     }
 
     @ApiOperation(value = "회원 정보", notes = "회원 정보를 조회한다.")
-    @PostMapping("/userinfo")
+    @GetMapping("/userinfo")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public SingleResult<Admin> UserInfo(){
+    public Admin UserInfo(){
         Admin admin = adminService.UserInfo();
-        return responseService.getSingleResult(admin);
+        return admin;
     }
 }
