@@ -1,5 +1,6 @@
 package com.gsm.jupjup.service.admin;
 
+import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
@@ -16,6 +17,7 @@ public class AdminServiceImpl implements AdminService{
 
     private final EquipmentAllowRepo equipmentAllowRepo;
     private final AdminRepo adminRepo;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public List<Object> findAll(){
@@ -24,15 +26,8 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public Admin UserInfo() {
-        Admin admin = currentUser();
-        return adminRepo.findAllByEmail(admin.getEmail());
-    }
-
-    //현재 사용자의 ID를 Return
-    public static Admin currentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Admin user = (Admin) authentication.getPrincipal();
-        return user;
+    public Admin UserInfo(String Authorization) {
+        String userEmail = jwtTokenProvider.getUserName(Authorization);
+        return adminRepo.findAllByEmail(userEmail);
     }
 }
