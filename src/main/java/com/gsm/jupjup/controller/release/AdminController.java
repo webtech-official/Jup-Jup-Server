@@ -28,14 +28,24 @@ public class AdminController {
     private final AdminService adminService;
     private final ResponseService responseService; // 결과를 처리할 Service
 
-    @ApiOperation(value = "기자재 조회", notes = "기자재를 조회한다.")
-    @GetMapping("/equipment/{name}")
+    @ApiOperation(value = "기자재 조회 - NAME", notes = "기자재를 조회한다.")
+    @GetMapping("/equipment/findname/{name}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     public SingleResult<EquipmentResDto> EquipmentFindByName(
             @ApiParam(value = "기자재 이름", required = true) @PathVariable String name) throws Exception {
         return responseService.getSingleResult(equipmentService.findByName(name));
+    }
+
+    @ApiOperation(value = "기자재 조회 - IDX", notes = "기자재를 조회한다.")
+    @GetMapping("/equipment/findidx/{eq_idx}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public SingleResult<Equipment> EquipmentFindByName(
+            @ApiParam(value = "기자재 이름", required = true) @PathVariable Long eq_idx) {
+        return responseService.getSingleResult(equipmentService.findByIdx(eq_idx));
     }
 
     @ApiOperation(value = "기자재 등록", notes = "기자재를 등록한다.")
@@ -70,30 +80,30 @@ public class AdminController {
     }
 
     @ApiOperation(value = "기자재 수량 변경", notes = "기자재 수량을 변경한다.")
-    @PutMapping("/admin/equipment/{name}")
+    @PutMapping("/admin/equipment/{eq_idx}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult update(@ApiParam(value = "기자재 이름", required = true) @PathVariable String name,
+    public CommonResult update(@ApiParam(value = "기자재 IDX", required = true) @PathVariable Long eq_idx,
                                @ApiParam(value = "변경 기자재 수량", required = true) @RequestParam int count) throws Exception {
-        equipmentService.update(name, count);
+        equipmentService.update(eq_idx, count);
         return responseService.getSuccessResult();
     }
 
     @ApiOperation(value = "기자재 전체 수정", notes = "기자재를 수정한다.")
-    @PutMapping(value="/admin/equipmentAll/{oldName}",
+    @PutMapping(value="/admin/equipmentAll/{eq_idx}",
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult update( @ApiParam(value = "수정할 기자재 이름", required = true) @PathVariable String oldName,
+    public CommonResult update( @ApiParam(value = "수정할 기자재 IDX", required = true) @PathVariable Long eq_idx,
                                 @ApiParam(value = "기자재 이미지", required = false) @RequestParam(value = "img_equipment",required = false) MultipartFile img_equipment,
                                 @ApiParam(value = "기자재 이름", required = true) @RequestParam String newName,
                                 @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
                                 @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception, NotFoundImageHandler {
         equipmentService.AllUpdate(
-                oldName,
+                eq_idx,
                 new EquipmentUploadDto().builder()
                         .name(newName)
                         .content(content)

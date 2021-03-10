@@ -41,16 +41,16 @@ public class EquipmentServiceImpl implements EquipmentService{
 
     @Transactional
     @Override
-    public void update(String name, int count) {
-        Equipment equipment = equipmentFindBy(name);
+    public void update(Long eq_idx, int count) {
+        Equipment equipment = equipmentRepo.findById(eq_idx).orElseThrow(null);
         equipment.updateAmount(equipment.getCount() + count);
     }
 
     @Transactional
     @Override
-    public void AllUpdate(String oldName, EquipmentUploadDto equipmentUploadDto) throws IOException {
-        Equipment equipment = equipmentFindBy(oldName);
-        if(!oldName.equals(equipmentUploadDto.getName())){
+    public void AllUpdate(Long eq_idx, EquipmentUploadDto equipmentUploadDto) throws IOException {
+        Equipment equipment = equipmentRepo.findById(eq_idx).orElseThrow(null);
+        if(!equipment.getName().equals(equipmentUploadDto.getName())){
             duplicateChk(equipmentUploadDto.getName());
         }
 
@@ -116,6 +116,11 @@ public class EquipmentServiceImpl implements EquipmentService{
         if(equipmentList.isEmpty())
             throw new Exception("");
         return equipmentList;
+    }
+
+    @Override
+    public Equipment findByIdx(Long idx) {
+        return equipmentRepo.findById(idx).orElseThrow(null);
     }
 
     /******ServiceImpl 에서만 사용하는 매서드******/

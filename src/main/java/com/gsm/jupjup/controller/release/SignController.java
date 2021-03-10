@@ -12,6 +12,7 @@ import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.repo.AdminRepo;
+import com.gsm.jupjup.service.admin.AdminService;
 import com.gsm.jupjup.service.email.EmailService;
 import com.gsm.jupjup.util.CookieUtil;
 import com.gsm.jupjup.util.RedisUtil;
@@ -44,6 +45,7 @@ public class SignController {
 
     private final EmailService mss;
     private final AdminRepo adminRepo;
+    private final AdminService adminService;
     private final JwtTokenProvider jwtTokenProvider;
     private final ResponseService responseService;
     private final PasswordEncoder passwordEncoder;
@@ -135,4 +137,13 @@ public class SignController {
         return responseService.getSuccessResult();
     }
 
+    @ApiOperation(value = "회원 정보", notes = "회원 정보를 조회한다.")
+    @PostMapping("/userinfo")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public SingleResult<Admin> UserInfo(){
+        Admin admin = adminService.UserInfo();
+        return responseService.getSingleResult(admin);
+    }
 }
