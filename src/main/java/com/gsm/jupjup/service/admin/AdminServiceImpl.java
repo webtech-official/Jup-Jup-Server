@@ -26,8 +26,15 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public Admin UserInfo(String Authorization) {
-        String userEmail = jwtTokenProvider.getUserName(Authorization);
-        return adminRepo.findAllByEmail(userEmail);
+    public Admin UserInfo() {
+        String email = currentUser().getEmail();
+        return adminRepo.findAllByEmail(email);
+    }
+
+    //현재 사용자의 ID를 Return
+    public static Admin currentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Admin user = (Admin) authentication.getPrincipal();
+        return user;
     }
 }

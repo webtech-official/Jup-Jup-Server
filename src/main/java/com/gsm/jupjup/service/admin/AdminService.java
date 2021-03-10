@@ -9,5 +9,5 @@ public interface AdminService {
     List<Object> findAll();
 
     //회원 조회
-    Admin UserInfo(String Authorization);
+    Admin UserInfo();
 }
