@@ -52,6 +52,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         String userEmail = GetUserEmail();
         Admin admin = adminRepo.findByEmail(userEmail).orElseThrow(UserDoesNotExistException::new);
         equipmentAllow.setAdmin(admin);
+        System.out.println(userEmail);
 
         equipmentAllowRepo.save(equipmentAllow);
     }
@@ -189,10 +190,15 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
     }
 
     public String GetUserEmail() {
+        String userEmail;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Admin userDetails = (Admin) principal;
-        String username = userDetails.getUsername();
-        return username;
+        if(principal instanceof UserDetails) {
+            userEmail = ((UserDetails)principal).getUsername();
+        } else {
+            userEmail = principal.toString();
+        }
+
+        return userEmail;
     }
 
     //현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
