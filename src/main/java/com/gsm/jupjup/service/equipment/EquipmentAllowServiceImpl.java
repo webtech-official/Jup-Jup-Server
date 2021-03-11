@@ -52,7 +52,6 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         String userEmail = GetUserEmail();
         Admin admin = adminRepo.findByEmail(userEmail).orElseThrow(UserDoesNotExistException::new);
         equipmentAllow.setAdmin(admin);
-        System.out.println(userEmail);
 
         equipmentAllowRepo.save(equipmentAllow);
     }
@@ -197,7 +196,6 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         } else {
             userEmail = principal.toString();
         }
-
         return userEmail;
     }
 
