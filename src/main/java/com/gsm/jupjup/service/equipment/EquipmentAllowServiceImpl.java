@@ -47,7 +47,9 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         equipmentAllow.setEquipment(equipment);
 
         //UserEmail을 가져와서 Admin과 연관관계 매핑
-        Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(UserDoesNotExistException::new);
+        Admin admin_1 = currentUser();
+        String email = admin_1.getEmail();
+        Admin admin = adminRepo.findByEmail(email).orElseThrow(UserDoesNotExistException::new);
         equipmentAllow.setAdmin(admin);
 
         equipmentAllowRepo.save(equipmentAllow);
