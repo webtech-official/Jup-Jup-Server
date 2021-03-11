@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,8 +49,8 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         equipmentAllow.setEquipment(equipment);
 
         //UserEmail을 가져와서 Admin과 연관관계 매핑
-        Admin admin_1 = currentUser();
-        String email = admin_1.getEmail();
+        UserDetails admin_1 = currentUser();
+        String email = admin_1.getUsername();
         Admin admin = adminRepo.findByEmail(email).orElseThrow(UserDoesNotExistException::new);
         equipmentAllow.setAdmin(admin);
 
@@ -181,9 +183,9 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
 
     //현재 사용자의 ID를 Return
-    public static Admin currentUser() {
+    public static UserDetails currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Admin user = (Admin) authentication.getPrincipal();
+        UserDetails user = (UserDetails) authentication.getPrincipal();
         return user;
     }
 
