@@ -49,9 +49,8 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         equipmentAllow.setEquipment(equipment);
 
         //UserEmail을 가져와서 Admin과 연관관계 매핑
-        UserDetails admin_1 = currentUser();
-        String email = admin_1.getUsername();
-        Admin admin = adminRepo.findByEmail(email).orElseThrow(UserDoesNotExistException::new);
+        String userEmail = GetUserEmail();
+        Admin admin = adminRepo.findByEmail(userEmail).orElseThrow(UserDoesNotExistException::new);
         equipmentAllow.setAdmin(admin);
 
         equipmentAllowRepo.save(equipmentAllow);
@@ -187,6 +186,13 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails user = (UserDetails) authentication.getPrincipal();
         return user;
+    }
+
+    public String GetUserEmail() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Admin userDetails = (Admin) principal;
+        String username = userDetails.getUsername();
+        return username;
     }
 
     //현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
