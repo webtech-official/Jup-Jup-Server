@@ -46,12 +46,8 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
 
         //toEntity로 연관관계가 맻여진 equipmentAllow생성
         EquipmentAllow equipmentAllow = equipmentAllowSaveDto.toEntity();
-        equipmentAllow.setEquipment(equipment);
-
-        //UserEmail을 가져와서 Admin과 연관관계 매핑
-        String userEmail = GetUserEmail();
-        Admin admin = adminRepo.findByEmail(userEmail).orElseThrow(UserDoesNotExistException::new);
-        equipmentAllow.setAdmin(admin);
+        Admin admin = adminRepo.findByEmail(GetUserEmail()).orElseThrow(UserDoesNotExistException::new);
+        equipmentAllow.Equipment_Admin_Mapping(equipment, admin);
 
         equipmentAllowRepo.save(equipmentAllow);
     }
@@ -111,7 +107,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Accept) || equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)){
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Accept);
+            equipmentAllow.Change_ROLE_Accept();
         }
     }
 
@@ -127,7 +123,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Rental)) {
             log.info("이메 대여된 신청입니다.");
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Reject);
+            equipmentAllow.Change_ROLE_Reject();
             //신청한 제품
             Equipment equipment = equipmentAllow.getEquipment();
 
@@ -151,7 +147,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Return);
+            equipmentAllow.Change_ROLE_Return();
 
             //신청한 제품
             Equipment equipment = equipmentAllow.getEquipment();
@@ -176,7 +172,7 @@ public class EquipmentAllowServiceImpl implements EquipmentAllowService {
         } else if(equipmentAllow.getEquipmentEnum().equals(EquipmentAllowEnum.ROLE_Reject)) {
             throw new AlreadyApprovedAndRejectedException();
         } else {
-            equipmentAllow.setEquipmentEnum(EquipmentAllowEnum.ROLE_Rental);
+            equipmentAllow.Change_ROLE_Rental();
         }
     }
 

@@ -34,4 +34,8 @@ public class Laptop extends BaseTimeEntity {
     @JoinColumn(name = "adminIdx")
     private Admin admin;
 
+    //================= 비즈니스 메소드 ==================//
+    public void Delete_LaptopSpec() {
+        this.laptopSpec = null;
+    }
 }
