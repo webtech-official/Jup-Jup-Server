@@ -86,4 +86,8 @@ public class Admin extends BaseTimeEntity implements UserDetails {
         this.roles = Collections.singletonList("ROLE_USER");
     }
 
+    public void Change_Email(String email) {
+        this.email = email;
+    }
+
 }
