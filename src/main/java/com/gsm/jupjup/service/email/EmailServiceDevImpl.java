@@ -16,34 +16,15 @@ import java.util.Random;
 public class EmailServiceDevImpl implements EmailService {
 
     private final JavaMailSenderImpl mailSender;
-    //인증 키 크기 지정 변수
-    private int size;
+    private final MailUtils mailUtils;
 
-    //인증 키 생성
-    private String getKey(int size){
-        this.size = size;
-        return getAuthCode();
-    }
-
-    //인증코드 난수 발생.
-    private String getAuthCode(){
-        Random random = new Random();
-        StringBuffer buffer = new StringBuffer();
-        int num = 0;
-        while(buffer.length() < size){
-            num = random.nextInt(10);
-            buffer.append(num);
-        }
-        return buffer.toString();
-    }
-
-    //인증 메일 보내기.
+    //인증 메일 보내기
     @Override
     public String sendAuthMail(String email){
-        //6자리 난수 인증번호 생성.
-        String authKey = getKey(6);
+        //6자리 난수 인증번호 생성
+        String authKey = mailUtils.getKey(6);
 
-        //인증메일 보내기.
+        //인증메일 보내기
         try {
             MailUtils sendMail = new MailUtils(mailSender);
             sendMail.setSubject("JubJub 회원인증 이메일 입니다.");
