@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -42,5 +41,31 @@ public class EquipmentAllow extends BaseTimeEntity {
     public void update(int amount, String reason){
         this.amount = amount;
         this.reason = reason;
+    }
+
+    //================= 비즈니스 메소드 =================//
+    public void Change_ROLE_Rental() {
+        this.equipmentEnum = EquipmentAllowEnum.ROLE_Rental;
+    }
+
+    public void Change_ROLE_Return() {
+        this.equipmentEnum = EquipmentAllowEnum.ROLE_Return;
+    }
+
+    public void Change_ROLE_Reject() {
+        this.equipmentEnum = EquipmentAllowEnum.ROLE_Reject;
+    }
+
+    public void Change_ROLE_Accept() {
+        this.equipmentEnum = EquipmentAllowEnum.ROLE_Accept;
+    }
+
+    public void Equipment_Admin_Mapping(Equipment equipment, Admin admin) {
+        this.equipment = equipment;
+        this.admin = admin;
+    }
+
+    public void Delete_Equipment() {
+        this.equipment = null;
     }
 }

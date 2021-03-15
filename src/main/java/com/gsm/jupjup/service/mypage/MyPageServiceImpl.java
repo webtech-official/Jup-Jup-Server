@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -26,21 +27,26 @@ public class MyPageServiceImpl implements MyPageService{
 
     @Override
     public List<EquipmentAllow> findMyEquipment() {
-        Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(UserDoesNotExistException::new);
+        Admin admin = adminRepo.findByEmail(GetUserEmail()).orElseThrow(UserDoesNotExistException::new);
         return equipmentAllowRepo.findByAdmin(admin);
     }
 
     @Override
     public List<Laptop> findMyLaptop(){
-        Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(UserDoesNotExistException::new);
+        Admin admin = adminRepo.findByEmail(GetUserEmail()).orElseThrow(UserDoesNotExistException::new);
         return laptopRepo.findByAdmin(admin);
     }
 
     //현재 사용자의 ID를 Return
-    public static Admin currentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Admin user = (Admin) authentication.getPrincipal();
-        return user;
+    public String GetUserEmail() {
+        String userEmail;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserDetails) {
+            userEmail = ((UserDetails)principal).getUsername();
+        } else {
+            userEmail = principal.toString();
+        }
+        return userEmail;
     }
 
     //현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인

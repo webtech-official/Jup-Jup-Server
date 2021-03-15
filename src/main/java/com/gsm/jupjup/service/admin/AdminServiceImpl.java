@@ -7,6 +7,7 @@ import com.gsm.jupjup.repo.EquipmentAllowRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,15 +28,19 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Admin UserInfo() {
-        Admin admin = currentUser();
-        String email = admin.getEmail();
+        String email = GetUserEmail();
         return adminRepo.findAllByEmail(email);
     }
 
     //현재 사용자의 ID를 Return
-    public static Admin currentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Admin user = (Admin) authentication.getPrincipal();
-        return user;
+    public String GetUserEmail() {
+        String userEmail;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserDetails) {
+            userEmail = ((UserDetails)principal).getUsername();
+        } else {
+            userEmail = principal.toString();
+        }
+        return userEmail;
     }
 }

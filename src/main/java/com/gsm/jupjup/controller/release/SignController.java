@@ -114,7 +114,7 @@ public class SignController {
     public void signUpConfirm(@RequestParam String email, @RequestParam String AuthKey){
         if(authKey_.equals(AuthKey)){
             Admin admin = adminRepo.findByEmail(email).orElseThrow(CEmailSigninFailedException::new);
-            admin.setRoles(Collections.singletonList("ROLE_USER"));
+            admin.Change_ROLE_USER();
         } else {
             System.out.println("인증번호가 올바르지 않습니다.");
         }
@@ -142,8 +142,8 @@ public class SignController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public Admin UserInfo(){
+    public SingleResult<Admin> UserInfo(){
         Admin admin = adminService.UserInfo();
-        return admin;
+        return responseService.getSingleResult(admin);
     }
 }
