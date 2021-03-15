@@ -8,6 +8,7 @@ import javax.activation.DataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.util.Random;
 
 @RequiredArgsConstructor
 public class MailUtils {
@@ -44,5 +45,26 @@ public class MailUtils {
 
     public void send() {
         mailSender.send(message);
+    }
+
+    //인증 키 크기 지정 변수
+    private int size;
+
+    //인증 키 생성
+    public String getKey(int size){
+        this.size = size;
+        return getAuthCode();
+    }
+
+    //인증코드 난수 발생.
+    private String getAuthCode(){
+        Random random = new Random();
+        StringBuffer buffer = new StringBuffer();
+        int num = 0;
+        while(buffer.length() < size){
+            num = random.nextInt(10);
+            buffer.append(num);
+        }
+        return buffer.toString();
     }
 }
