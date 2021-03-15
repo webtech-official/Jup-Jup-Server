@@ -142,8 +142,8 @@ public class SignController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public Admin UserInfo(){
+    public SingleResult<Admin> UserInfo(){
         Admin admin = adminService.UserInfo();
-        return admin;
+        return responseService.getSingleResult(admin);
     }
 }

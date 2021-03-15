@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,7 @@ public class LaptopServiceImpl implements LaptopService{
 
     @Override
     public String save(LaptopSaveReqDto laptopSaveReqDto){
-        Admin admin = adminRepo.findByEmail(currentUser().getEmail()).orElseThrow(CUserNotFoundException::new);
+        Admin admin = adminRepo.findByEmail(GetUserEmail()).orElseThrow(CUserNotFoundException::new);
         LaptopSpec laptopSpec = laptopSpecRepo.findById(laptopSaveReqDto.getSpecIdx()).orElseThrow(NotFoundLaptopSpecException::new);
         //Laptop 도매인 객체 만들기
         Laptop laptop = laptopSaveReqDto.toEntity(admin, laptopSpec);
@@ -58,10 +59,15 @@ public class LaptopServiceImpl implements LaptopService{
     }
 
     //현재 사용자의 ID를 Return
-    public static Admin currentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Admin user = (Admin) authentication.getPrincipal();
-        return user;
+    public String GetUserEmail() {
+        String userEmail;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserDetails) {
+            userEmail = ((UserDetails)principal).getUsername();
+        } else {
+            userEmail = principal.toString();
+        }
+        return userEmail;
     }
 
     //현재 사용자가 "ROLE_ADMIN"이라는 ROLE을 가지고 있는지 확인
