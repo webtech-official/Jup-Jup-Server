@@ -43,7 +43,7 @@ public class SignController {
     private String authKey_;
     private String refreshJwt = null;
 
-    private final EmailService mss;
+    private final EmailService emailService;
     private final AdminRepo adminRepo;
     private final AdminService adminService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -102,7 +102,7 @@ public class SignController {
             throw new CDuplicateEmailException();
         }
         //임의의 authKey 생성 & 이메일 발송
-        authKey_ = mss.sendAuthMail(signUpDto.getEmail());
+        authKey_ = emailService.sendAuthMail(signUpDto.getEmail());
         log.info("이메일 보냄");
 
         return responseService.getSuccessResult();
