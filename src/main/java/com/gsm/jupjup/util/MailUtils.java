@@ -3,6 +3,7 @@ package com.gsm.jupjup.util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 
 import javax.activation.DataSource;
 import javax.mail.MessagingException;
@@ -11,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 @RequiredArgsConstructor
+@Component
 public class MailUtils {
 
     private final JavaMailSender mailSender;
