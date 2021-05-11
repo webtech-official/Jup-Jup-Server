@@ -11,22 +11,20 @@ import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 @RequiredArgsConstructor
-@Service("mss")
+@Service
 @Profile("dev")
 public class EmailServiceDevImpl implements EmailService {
 
     private final JavaMailSenderImpl mailSender;
-    private final MailUtils mailUtils;
+    String authKey = null;
 
     //인증 메일 보내기
     @Override
     public String sendAuthMail(String email){
-        //6자리 난수 인증번호 생성
-        String authKey = mailUtils.getKey(6);
-
-        //인증메일 보내기
         try {
             MailUtils sendMail = new MailUtils(mailSender);
+            //6자리 난수 인증번호 생성
+            authKey = sendMail.getKey(6);
             sendMail.setSubject("JubJub 회원인증 이메일 입니다.");
             sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>")
                     .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
