@@ -7,19 +7,12 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -30,6 +23,9 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
 
     public final static long TOKEN_VALIDATION_SECOND = 1000L * 86400;  //하루를 accessToken 만료 기간으로 잡는다
     public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 3600 * 24 * 210; //7개월을 refreshToken 만료 기간으로 잡는다.
+
+//    public final static long TOKEN_VALIDATION_SECOND = 1000L * 60;
+//    public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 3600;
 
     final static public String ACCESS_TOKEN_NAME = "accessToken";
     final static public String REFRESH_TOKEN_NAME = "refreshToken";
@@ -45,11 +41,10 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
     }
 
-    public String getUserName(String token) {
-        return extractAllClaims(token).get("username", String.class);
+    public String getUserEmail(String token) {
+        return extractAllClaims(token).get("userEmail", String.class);
     }
 
     public Boolean isTokenExpired(String token) {
@@ -65,10 +60,10 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
         return doGenerateToken(admin.getUsername(), REFRESH_TOKEN_VALIDATION_SECOND);
     }
 
-    public String doGenerateToken(String username, long expireTime) {
+    public String doGenerateToken(String userEmail, long expireTime) {
 
         Claims claims = Jwts.claims();
-        claims.put("username", username);
+        claims.put("userEmail", userEmail);
 
         String jwt = Jwts.builder()
                 .setClaims(claims)
@@ -80,7 +75,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = getUserName(token);
+        final String username = getUserEmail(token);
 
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }

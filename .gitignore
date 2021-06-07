@@ -35,7 +35,6 @@ build/
 .vscode/
 
 ###Sensitive Code###
-src/main/resources/application.yml
 .DS_Store
 src/.DS_Store
 src/main/.DS_Store
