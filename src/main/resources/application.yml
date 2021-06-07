@@ -90,3 +90,88 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: error
+
+---
+
+spring:
+  profiles: real
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+  datasource:
+    url: jdbc:h2:mem:jupjup
+    driver-class-name: org.h2.Driver
+    username: sa
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        hbm2ddl:
+          auto: update
+    show-sql: true
+    open-in-view: false
+
+  messages:
+    basename: i18n/exception
+    encoding: UTF-8
+
+  jwt:
+    secret: KimdddsIdDidkSidjdpSJd937sdjdfjKJFudDjksdfdfi435k34tjHDKHd8iudsfFHkf8D8fKF9FDkl43ewlsdaf8dsafjk23KDF99dfF8fd6FDjDFasdfkkweqrFkdodkwe49flKd9Fuhsdfklsdaf98sdf98FDS89dfsjkHJK98DS98KFHD
+
+
+  # Gmail SMTP Server Settings
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: s19066@gsm.hs.kr
+    password: iiqrerusxvwowahk
+    properties:
+      mail:
+        smtp:
+          timeout: 9999
+          auth: true
+          starttls:
+            enable: true
+
+  #Redis
+  cache:
+    type: redis
+  redis:
+    host: 10.53.68.170
+    port: 6379
+  data:
+    redis:
+      repositories:
+        enabled: false
+#AWS
+cloud:
+  aws:
+    region:
+      auto: false
+      static: ap-northeast-2
+    credentials:
+      access-key: AKIAUFJW3PBKUF7BZD5I
+      secret-key: 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
+    stack:
+      auto: false
+
+    s3:
+      bucket: jupjupapplication
+      stack:
+        auto: false
+      credentials:
+        instanceProfile: true
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
