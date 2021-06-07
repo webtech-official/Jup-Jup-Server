@@ -25,6 +25,6 @@ node {
      stage('Code Deploy') {
         sh '''sudo docker stop ${CONTAINER_NAME} || true && sudo docker rm ${CONTAINER_NAME} || true'''
         sh '''sudo docker rmi -f `docker images | awk '$1 ~ /jupjup/ {print $3}'`'''
-        sh '''sudo docker run -d -p 8083:8083 --name ${CONTAINER_NAME} ${REPOSITORY_NAME}/${CONTAINER_NAME}:latest'''
+        sh '''sudo docker run -d -p 8081:8081 --name ${CONTAINER_NAME} ${REPOSITORY_NAME}/${CONTAINER_NAME}:latest'''
      }
 }
