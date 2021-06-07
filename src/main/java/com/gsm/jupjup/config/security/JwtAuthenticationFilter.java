@@ -38,66 +38,32 @@ import java.util.Collection;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisUtil redisUtil;
-    private final CookieUtil cookieUtil;
     private final CustomUserDetailService customUserDetailService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-
-        final Cookie cookieToken = cookieUtil.getCookie(httpServletRequest,jwtTokenProvider.ACCESS_TOKEN_NAME);
         String jwtToken = httpServletRequest.getHeader("Authorization");
+        String userEmail = null;
 
-        String username = null;
-        String refreshJwt = null;
-        String refreshUname = null;
-
-        //Access Token 검사
         try{
-            if(jwtToken != null){
-                username = jwtTokenProvider.getUserName(jwtToken);
+            if(jwtToken != null && jwtToken.startsWith("Bearer ")){
+                jwtToken = jwtToken.substring(7);
+                userEmail = jwtTokenProvider.getUserEmail(jwtToken);
             }
-            if(username!=null){
-                UserDetails userDetails = customUserDetailService.loadUserByUsername(username);
+
+            if(userEmail != null){
+                UserDetails userDetails = customUserDetailService.loadUserByUsername(userEmail);
 
                 if(jwtTokenProvider.validateToken(jwtToken, userDetails)){
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
                     usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
             }
-        }catch (ExpiredJwtException e){
-            Cookie refreshToken = cookieUtil.getCookie(httpServletRequest, jwtTokenProvider.REFRESH_TOKEN_NAME);
-            if(refreshToken!=null){
-                refreshJwt = refreshToken.getValue();
-            }
-        }catch(Exception e){
-
+        } catch (ExpiredJwtException e){   // 만약 유효기간을 넘겼다면??
+            httpServletResponse.setHeader("message", e.getMessage());
         }
 
-        //reFresh Token 발급하기
-        try{
-            if(refreshJwt != null){
-                refreshUname = redisUtil.getData(refreshJwt);
-
-                if(refreshUname.equals(jwtTokenProvider.getUserName(refreshJwt))){
-                    UserDetails userDetails = customUserDetailService.loadUserByUsername(refreshUname);
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
-                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
-                    Admin admin = new Admin();
-                    admin.Change_Email(refreshUname);
-                    String newToken = jwtTokenProvider.generateToken(admin);
-
-                    Cookie newAccessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME, newToken);
-                    httpServletResponse.addCookie(newAccessToken);
-                }
-            }
-        }catch(ExpiredJwtException e){
-
-        }
-
-        filterChain.doFilter(httpServletRequest,httpServletResponse);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

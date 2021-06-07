@@ -68,11 +68,7 @@ public class SignController {
 
         String token = jwtTokenProvider.generateToken(admin);
         refreshJwt = jwtTokenProvider.generateRefreshToken(admin);
-        Cookie accessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME, token);
-        Cookie refreshToken = cookieUtil.createCookie(jwtTokenProvider.REFRESH_TOKEN_NAME, refreshJwt);
         redisUtil.setDataExpire(refreshJwt, admin.getUsername(), jwtTokenProvider.REFRESH_TOKEN_VALIDATION_SECOND);
-        res.addCookie(accessToken);
-        res.addCookie(refreshToken);
 
         Iterator<? extends GrantedAuthority> authorityIterator = admin.getAuthorities().iterator();
         String authority = authorityIterator.next().toString();
@@ -104,7 +100,6 @@ public class SignController {
         //임의의 authKey 생성 & 이메일 발송
         authKey_ = emailService.sendAuthMail(signUpDto.getEmail());
         log.info("이메일 보냄");
-
         return responseService.getSuccessResult();
     }
 
