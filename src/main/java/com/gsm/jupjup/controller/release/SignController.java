@@ -9,7 +9,6 @@ import com.gsm.jupjup.dto.admin.SignInDto;
 import com.gsm.jupjup.dto.admin.SignUpDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.response.CommonResult;
-import com.gsm.jupjup.model.response.ListResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.repo.AdminRepo;
@@ -71,11 +70,7 @@ public class SignController {
 
         String token = jwtTokenProvider.generateToken(admin);
         refreshJwt = jwtTokenProvider.generateRefreshToken(admin);
-        System.out.println("==========");
-        System.out.println("refreshJwt = " + refreshJwt);
-        System.out.println("==========");
         redisUtil.setDataExpire(refreshJwt, admin.getUsername(), jwtTokenProvider.REFRESH_TOKEN_VALIDATION_SECOND);
-        System.out.println("Redis 저장됨 ==========");
 
         Iterator<? extends GrantedAuthority> authorityIterator = admin.getAuthorities().iterator();
         String authority = authorityIterator.next().toString();
