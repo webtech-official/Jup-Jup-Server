@@ -94,7 +94,7 @@ logging:
 ---
 
 spring:
-  profiles: real
+  profiles: release
 
   h2:
     console:
