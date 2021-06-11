@@ -12,7 +12,7 @@ import org.hibernate.type.StringNVarcharType;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@Api(tags = "노트북 사양")
+@Api(tags = "노트북 스팩 관리 컨트롤러")
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping("/v2/admin")

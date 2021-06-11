@@ -11,7 +11,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = {"카테고리"})
+@Api(tags = {"카테고리 등록 컨트롤러"})
 @RestController
 @RequestMapping("/v2")
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기

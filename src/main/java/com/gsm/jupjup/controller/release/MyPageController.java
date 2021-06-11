@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = {"5. 마이페이지"})
+@Api(tags = {"마이페이지 컨트롤러"})
 @RestController
 @RequestMapping("/v2")
 @RequiredArgsConstructor

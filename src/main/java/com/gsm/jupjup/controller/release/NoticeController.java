@@ -17,7 +17,7 @@ import javax.annotation.RegEx;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Api(tags = {"6. 공지사항"})
+@Api(tags = {"공지사항 관리 컨트롤러"})
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping("/v2")

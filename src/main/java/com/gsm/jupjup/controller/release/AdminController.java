@@ -1,189 +1,166 @@
 package com.gsm.jupjup.controller.release;
 
-import com.gsm.jupjup.config.handler.NotFoundImageHandler;
-import com.gsm.jupjup.dto.equipment.EquipmentResDto;
-import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
-import com.gsm.jupjup.model.Equipment;
-import com.gsm.jupjup.model.response.*;
+import com.gsm.jupjup.advice.exception.CDuplicateEmailException;
+import com.gsm.jupjup.advice.exception.CEmailSigninFailedException;
+import com.gsm.jupjup.advice.exception.EmailNotVerifiedException;
+import com.gsm.jupjup.config.security.CustomUserDetailService;
+import com.gsm.jupjup.config.security.JwtTokenProvider;
+import com.gsm.jupjup.dto.admin.SignInDto;
+import com.gsm.jupjup.dto.admin.SignUpDto;
+import com.gsm.jupjup.model.Admin;
+import com.gsm.jupjup.model.response.CommonResult;
+import com.gsm.jupjup.model.response.ResponseService;
+import com.gsm.jupjup.model.response.SingleResult;
+import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.service.admin.AdminService;
-import com.gsm.jupjup.service.equipment.EquipmentAllowService;
-import com.gsm.jupjup.service.equipment.EquipmentService;
+import com.gsm.jupjup.service.email.EmailService;
+import com.gsm.jupjup.util.CookieUtil;
+import com.gsm.jupjup.util.RedisUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.List;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
-@Api(tags = {"2. 관리자"})
-@RestController
-@RequestMapping("/v2")
-@CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
+@Api(tags = {"회원 컨트롤러"})
 @RequiredArgsConstructor
+@RestController
+@RequestMapping(value = "/v2")
+@CrossOrigin("http://localhost:3000")
+@Slf4j
 public class AdminController {
-    private final EquipmentService equipmentService;
-    private final EquipmentAllowService equipmentAllowService;
+
+    private String authKey_;
+    private String refreshJwt = null;
+
+    private final EmailService emailService;
+    private final AdminRepo adminRepo;
     private final AdminService adminService;
-    private final ResponseService responseService; // 결과를 처리할 Service
+    private final JwtTokenProvider jwtTokenProvider;
+    private final ResponseService responseService;
+    private final PasswordEncoder passwordEncoder;
+    private final RedisUtil redisUtil;
+    private final CookieUtil cookieUtil;
+    private final CustomUserDetailService customUserDetailService;
 
-    @ApiOperation(value = "기자재 조회 - NAME", notes = "기자재를 조회한다.")
-    @GetMapping("/equipment/findname/{name}")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    public SingleResult<EquipmentResDto> EquipmentFindByName(
-            @ApiParam(value = "기자재 이름", required = true) @PathVariable String name) throws Exception {
-        return responseService.getSingleResult(equipmentService.findByName(name));
+    @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
+    @PostMapping(value = "/signin")
+    public SingleResult<Map<String, String>> signin(@ApiParam(value = "로그인 DTO", required = true) @RequestBody SignInDto signInDto,
+                                                  HttpServletResponse res, HttpServletRequest req) {
+        Admin admin = adminRepo.findByEmail(signInDto.getEmail()).orElseThrow(CEmailSigninFailedException::new);
+        /*
+        프론트에서 어짜피 회원가입 모달에서 이메일 체크가 됬는지 확인
+         */
+        if(admin.getRoles().contains("ROLE_NOT_PERMITTED")){
+            throw new EmailNotVerifiedException();
+        } else if (!passwordEncoder.matches(signInDto.getPassword(), admin.getPassword())) {
+            throw new CEmailSigninFailedException();
+        }
+
+        String token = jwtTokenProvider.generateToken(admin);
+        refreshJwt = jwtTokenProvider.generateRefreshToken(admin);
+        redisUtil.setDataExpire(refreshJwt, admin.getUsername(), jwtTokenProvider.REFRESH_TOKEN_VALIDATION_SECOND);
+
+        Iterator<? extends GrantedAuthority> authorityIterator = admin.getAuthorities().iterator();
+        String authority = authorityIterator.next().toString();
+        Map<String ,String> map = new HashMap<>();
+        map.put("AccessToken", token);
+        map.put("RefreshToken", refreshJwt);
+        map.put("authority", authority);
+        map.put("name", admin.getName());
+        map.put("classNum", admin.getClassNumber());
+        map.put("email", admin.getEmail());
+        return responseService.getSingleResult(map);
     }
 
-    @ApiOperation(value = "기자재 조회 - IDX", notes = "기자재를 조회한다.")
-    @GetMapping("/equipment/findidx/{eq_idx}")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    public SingleResult<Equipment> EquipmentFindByName(
-            @ApiParam(value = "기자재 이름", required = true) @PathVariable Long eq_idx) {
-        return responseService.getSingleResult(equipmentService.findByIdx(eq_idx));
-    }
-
-    @ApiOperation(value = "기자재 등록", notes = "기자재를 등록한다.")
-    @PostMapping(path = "/admin/equipment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    public CommonResult save(@ApiParam(value = "기자재 이미지", required = false) @RequestParam(value = "img_equipment",required = false) MultipartFile img_equipment,
-                             @ApiParam(value = "기자재 이름", required = true) @RequestParam String name,
-                             @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
-                             @ApiParam(value = "기자재 개수", required = true) @RequestParam int count,
-                             @ApiParam(value = "기자재 카테고리", required = true) @RequestParam String category) throws Exception {
-        EquipmentUploadDto equipmentUploadDto
-                = EquipmentUploadDto.builder()
-                .category(category)
-                .img_equipment(img_equipment)
-                .name(name)
-                .content(content)
-                .count(count)
-                .build();
-        //기자재 등록 중복 처리
-
-        equipmentService.save(equipmentUploadDto);
+    @ApiOperation(value = "가입", notes = "회원가입을 한다.")
+    @PostMapping(value = "/signup")
+    public CommonResult signup(@ApiParam(value = "회원 가입 DTO", required = true) @RequestBody SignUpDto signUpDto) {
+        //이메일 중복
+        Optional<Admin> admin = adminRepo.findByEmail(signUpDto.getEmail());
+        if(admin.isEmpty()){
+            adminRepo.save(Admin.builder()
+                    .email(signUpDto.getEmail())
+                    .password(passwordEncoder.encode(signUpDto.getPassword()))
+                    .name(signUpDto.getName())
+                    .classNumber(signUpDto.getClassNumber())
+                    .roles(Collections.singletonList("ROLE_NOT_PERMITTED"))
+                    .build());
+        } else {
+            throw new CDuplicateEmailException();
+        }
+        //임의의 authKey 생성 & 이메일 발송
+        authKey_ = emailService.sendAuthMail(signUpDto.getEmail());
+        log.info("이메일 보냄");
         return responseService.getSuccessResult();
     }
 
-    @ApiOperation(value = "기자재 전체 조회", notes = "기자재를 천체 조회한다.")
-    @GetMapping(value = "/equipment")
-    public ListResult<Equipment> equipmentFindAll() {
-        return responseService.getListResult(equipmentService.findAll());
+    @ApiOperation(value = "회원가입 이메일 인증", notes = "로그인을 위한 이메일 인증입니다.")
+    @Transactional
+    @GetMapping("member/signUpConfirm")
+    public void signUpConfirm(@RequestParam String email, @RequestParam String AuthKey){
+        if(authKey_.equals(AuthKey)){
+            Admin admin = adminRepo.findByEmail(email).orElseThrow(CEmailSigninFailedException::new);
+            admin.Change_ROLE_USER();
+        } else {
+            System.out.println("인증번호가 올바르지 않습니다.");
+        }
     }
 
-    @ApiOperation(value = "기자재 수량 변경", notes = "기자재 수량을 변경한다.")
-    @PutMapping("/admin/equipment/{eq_idx}")
+
+    @ApiOperation(value = "로그아웃", notes = "사용자가 로그아웃한다.")
+    @PostMapping("/logout")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult update(@ApiParam(value = "기자재 IDX", required = true) @PathVariable Long eq_idx,
-                               @ApiParam(value = "변경 기자재 수량", required = true) @RequestParam int count) throws Exception {
-        equipmentService.update(eq_idx, count);
+    public CommonResult LogOut(HttpServletResponse res){
+        Cookie accessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME, null);
+        accessToken.setMaxAge(0);
+        redisUtil.deleteData(refreshJwt);
+        Cookie refreshToken = cookieUtil.createCookie(jwtTokenProvider.REFRESH_TOKEN_NAME, null);
+        refreshToken.setMaxAge(0);
+        res.addCookie(accessToken);
+        res.addCookie(refreshToken);
         return responseService.getSuccessResult();
     }
 
-    @ApiOperation(value = "기자재 전체 수정", notes = "기자재를 수정한다.")
-    @PutMapping(value="/admin/equipmentAll/{eq_idx}",
-            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ApiOperation(value = "회원 정보", notes = "회원 정보를 조회한다.")
+    @GetMapping("/userinfo")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult update( @ApiParam(value = "수정할 기자재 IDX", required = true) @PathVariable Long eq_idx,
-                                @ApiParam(value = "기자재 이미지", required = false) @RequestParam(value = "img_equipment",required = false) MultipartFile img_equipment,
-                                @ApiParam(value = "기자재 이름", required = true) @RequestParam String newName,
-                                @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
-                                @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception, NotFoundImageHandler {
-        equipmentService.AllUpdate(
-                eq_idx,
-                new EquipmentUploadDto().builder()
-                        .name(newName)
-                        .content(content)
-                        .count(count)
-                        .img_equipment(img_equipment)
-                        .build()
-        );
-        return responseService.getSuccessResult();
+    public SingleResult<Admin> UserInfo(){
+        Admin admin = adminService.UserInfo();
+        return responseService.getSingleResult(admin);
     }
 
-    @ApiOperation(value = "기자재 삭제", notes = "기자재를 삭제한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @DeleteMapping("/admin/equipmnet/delete/{equipmentidx}")
-    public CommonResult deleteByIdx(@ApiParam(value = "기자재 Idx", required = true) @PathVariable Long equipmentidx) throws Exception {
-        equipmentService.deleteByEquipmentIdx(equipmentidx);
-        return responseService.getSuccessResult();
-    };
+    @ApiOperation(value = "새로운 토큰 요청하기", notes = "유저가 비밀번호를 변경한다.")
+    @ResponseBody
+    @PostMapping("/auth/refresh")
+    public void authRefresh(String refreshJwt, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        String newAccessToken = null;
+        String RefreshTokenUserEmail = jwtTokenProvider.getUserEmail(refreshJwt);
+        String RedisRefreshJwt = redisUtil.getData(RefreshTokenUserEmail);  //현재 Redis에 저장되어 있는 리프레쉬 토큰
 
-    @ApiOperation(value = "신청 전체 조회", notes = "신청을 조회한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @GetMapping("/admin/applyview")
-    public ListResult<Object> findAll(){
-        List<Object> equipmentAllowListResult = adminService.findAll();
-        return responseService.getListResult(equipmentAllowListResult);
-    }
-
-    //신청 승인
-    @ApiOperation(value = "신청 승인", notes = "관리자가 신청을 승인한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @PutMapping("/admin/approved/{eqa_Idx}")
-    public CommonResult ApprovedAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
-        equipmentAllowService.SuccessAllow(eqa_Idx);
-        return responseService.getSuccessResult();
-    }
-
-    //신청 거절 + 숫자 더하기
-    @ApiOperation(value = "신청 거절", notes = "관리자가 신청을 거절한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @PutMapping("/admin/reject/{eqa_Idx}")
-    public CommonResult RejectAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
-        equipmentAllowService.FailureAllow(eqa_Idx);
-        return responseService.getSuccessResult();
-    }
-
-    //반납 + 숫자 더하기
-    @ApiOperation(value = "반납", notes = "관리자가 반납을 처리한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @PutMapping("/admin/return/{eqa_Idx}")
-    public CommonResult ReturnAllow(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
-        equipmentAllowService.ReturnAllow(eqa_Idx);
-        return responseService.getSuccessResult();
-    }
-
-    //대여
-    @ApiOperation(value = "대여", notes = "유저가 기자재를 신청하고 싸인을 하면 대여 성공")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @PutMapping("/admin/rental/{eqa_Idx}")
-    public CommonResult Rental_Equipment(@ApiParam(value = "신청 Idx", required = true) @PathVariable Long eqa_Idx){
-        equipmentAllowService.Rental(eqa_Idx);
-        return responseService.getSuccessResult();
-    }
-
-    //기자재 키워드(이름) 검색
-    @ApiOperation(value = "키워드 검색", notes = "유저가 키원드를 사용하여 기자재를 조회한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @PostMapping("/equipment/{keyword}")
-    public ListResult<Equipment> findByKeyWord(@ApiParam(value = "검색 KeyWord", required = true) @PathVariable String keyword) throws Exception {
-        return responseService.getListResult(equipmentService.findByKeyword(keyword));
+        if(RedisRefreshJwt.equals(refreshJwt)){
+            UserDetails userDetails = customUserDetailService.loadUserByUsername(RefreshTokenUserEmail);
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+            usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            Admin admin = customUserDetailService.findAdmin( RefreshTokenUserEmail);
+            newAccessToken = jwtTokenProvider.generateToken(admin);
+            httpServletResponse.addHeader("newAccessToken", newAccessToken);
+        }
     }
 }
