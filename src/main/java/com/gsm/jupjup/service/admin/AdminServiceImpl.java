@@ -9,14 +9,11 @@ import com.gsm.jupjup.dto.admin.SignInDto;
 import com.gsm.jupjup.dto.admin.SignInResDto;
 import com.gsm.jupjup.dto.admin.SignUpDto;
 import com.gsm.jupjup.model.Admin;
-import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
-import com.gsm.jupjup.service.email.EmailService;
 import com.gsm.jupjup.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +23,10 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -35,9 +35,6 @@ public class AdminServiceImpl implements AdminService{
     private final EquipmentAllowRepo equipmentAllowRepo;
     private final AdminRepo adminRepo;
     private final JwtTokenProvider jwtTokenProvider;
-    private final EmailService emailService;
-    private final AdminService adminService;
-    private final ResponseService responseService;
     private final PasswordEncoder passwordEncoder;
     private final RedisUtil redisUtil;
     private final CustomUserDetailService customUserDetailService;

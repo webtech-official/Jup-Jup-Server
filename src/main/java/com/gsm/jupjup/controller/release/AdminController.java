@@ -1,7 +1,5 @@
 package com.gsm.jupjup.controller.release;
 
-import com.gsm.jupjup.config.security.CustomUserDetailService;
-import com.gsm.jupjup.config.security.JwtTokenProvider;
 import com.gsm.jupjup.dto.admin.AuthRefreshDto;
 import com.gsm.jupjup.dto.admin.SignInDto;
 import com.gsm.jupjup.dto.admin.SignInResDto;
@@ -10,16 +8,13 @@ import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
-import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.service.admin.AdminService;
-import com.gsm.jupjup.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +43,7 @@ public class AdminController {
     @ApiOperation(value = "가입", notes = "회원가입을 한다.")
     @PostMapping("/signup")
     @ResponseBody
-    public CommonResult signup(@RequestBody @Valid SignUpDto signUpDto) {
+    public CommonResult signup(@Valid @RequestBody SignUpDto signUpDto) {
         adminService.signUp(signUpDto);
         return responseService.getSuccessResult();
     }
