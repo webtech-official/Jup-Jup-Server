@@ -61,3 +61,5 @@ ApproveApplicationFirstException:
 EmailNotVerifiedException:
   code: "-947"
   msg: "Please verify your email."
+MethodArgumentNotValidException:
+  code: "-4940"

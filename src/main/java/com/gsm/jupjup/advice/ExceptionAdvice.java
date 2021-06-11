@@ -8,6 +8,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -136,5 +137,12 @@ public class ExceptionAdvice {
     @ExceptionHandler(EmailNotVerifiedException.class)
     public CommonResult ApproveApplicationFirstException(HttpServletRequest request, EmailNotVerifiedException e){
         return responseService.getFailResult(Integer.parseInt(getMessage("EmailNotVerifiedException.code")), getMessage("EmailNotVerifiedException.msg"));
+    }
+
+    // DTO Valid를 할 경우
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public CommonResult processValidationError(MethodArgumentNotValidException e) {
+        return responseService.getFailResult(Integer.parseInt(getMessage("MethodArgumentNotValidException.code")), e.getAllErrors().get(0).getDefaultMessage());
     }
 }
