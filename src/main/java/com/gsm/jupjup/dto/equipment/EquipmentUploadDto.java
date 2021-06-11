@@ -6,15 +6,28 @@ import com.gsm.jupjup.model.Equipment;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class EquipmentUploadDto {
+
+    @NotBlank(message = "이미지를 넣어주세요.")
     private MultipartFile img_equipment;
+
+    @NotBlank(message = "가자재 이름을 입력해주세요.")
     private String name;
+
+    @NotBlank(message = "기자재 내용을 입력해주세요.")
     private String content;
+
+    @NotBlank(message = "기자재 카테고리를 입력해주세요.")
     private String category;
+
+    @NotBlank(message = "기자재 수량을 입력해주세요.")
     private int count;
+
     @JsonIgnore
     private String imgEquipmentLocation;
     @JsonIgnore

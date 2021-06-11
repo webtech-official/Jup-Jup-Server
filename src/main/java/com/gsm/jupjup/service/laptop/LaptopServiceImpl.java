@@ -4,7 +4,6 @@ import com.gsm.jupjup.advice.exception.CUserNotFoundException;
 import com.gsm.jupjup.advice.exception.NotFoundLaptopException;
 import com.gsm.jupjup.advice.exception.NotFoundLaptopSpecException;
 import com.gsm.jupjup.dto.laptop.LaptopSaveReqDto;
-import com.gsm.jupjup.dto.laptop.LaptopUpdateReqDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.Laptop;
 import com.gsm.jupjup.model.LaptopSpec;

@@ -7,6 +7,8 @@ import com.gsm.jupjup.model.Notice;
 import com.gsm.jupjup.model.response.EquipmentAllowEnum;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @Builder
@@ -14,7 +16,10 @@ import lombok.*;
 @AllArgsConstructor
 public class NoticeSaveDto {
 
+    @NotBlank(message = "제목을 입력해주세요.")
     private String title;
+
+    @NotBlank(message = "내용을 입력해주세요.")
     private String content;
 
     @JsonIgnore

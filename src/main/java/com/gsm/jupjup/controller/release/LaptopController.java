@@ -2,7 +2,6 @@ package com.gsm.jupjup.controller.release;
 
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveReqDto;
-import com.gsm.jupjup.dto.laptop.LaptopUpdateReqDto;
 import com.gsm.jupjup.model.Laptop;
 import com.gsm.jupjup.model.LaptopSpec;
 import com.gsm.jupjup.model.response.CommonResult;

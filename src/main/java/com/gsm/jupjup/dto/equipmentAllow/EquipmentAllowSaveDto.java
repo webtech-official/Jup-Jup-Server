@@ -7,6 +7,8 @@ import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.response.EquipmentAllowEnum;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @Builder
@@ -14,12 +16,14 @@ import lombok.*;
 @AllArgsConstructor
 public class EquipmentAllowSaveDto {
 
+    @NotBlank(message = "수량을 입력해주세요.")
     private int amount;
+
+    @NotBlank(message = "이유를 입력해주세요.")
     private String reason;
 
     @JsonIgnore
     private Boolean isReturn = false;
-
 
     public EquipmentAllow toEntity(){
         return EquipmentAllow.builder()

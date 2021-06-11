@@ -14,7 +14,6 @@ import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.service.admin.AdminService;
 import com.gsm.jupjup.service.email.EmailService;
-import com.gsm.jupjup.util.CookieUtil;
 import com.gsm.jupjup.util.RedisUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +50,6 @@ public class AdminController {
     private final ResponseService responseService;
     private final PasswordEncoder passwordEncoder;
     private final RedisUtil redisUtil;
-    private final CookieUtil cookieUtil;
     private final CustomUserDetailService customUserDetailService;
 
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
@@ -125,13 +123,7 @@ public class AdminController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     public CommonResult LogOut(HttpServletResponse res){
-        Cookie accessToken = cookieUtil.createCookie(jwtTokenProvider.ACCESS_TOKEN_NAME, null);
-        accessToken.setMaxAge(0);
         redisUtil.deleteData(refreshJwt);
-        Cookie refreshToken = cookieUtil.createCookie(jwtTokenProvider.REFRESH_TOKEN_NAME, null);
-        refreshToken.setMaxAge(0);
-        res.addCookie(accessToken);
-        res.addCookie(refreshToken);
         return responseService.getSuccessResult();
     }
 
