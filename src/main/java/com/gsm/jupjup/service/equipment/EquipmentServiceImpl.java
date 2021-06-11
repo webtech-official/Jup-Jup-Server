@@ -4,9 +4,11 @@ import com.gsm.jupjup.advice.exception.EquipmentDuplicateException;
 import com.gsm.jupjup.advice.exception.EquipmentNotFoundException;
 import com.gsm.jupjup.dto.equipment.EquipmentResDto;
 import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
+import com.gsm.jupjup.model.Category;
 import com.gsm.jupjup.model.Equipment;
 import com.gsm.jupjup.model.EquipmentAllow;
 import com.gsm.jupjup.model.QEquipment;
+import com.gsm.jupjup.repo.CategoryRepository;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
 import com.gsm.jupjup.repo.EquipmentRepo;
 import com.gsm.jupjup.util.S3Uploader;
@@ -17,24 +19,32 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class EquipmentServiceImpl implements EquipmentService{
 
     private final EquipmentRepo equipmentRepo;
+    private final CategoryRepository categoryRepository;
     private final EquipmentAllowRepo equipmentAllowRepo;
     private final JPAQueryFactory query;
     private final S3Uploader s3Uploader;
 
     @Override
-    public void save(EquipmentUploadDto equipmentUploadDto) throws IOException {
+    public void save(EquipmentUploadDto equipmentUploadDto) throws Exception {
         //Equipment name 을 기준으로 중복처리
         duplicateChk(equipmentUploadDto.getName());
         //파일 저장후 image Path 변수에 담기
         String equipmentImgPath = s3Uploader.upload(equipmentUploadDto.getImg_equipment(), "static");
         //equipmentUploadDto 에 file path 값 념겨
         equipmentUploadDto.setImgEquipmentLocation(equipmentImgPath);
+        //카테고리 조회
+        Optional<Category> byCategoryName = categoryRepository.findByCategoryName(equipmentUploadDto.getCategory());
+        if(byCategoryName.isEmpty()) {
+            throw new Exception("카테고리가 존재하지 않습니다.");
+        }
+        equipmentUploadDto.setCategoryClass(byCategoryName.get());
         Equipment equipment = equipmentUploadDto.toEntity();
         equipmentRepo.save(equipment);
     }

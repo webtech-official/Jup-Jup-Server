@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface EquipmentService {
     //기자재 저장
-    void save(EquipmentUploadDto equipmentUploadDto) throws IOException;
+    void save(EquipmentUploadDto equipmentUploadDto) throws Exception;
 
     //수량 업데이트
     void update(Long eq_idx, int count);

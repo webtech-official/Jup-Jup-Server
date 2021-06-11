@@ -1,6 +1,7 @@
 package com.gsm.jupjup.dto.equipment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gsm.jupjup.model.Category;
 import com.gsm.jupjup.model.Equipment;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,13 +13,17 @@ public class EquipmentUploadDto {
     private MultipartFile img_equipment;
     private String name;
     private String content;
+    private String category;
     private int count;
     @JsonIgnore
     private String imgEquipmentLocation;
+    @JsonIgnore
+    private Category categoryClass;
 
     @Builder
-    public EquipmentUploadDto(MultipartFile img_equipment, String name, String content, int count) {
+    public EquipmentUploadDto(MultipartFile img_equipment, String name, String content, int count, String category) {
         this.img_equipment = img_equipment;
+        this.category = category;
         this.name = name;
         this.content = content;
         this.count = count;
@@ -26,6 +31,7 @@ public class EquipmentUploadDto {
 
     public Equipment toEntity(){
         return Equipment.builder()
+                .category(categoryClass)
                 .name(this.name)
                 .img_equipment(this.imgEquipmentLocation)
                 .content(this.content)

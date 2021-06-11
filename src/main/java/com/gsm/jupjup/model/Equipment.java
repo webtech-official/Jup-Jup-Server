@@ -20,7 +20,12 @@ public class Equipment extends BaseTimeEntity {
     private String content;
 
     private int count;
+
     private String img_equipment;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "categoryIdx")
+    private Category category;
 
     public void updateAll(EquipmentUploadDto equipmentUploadDto) {
         this.name = equipmentUploadDto.getName();
