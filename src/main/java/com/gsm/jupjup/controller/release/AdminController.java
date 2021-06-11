@@ -71,8 +71,8 @@ public class AdminController {
     }
 
     @ApiOperation(value = "기자재 전체 조회", notes = "기자재를 천체 조회한다.")
-    @GetMapping("/equipment")
-    public ListResult<Equipment> equipmentFindAll() throws IOException {
+    @GetMapping(value = "/equipment")
+    public ListResult<Equipment> equipmentFindAll() {
         return responseService.getListResult(equipmentService.findAll());
     }
 

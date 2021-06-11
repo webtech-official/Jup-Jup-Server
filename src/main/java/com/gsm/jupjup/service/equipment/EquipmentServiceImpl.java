@@ -86,7 +86,7 @@ public class EquipmentServiceImpl implements EquipmentService{
     }
 
     @Override
-    public List<Equipment> findAll() throws IOException {
+    public List<Equipment> findAll() {
         List<Equipment> equipmentList = equipmentRepo.findAll();
         return equipmentList;
     }

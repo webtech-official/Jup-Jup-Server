@@ -40,7 +40,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(CUserNotFoundException.class)
     protected CommonResult userNotFoundException(HttpServletRequest request, CUserNotFoundException e) {
-        return responseService.getFailResult(Integer.valueOf(getMessage("userNotFound.code")), getMessage("userNotFound.msg"));
+        return responseService.getFailResult(Integer.valueOf(getMessage("CUserNotFoundException.code")), getMessage("CUserNotFoundException.msg"));
     }
 
     @ExceptionHandler(CEmailSigninFailedException.class)

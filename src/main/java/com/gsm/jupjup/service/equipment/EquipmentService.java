@@ -24,7 +24,7 @@ public interface EquipmentService {
     EquipmentResDto findByName(String name) throws IOException;
 
     //기자재 모두 검색
-    List<Equipment> findAll() throws IOException;
+    List<Equipment> findAll();
 
     //기자재 이름 검색
     Equipment equipmentFindBy(String name);
