@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -53,17 +54,19 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     }
 
     public String generateToken(Admin admin) {
-        return doGenerateToken(admin.getEmail(), TOKEN_VALIDATION_SECOND);
+        return doGenerateToken(admin.getEmail(), admin.getRoles(), admin.getClassNumber(), TOKEN_VALIDATION_SECOND);
     }
 
     public String generateRefreshToken(Admin admin) {
-        return doGenerateToken(admin.getEmail(), REFRESH_TOKEN_VALIDATION_SECOND);
+        return doGenerateToken(admin.getEmail(), admin.getRoles(), admin.getClassNumber(), REFRESH_TOKEN_VALIDATION_SECOND);
     }
 
-    public String doGenerateToken(String userEmail, long expireTime) {
+    public String doGenerateToken(String userEmail, List<String> roles, String classNumber, long expireTime) {
 
         Claims claims = Jwts.claims();
         claims.put("userEmail", userEmail);
+        claims.put("classNumber", classNumber);
+        claims.put("roles", roles);
 
         String jwt = Jwts.builder()
                 .setClaims(claims)
@@ -79,5 +82,4 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
 
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-
 }
