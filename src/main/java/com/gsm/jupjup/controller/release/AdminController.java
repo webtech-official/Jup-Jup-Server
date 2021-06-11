@@ -71,10 +71,7 @@ public class AdminController {
     }
 
     @ApiOperation(value = "기자재 전체 조회", notes = "기자재를 천체 조회한다.")
-    @GetMapping("/equipment/")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
+    @GetMapping("/equipment")
     public ListResult<Equipment> equipmentFindAll() throws IOException {
         return responseService.getListResult(equipmentService.findAll());
     }
