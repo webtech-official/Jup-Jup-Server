@@ -24,8 +24,8 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     public final static long TOKEN_VALIDATION_SECOND = 1000L * 86400;  //하루를 accessToken 만료 기간으로 잡는다
     public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 3600 * 24 * 210; //7개월을 refreshToken 만료 기간으로 잡는다.
 
-//    public final static long TOKEN_VALIDATION_SECOND = 1000L * 60;
-//    public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 3600;
+//    public final static long TOKEN_VALIDATION_SECOND = 1000L * 60;  //하루를 accessToken 만료 기간으로 잡는다
+//    public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 3600; //7개월을 refreshToken 만료 기간으로 잡는다.
 
     final static public String ACCESS_TOKEN_NAME = "accessToken";
     final static public String REFRESH_TOKEN_NAME = "refreshToken";
@@ -43,7 +43,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
                 .getBody();
     }
 
-    public String getUserEmail(String token) {
+    public String getUserEmail(String token){
         return extractAllClaims(token).get("userEmail", String.class);
     }
 
@@ -53,11 +53,11 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     }
 
     public String generateToken(Admin admin) {
-        return doGenerateToken(admin.getUsername(), TOKEN_VALIDATION_SECOND);
+        return doGenerateToken(admin.getEmail(), TOKEN_VALIDATION_SECOND);
     }
 
     public String generateRefreshToken(Admin admin) {
-        return doGenerateToken(admin.getUsername(), REFRESH_TOKEN_VALIDATION_SECOND);
+        return doGenerateToken(admin.getEmail(), REFRESH_TOKEN_VALIDATION_SECOND);
     }
 
     public String doGenerateToken(String userEmail, long expireTime) {
