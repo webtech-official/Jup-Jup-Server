@@ -1,14 +1,13 @@
 package com.gsm.jupjup.controller.release;
 
-import com.gsm.jupjup.dto.admin.AuthRefreshDto;
-import com.gsm.jupjup.dto.admin.SignInDto;
-import com.gsm.jupjup.dto.admin.SignInResDto;
-import com.gsm.jupjup.dto.admin.SignUpDto;
+import com.gsm.jupjup.dto.admin.*;
+import com.gsm.jupjup.dto.email.MailDto;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.model.response.CommonResult;
 import com.gsm.jupjup.model.response.ResponseService;
 import com.gsm.jupjup.model.response.SingleResult;
 import com.gsm.jupjup.service.admin.AdminService;
+import com.gsm.jupjup.service.email.SendEmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,10 +30,10 @@ public class AdminController {
 
     private final AdminService adminService;
     private final ResponseService responseService;
+    private final SendEmailService sendEmailService;
 
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
-    @PostMapping("/signin")
-    @ResponseBody
+    @PostMapping(value = "/signin")
     public SingleResult<SignInResDto> signin(@Valid @RequestBody SignInDto signInDto) {
         SignInResDto signInResDto = adminService.signIn(signInDto);
         return responseService.getSingleResult(signInResDto);
@@ -74,6 +73,26 @@ public class AdminController {
     @PostMapping("/auth/refresh")
     public CommonResult authRefresh(@RequestBody AuthRefreshDto authRefreshDto, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         adminService.authRefresh(authRefreshDto.getReFreshToken(), httpServletRequest, httpServletResponse);
+        return responseService.getSuccessResult();
+    }
+
+    @ResponseBody
+    @ApiOperation(value = "등록된 이메일로 임시비밀번호를 발송하고 발송된 임시비밀번호로 사용자의 pw를 변경", notes = "유저가 임시 비밀번호를 지급 받는다.")
+    @PostMapping("/check/findPw/sendEmail")
+    public CommonResult sendEmail(@RequestParam String userEmail){
+        MailDto dto = sendEmailService.createMailAndChangePassword(userEmail);
+        sendEmailService.mailSend(dto);
+        return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "비밀번호 변경하기", notes = "유저가 비밀번호를 변경한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ResponseBody
+    @PutMapping("/password-change")
+    public CommonResult passwordChange(@Valid @RequestBody MemberPasswordChangeDto memberPasswordChangeDto) {
+        adminService.change_password(memberPasswordChangeDto);
         return responseService.getSuccessResult();
     }
 }

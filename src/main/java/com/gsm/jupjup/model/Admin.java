@@ -90,4 +90,7 @@ public class Admin extends BaseTimeEntity implements UserDetails {
         this.email = email;
     }
 
+    public void change_password(String password){
+        this.password = password;
+    }
 }

@@ -1,10 +1,12 @@
 package com.gsm.jupjup.service.admin;
 
+import com.gsm.jupjup.advice.exception.CAuthenticationEntryPointException;
 import com.gsm.jupjup.advice.exception.CDuplicateEmailException;
 import com.gsm.jupjup.advice.exception.CEmailSigninFailedException;
 import com.gsm.jupjup.advice.exception.EmailNotVerifiedException;
 import com.gsm.jupjup.config.security.CustomUserDetailService;
 import com.gsm.jupjup.config.security.JwtTokenProvider;
+import com.gsm.jupjup.dto.admin.MemberPasswordChangeDto;
 import com.gsm.jupjup.dto.admin.SignInDto;
 import com.gsm.jupjup.dto.admin.SignInResDto;
 import com.gsm.jupjup.dto.admin.SignUpDto;
@@ -20,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -118,6 +121,15 @@ public class AdminServiceImpl implements AdminService{
             newAccessToken = jwtTokenProvider.generateToken(admin);
             httpServletResponse.addHeader("newAccessToken", newAccessToken);
         }
+    }
+
+    @Transactional
+    @Override
+    public void change_password(MemberPasswordChangeDto memberPasswordChangeDto) {
+        String userEmail = GetUserEmail();
+        Admin member = adminRepo.findByEmail(userEmail).orElseThrow(CAuthenticationEntryPointException::new);
+        String pw = passwordEncoder.encode(memberPasswordChangeDto.getMemberPassword());
+        member.change_password(pw);
     }
 
     //현재 사용자의 ID를 Return

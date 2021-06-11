@@ -1,11 +1,13 @@
 package com.gsm.jupjup.dto.admin;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class SignInDto {
 

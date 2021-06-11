@@ -1,5 +1,6 @@
 package com.gsm.jupjup.service.admin;
 
+import com.gsm.jupjup.dto.admin.MemberPasswordChangeDto;
 import com.gsm.jupjup.dto.admin.SignInDto;
 import com.gsm.jupjup.dto.admin.SignInResDto;
 import com.gsm.jupjup.dto.admin.SignUpDto;
@@ -23,4 +24,6 @@ public interface AdminService {
     void logOut();
 
     void authRefresh(String refreshJwt, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse);
+
+    void change_password(MemberPasswordChangeDto memberPasswordChangeDto);
 }
