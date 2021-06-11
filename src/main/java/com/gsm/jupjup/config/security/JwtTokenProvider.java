@@ -54,18 +54,19 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     }
 
     public String generateToken(Admin admin) {
-        return doGenerateToken(admin.getEmail(), admin.getRoles(), admin.getClassNumber(), TOKEN_VALIDATION_SECOND);
+        return doGenerateToken(admin.getEmail(), admin.getRoles(), admin.getClassNumber(), admin.getName(), TOKEN_VALIDATION_SECOND);
     }
 
     public String generateRefreshToken(Admin admin) {
-        return doGenerateToken(admin.getEmail(), admin.getRoles(), admin.getClassNumber(), REFRESH_TOKEN_VALIDATION_SECOND);
+        return doGenerateToken(admin.getEmail(), admin.getRoles(), admin.getClassNumber(), admin.getName(), REFRESH_TOKEN_VALIDATION_SECOND);
     }
 
-    public String doGenerateToken(String userEmail, List<String> roles, String classNumber, long expireTime) {
+    public String doGenerateToken(String userEmail, List<String> roles, String classNumber, String userName, long expireTime) {
 
         Claims claims = Jwts.claims();
         claims.put("userEmail", userEmail);
         claims.put("classNumber", classNumber);
+        claims.put("userName", userName);
         claims.put("roles", roles);
 
         String jwt = Jwts.builder()
