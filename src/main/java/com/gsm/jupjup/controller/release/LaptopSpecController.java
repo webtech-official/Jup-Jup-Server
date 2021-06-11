@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.type.StringNVarcharType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @Api(tags = "노트북 스팩 관리 컨트롤러")
 @RestController
@@ -26,7 +28,7 @@ public class LaptopSpecController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @PostMapping("/laptop-spec")
-    public CommonResult save(@ApiParam(value = "노트북 스펙 정보", required = true) @RequestBody LaptopSpecDto laptopSpecDto){
+    public CommonResult save(@ApiParam(value = "노트북 스펙 정보", required = true) @RequestBody @Valid LaptopSpecDto laptopSpecDto){
         laptopSpecService.save(laptopSpecDto);
         return responseService.getSuccessResult();
     }

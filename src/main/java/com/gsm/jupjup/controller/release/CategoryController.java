@@ -11,6 +11,8 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Api(tags = {"카테고리 등록 컨트롤러"})
 @RestController
 @RequestMapping("/v2")
@@ -26,7 +28,7 @@ public class CategoryController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult saveCategory(@ApiParam(value = "카테고리 이름", required = true) @RequestBody CategorySaveDto categorySaveDto) throws Exception {
+    public CommonResult saveCategory(@ApiParam(value = "카테고리 이름", required = true) @RequestBody @Valid CategorySaveDto categorySaveDto) throws Exception {
         categoryService.saveCategory(categorySaveDto);
         return responseService.getSuccessResult();
     }
@@ -55,7 +57,7 @@ public class CategoryController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult updateByIdx(@PathVariable Long idx, @RequestBody CategoryUpdateDto categoryUpdateDto) {
+    public CommonResult updateByIdx(@PathVariable Long idx, @RequestBody @Valid CategoryUpdateDto categoryUpdateDto) {
         categoryService.updateIdx(categoryUpdateDto, idx);
         return responseService.getSuccessResult();
     }

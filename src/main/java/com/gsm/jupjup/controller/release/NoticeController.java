@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.RegEx;
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class NoticeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult saveNotice(@ApiParam(value = "공지 사항 등록 정보", required = true) @RequestBody NoticeSaveDto noticeSaveDto) {
+    public CommonResult saveNotice(@ApiParam(value = "공지 사항 등록 정보", required = true) @RequestBody @Valid NoticeSaveDto noticeSaveDto) {
         noticeService.SaveNotice(noticeSaveDto);
         return responseService.getSuccessResult();
     }

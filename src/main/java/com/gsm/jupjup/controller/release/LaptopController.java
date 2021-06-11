@@ -13,6 +13,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody LaptopSaveReqDto laptopSaveReqDto){
+    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody @Valid LaptopSaveReqDto laptopSaveReqDto){
         laptopService.save(laptopSaveReqDto);
         return responseService.getSuccessResult();
     }

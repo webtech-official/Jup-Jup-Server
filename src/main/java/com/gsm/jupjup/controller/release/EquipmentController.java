@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = {"기자재 관리 컨트롤러"})
@@ -70,8 +71,6 @@ public class EquipmentController {
                 .content(content)
                 .count(count)
                 .build();
-        //기자재 등록 중복 처리
-
         equipmentService.save(equipmentUploadDto);
         return responseService.getSuccessResult();
     }
@@ -133,31 +132,10 @@ public class EquipmentController {
     })
     @PostMapping("/equipmentallow/{name}")
     public CommonResult save(@ApiParam(value = "기자재 신청 이름", required = true) @PathVariable() String name,
-                             @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto) {
+                             @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody @Valid EquipmentAllowSaveDto equipmentAllowSaveDto) {
         equipmentAllowService.save(name, equipmentAllowSaveDto);
         return responseService.getSuccessResult();
     }
-
-    //    @ApiOperation(value = "기자제 신청 수정", notes = "기자재 신청 내용을 수정한다.")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-//    })
-//    @PutMapping("/equipmentallow/{eqa_idx}")
-//    public CommonResult update(@ApiParam(value = "기자재 신청 인덱스", required = true) @PathVariable() Long eqa_idx,
-//                               @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto){
-//        equipmentAllowService.update(eqa_idx, equipmentAllowSaveDto);
-//        return responseService.getSuccessResult();
-//    }
-//
-//    @ApiOperation(value = "기자제재 신청 삭제", notes = "기자재 신청를 삭제한다.")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-//    })
-//    @DeleteMapping("/equipmentallow/{eqa_idx}")
-//    public CommonResult update(@ApiParam(value = "기자재 신청 인덱스", required = true)@PathVariable Long eqa_idx){
-//        equipmentAllowService.deleteById(eqa_idx);
-//        return responseService.getSuccessResult();
-//    }
 
     @ApiOperation(value = "기자재 신청 전체 조회", notes = "관리자가 신청을 조회한다.")
     @ApiImplicitParams({

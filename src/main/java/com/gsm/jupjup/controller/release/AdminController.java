@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.*;
 
 @Api(tags = {"회원 컨트롤러"})
@@ -54,7 +55,7 @@ public class AdminController {
 
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
     @PostMapping(value = "/signin")
-    public SingleResult<Map<String, String>> signin(@ApiParam(value = "로그인 DTO", required = true) @RequestBody SignInDto signInDto,
+    public SingleResult<Map<String, String>> signin(@ApiParam(value = "로그인 DTO", required = true) @RequestBody @Valid SignInDto signInDto,
                                                   HttpServletResponse res, HttpServletRequest req) {
         Admin admin = adminRepo.findByEmail(signInDto.getEmail()).orElseThrow(CEmailSigninFailedException::new);
         /*
@@ -84,7 +85,7 @@ public class AdminController {
 
     @ApiOperation(value = "가입", notes = "회원가입을 한다.")
     @PostMapping(value = "/signup")
-    public CommonResult signup(@ApiParam(value = "회원 가입 DTO", required = true) @RequestBody SignUpDto signUpDto) {
+    public CommonResult signup(@ApiParam(value = "회원 가입 DTO", required = true) @RequestBody @Valid SignUpDto signUpDto) {
         //이메일 중복
         Optional<Admin> admin = adminRepo.findByEmail(signUpDto.getEmail());
         if(admin.isEmpty()){
