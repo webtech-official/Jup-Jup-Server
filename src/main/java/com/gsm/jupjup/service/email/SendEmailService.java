@@ -2,10 +2,7 @@ package com.gsm.jupjup.service.email;
 
 import com.gsm.jupjup.dto.email.MailDto;
 import com.gsm.jupjup.model.Admin;
-import com.gsm.jupjup.model.ConfirmationToken;
 import com.gsm.jupjup.repo.AdminRepo;
-import com.gsm.jupjup.repo.ConfirmationTokenRepository;
-import io.jsonwebtoken.lang.Assert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,14 +11,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class SendEmailService {
 
-    private final ConfirmationTokenRepository confirmationTokenRepository;
     private final AdminRepo adminRepo;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
