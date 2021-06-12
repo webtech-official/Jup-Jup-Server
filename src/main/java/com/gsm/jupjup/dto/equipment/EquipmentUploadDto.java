@@ -25,7 +25,6 @@ public class EquipmentUploadDto {
     @NotBlank(message = "기자재 카테고리를 입력해주세요.")
     private String category;
 
-    @NotBlank(message = "기자재 수량을 입력해주세요.")
     private int count;
 
     @JsonIgnore
