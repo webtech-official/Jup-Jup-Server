@@ -16,7 +16,6 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class EquipmentAllowSaveDto {
 
-    @NotBlank(message = "수량을 입력해주세요.")
     private int amount;
 
     @NotBlank(message = "이유를 입력해주세요.")
