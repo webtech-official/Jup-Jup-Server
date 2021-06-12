@@ -131,8 +131,7 @@ public class EquipmentController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @PostMapping("/equipmentallow/{name}")
-    public CommonResult save(@ApiParam(value = "기자재 신청 이름", required = true) @PathVariable() String name,
-                             @ApiParam(value = "기자재 신청 Dto", required = true) @RequestBody @Valid EquipmentAllowSaveDto equipmentAllowSaveDto) {
+    public CommonResult save(@PathVariable String name, @Valid @RequestBody EquipmentAllowSaveDto equipmentAllowSaveDto) {
         equipmentAllowService.save(name, equipmentAllowSaveDto);
         return responseService.getSuccessResult();
     }
