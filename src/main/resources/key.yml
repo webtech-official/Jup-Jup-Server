@@ -35,8 +35,8 @@ cloud:
       auto: false
       static: ap-northeast-2
     credentials:
-      access-key: AKIARMCDCC23TSMZHIPB
-      secret-key: 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
+      access-key: AKIARMCDCC23Z3UILLH4
+      secret-key: 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
     stack:
       auto: false
 
