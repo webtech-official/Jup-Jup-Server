@@ -2,7 +2,6 @@ package com.gsm.jupjup.service.laptop;
 
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveReqDto;
-import com.gsm.jupjup.dto.laptop.LaptopUpdateReqDto;
 import com.gsm.jupjup.model.Laptop;
 
 import java.util.List;

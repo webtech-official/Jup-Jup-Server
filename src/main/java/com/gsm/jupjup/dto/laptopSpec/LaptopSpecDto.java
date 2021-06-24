@@ -6,16 +6,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class LaptopSpecDto {
+    @NotBlank(message = "CPU를 입력해주세요.")
     private String CPU;
+
+    @NotBlank(message = "GPU를 입력해주세요.")
     private String GPU;
+
+    @NotBlank(message = "RAM를 입력해주세요.")
     private String RAM;
+
+    @NotBlank(message = "SSD를 입력해주세요.")
     private String SSD;
+
+    @NotBlank(message = "HDD를 입력해주세요.")
     private String HDD;
+
+    @NotBlank(message = "노트북 브랜드를 입력해주세요.")
     private String laptopBrand;
+
+    @NotBlank(message = "노트북 이름을 입력해주세요.")
     private String laptopName;
 
     @Builder

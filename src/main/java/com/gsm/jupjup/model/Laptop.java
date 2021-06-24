@@ -23,6 +23,7 @@ public class Laptop extends BaseTimeEntity {
     private String laptopSerialNumber;
 
     private String studentName;
+
     private String classNumber;
 
     //laptopSpec 관계 설정

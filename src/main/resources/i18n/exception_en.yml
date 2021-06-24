@@ -1,7 +1,7 @@
 # exception_en.yml
 unKnown:
   code: "-9999"
-userNotFound:
+CUserNotFoundException:
   code: "-1000"
   msg: "This member does not exist."
 emailSigninFailed:
@@ -61,3 +61,5 @@ ApproveApplicationFirstException:
 EmailNotVerifiedException:
   code: "-947"
   msg: "Please verify your email."
+MethodArgumentNotValidException:
+  code: "-4940"

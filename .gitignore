@@ -4,7 +4,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 /src/main/resources/static/image/
-/src/test/
 
 ### STS ###
 .apt_generated
@@ -35,7 +34,9 @@ build/
 .vscode/
 
 ###Sensitive Code###
-src/main/resources/application.yml
 .DS_Store
 src/.DS_Store
 src/main/.DS_Store
+
+
+src/main/resources/key.yml

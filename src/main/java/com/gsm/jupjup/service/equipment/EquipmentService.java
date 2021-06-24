@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface EquipmentService {
     //기자재 저장
-    void save(EquipmentUploadDto equipmentUploadDto) throws IOException;
+    void save(EquipmentUploadDto equipmentUploadDto) throws Exception;
 
     //수량 업데이트
     void update(Long eq_idx, int count);
@@ -24,7 +24,7 @@ public interface EquipmentService {
     EquipmentResDto findByName(String name) throws IOException;
 
     //기자재 모두 검색
-    List<Equipment> findAll() throws IOException;
+    List<Equipment> findAll();
 
     //기자재 이름 검색
     Equipment equipmentFindBy(String name);

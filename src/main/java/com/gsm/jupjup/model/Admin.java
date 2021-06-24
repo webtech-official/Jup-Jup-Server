@@ -25,17 +25,17 @@ public class Admin extends BaseTimeEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long auth_Idx;
 
-    @Column(nullable = false, unique = true, length = 30)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String password;
     
     @Column(nullable = false, length = 4)
     private String classNumber;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String name;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -90,4 +90,7 @@ public class Admin extends BaseTimeEntity implements UserDetails {
         this.email = email;
     }
 
+    public void change_password(String password){
+        this.password = password;
+    }
 }

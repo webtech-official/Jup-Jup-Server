@@ -14,7 +14,7 @@ public class RedisUtil {
     private final StringRedisTemplate stringRedisTemplate;
 
     public String getData(String key){
-        ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
+        ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
         return valueOperations.get(key);
     }
 
@@ -23,10 +23,10 @@ public class RedisUtil {
         valueOperations.set(key,value);
     }
 
-    public void setDataExpire(String key,String value,long duration){
+    public void setDataExpire(String value ,String key,long duration){
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
         Duration expireDuration = Duration.ofSeconds(duration);
-        valueOperations.set(key,value,expireDuration);
+        valueOperations.set(key, value, expireDuration);
     }
 
     public void deleteData(String key){

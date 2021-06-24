@@ -14,10 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.RegEx;
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Api(tags = {"6. 공지사항"})
+@Api(tags = {"공지사항 관리 컨트롤러"})
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping("/v2")
@@ -31,7 +32,7 @@ public class NoticeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult saveNotice(@ApiParam(value = "공지 사항 등록 정보", required = true) @RequestBody NoticeSaveDto noticeSaveDto) {
+    public CommonResult saveNotice(@ApiParam(value = "공지 사항 등록 정보", required = true) @RequestBody @Valid NoticeSaveDto noticeSaveDto) {
         noticeService.SaveNotice(noticeSaveDto);
         return responseService.getSuccessResult();
     }

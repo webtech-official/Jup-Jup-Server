@@ -2,7 +2,6 @@ package com.gsm.jupjup.controller.release;
 
 import com.gsm.jupjup.dto.laptop.LaptopResponseDto;
 import com.gsm.jupjup.dto.laptop.LaptopSaveReqDto;
-import com.gsm.jupjup.dto.laptop.LaptopUpdateReqDto;
 import com.gsm.jupjup.model.Laptop;
 import com.gsm.jupjup.model.LaptopSpec;
 import com.gsm.jupjup.model.response.CommonResult;
@@ -14,10 +13,11 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Api(tags = {"4. 노트북"})
+@Api(tags = {"노트북 관리 컨트롤러"})
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") //해당 origin 승인하기
 @RequestMapping("/v2")
@@ -32,7 +32,7 @@ public class LaptopController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody LaptopSaveReqDto laptopSaveReqDto){
+    public CommonResult save(@ApiParam(value = "노트북 저장 DTO", required = true) @RequestBody @Valid LaptopSaveReqDto laptopSaveReqDto){
         laptopService.save(laptopSaveReqDto);
         return responseService.getSuccessResult();
     }

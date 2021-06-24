@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -28,11 +27,22 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     @Value("${spring.jwt.secret}")
     private String SECRET_KEY;
 
-    public final static long TOKEN_VALIDATION_SECOND = 1000L * 86400;  //하루를 accessToken 만료 기간으로 잡는다
-    public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 3600 * 24 * 210; //7개월을 refreshToken 만료 기간으로 잡는다.
+    private final CustomUserDetailService customUserDetailService;
+
+//    public final static long TOKEN_VALIDATION_SECOND = 1000L * 86400;  //하루를 accessToken 만료 기간으로 잡는다
+//    public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 3600 * 24 * 210; //7개월을 refreshToken 만료 기간으로 잡는다.
+
+    public final static long TOKEN_VALIDATION_SECOND = 1000L * 60;  //  1분을 accessToken 만료 기간으로 잡는다
+    public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 3600; // 1시간을 refreshToken 만료 기간으로 잡는다.
 
     final static public String ACCESS_TOKEN_NAME = "accessToken";
     final static public String REFRESH_TOKEN_NAME = "refreshToken";
+
+    // Base64 encoded secret key
+    @PostConstruct
+    protected void init() {
+        SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
+    }
 
     private Key getSigningKey(String secretKey) {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
@@ -45,11 +55,10 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
     }
 
-    public String getUserName(String token) {
-        return extractAllClaims(token).get("username", String.class);
+    public String getUserEmail(String token){
+        return extractAllClaims(token).get("userEmail", String.class);
     }
 
     public Boolean isTokenExpired(String token) {
@@ -58,17 +67,20 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     }
 
     public String generateToken(Admin admin) {
-        return doGenerateToken(admin.getUsername(), TOKEN_VALIDATION_SECOND);
+        return doGenerateToken(admin.getEmail(), admin.getRoles(), admin.getClassNumber(), admin.getName(), TOKEN_VALIDATION_SECOND);
     }
 
     public String generateRefreshToken(Admin admin) {
-        return doGenerateToken(admin.getUsername(), REFRESH_TOKEN_VALIDATION_SECOND);
+        return doGenerateToken(admin.getEmail(), admin.getRoles(), admin.getClassNumber(), admin.getName(), REFRESH_TOKEN_VALIDATION_SECOND);
     }
 
-    public String doGenerateToken(String username, long expireTime) {
+    public String doGenerateToken(String userEmail, List<String> roles, String classNumber, String userName, long expireTime) {
 
         Claims claims = Jwts.claims();
-        claims.put("username", username);
+        claims.put("userEmail", userEmail);
+        claims.put("classNumber", classNumber);
+        claims.put("userName", userName);
+        claims.put("roles", roles);
 
         String jwt = Jwts.builder()
                 .setClaims(claims)
@@ -79,10 +91,21 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
         return jwt;
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = getUserName(token);
-
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public Boolean validateToken(String token) {
+        return !isTokenExpired(token);
     }
 
+
+    public String resolveToken(HttpServletRequest req){
+        String bearerToken = req.getHeader("Authorization");
+        if(bearerToken != null && bearerToken.startsWith("Bearer ")){
+            return  bearerToken.substring(7);
+        }
+        return null;
+    }
+
+    public Authentication getAuthentication(String token){
+        UserDetails userDetails = customUserDetailService.loadUserByUsername(getUserEmail(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
 }
