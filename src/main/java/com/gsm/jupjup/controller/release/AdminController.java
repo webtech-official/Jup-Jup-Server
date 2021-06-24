@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Api(tags = {"회원 컨트롤러"})
 @RequiredArgsConstructor
@@ -71,9 +73,12 @@ public class AdminController {
     @ApiOperation(value = "새로운 토큰 요청하기", notes = "유저가 비밀번호를 변경한다.")
     @ResponseBody
     @PostMapping("/auth/refresh")
-    public CommonResult authRefresh(@RequestBody AuthRefreshDto authRefreshDto, HttpServletResponse httpServletResponse) {
-        adminService.authRefresh(authRefreshDto.getReFreshToken(), httpServletResponse);
-        return responseService.getSuccessResult();
+    public SingleResult<Map<String, String>> AuthRefresh(@Valid @RequestBody AuthRefreshDto authRefreshDto, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        String newToken = adminService.authRefresh(authRefreshDto.getReFreshToken(), httpServletResponse);
+        httpServletResponse.addHeader("newToken", newToken);
+        Map<String, String> map = new HashMap<>();
+        map.put("newToken", newToken);
+        return responseService.getSingleResult(map);
     }
 
     @ResponseBody
