@@ -14,8 +14,11 @@ import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.repo.AdminRepo;
 import com.gsm.jupjup.repo.EquipmentAllowRepo;
 import com.gsm.jupjup.util.RedisUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -107,20 +110,25 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public void authRefresh(String refreshJwt, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    public String authRefresh(String refreshJwt, HttpServletResponse httpServletResponse) {
         String newAccessToken = null;
         String RefreshTokenUserEmail = jwtTokenProvider.getUserEmail(refreshJwt);
         String RedisRefreshJwt = redisUtil.getData(RefreshTokenUserEmail);  //현재 Redis에 저장되어 있는 리프레쉬 토큰
 
         if(RedisRefreshJwt.equals(refreshJwt)){
-            UserDetails userDetails = customUserDetailService.loadUserByUsername(RefreshTokenUserEmail);
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
-            usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            Admin admin = customUserDetailService.findAdmin( RefreshTokenUserEmail);
-            newAccessToken = jwtTokenProvider.generateToken(admin);
-            httpServletResponse.addHeader("newAccessToken", newAccessToken);
+            try{
+                if(refreshJwt != null && jwtTokenProvider.validateToken(refreshJwt)){
+                    Authentication authentication = jwtTokenProvider.getAuthentication(refreshJwt);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            } catch (ExpiredJwtException e){   // 만약 유효기간을 넘겼다면??
+                httpServletResponse.setHeader("message", e.getMessage());
+                httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+            }
+            Admin member = customUserDetailService.findAdmin(RefreshTokenUserEmail);
+            newAccessToken = jwtTokenProvider.generateToken(member);
         }
+        return newAccessToken;
     }
 
     @Transactional

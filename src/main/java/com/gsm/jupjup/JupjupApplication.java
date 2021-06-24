@@ -29,10 +29,4 @@ public class JupjupApplication {
 				.properties(PROPERTIES)
 				.run(args);
 	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder(){
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
-
 }

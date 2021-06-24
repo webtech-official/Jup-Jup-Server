@@ -23,7 +23,7 @@ public interface AdminService {
 
     void logOut();
 
-    void authRefresh(String refreshJwt, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse);
+    String authRefresh(String refreshJwt, HttpServletResponse httpServletResponse);
 
     void change_password(MemberPasswordChangeDto memberPasswordChangeDto);
 }

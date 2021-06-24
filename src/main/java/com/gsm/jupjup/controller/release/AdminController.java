@@ -71,8 +71,8 @@ public class AdminController {
     @ApiOperation(value = "새로운 토큰 요청하기", notes = "유저가 비밀번호를 변경한다.")
     @ResponseBody
     @PostMapping("/auth/refresh")
-    public CommonResult authRefresh(@RequestBody AuthRefreshDto authRefreshDto, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        adminService.authRefresh(authRefreshDto.getReFreshToken(), httpServletRequest, httpServletResponse);
+    public CommonResult authRefresh(@RequestBody AuthRefreshDto authRefreshDto, HttpServletResponse httpServletResponse) {
+        adminService.authRefresh(authRefreshDto.getReFreshToken(), httpServletResponse);
         return responseService.getSuccessResult();
     }
 
