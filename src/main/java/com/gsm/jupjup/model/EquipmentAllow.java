@@ -21,10 +21,10 @@ public class EquipmentAllow extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eqa_Idx;
 
-    @Column
+    @Column(nullable = false)
     private int amount;
 
-    @Column(length = 300)
+    @Column(length = 10000, nullable = false)
     private String reason;
 
     @Enumerated(EnumType.STRING)

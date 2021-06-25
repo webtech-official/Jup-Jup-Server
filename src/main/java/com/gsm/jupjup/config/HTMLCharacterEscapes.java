@@ -1,4 +1,4 @@
-package com.gsm.jupjup.config.security;
+package com.gsm.jupjup.config;
 
 import com.fasterxml.jackson.core.SerializableString;
 import com.fasterxml.jackson.core.io.CharacterEscapes;

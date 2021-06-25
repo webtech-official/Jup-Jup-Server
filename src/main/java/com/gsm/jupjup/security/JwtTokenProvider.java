@@ -1,4 +1,4 @@
-package com.gsm.jupjup.config.security;
+package com.gsm.jupjup.security;
 
 // import 생략
 

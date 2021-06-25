@@ -1,7 +1,6 @@
-package com.gsm.jupjup.config.security;
+package com.gsm.jupjup.security;
 
-import com.gsm.jupjup.config.handler.CustomAccessDeniedHandler;
-import com.gsm.jupjup.config.handler.CustomAuthenticationEntryPointHandler;
+import com.gsm.jupjup.handler.CustomAccessDeniedHandler;
 import lombok.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @EnableWebSecurity

@@ -17,27 +17,25 @@ public class LaptopSpec extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long specIdx;
 
-    @Column
+    @Column(nullable = false, length = 1000)
     private String CPU;
 
-    @Column
+    @Column(nullable = false, length = 1000)
     private String GPU;
 
-    @Column
+    @Column(nullable = false, length = 1000)
     private String RAM;
 
-    @Column
+    @Column(nullable = false, length = 1000)
     private String SSD;
 
-    @Column
+    @Column(nullable = false, length = 1000)
     private String HDD;
 
-    @Column
-    // 노트북 이름
+    @Column(nullable = false, length = 1000)     // 노트북 이름
     private String laptopName;
 
-    @Column
-    // 노트북 제조사
+    @Column(nullable = false, length = 1000)   // 노트북 제조사
     private String laptopBrand;
 
     public void update(LaptopSpecDto laptopSpecDto){

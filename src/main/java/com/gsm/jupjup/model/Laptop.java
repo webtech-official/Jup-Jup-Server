@@ -18,12 +18,13 @@ public class Laptop extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long laptopIdx;
 
-    @Column(unique = true)
-    // 노트북 시리얼 번호
+    @Column(length = 10000)   // 노트북 시리얼 번호
     private String laptopSerialNumber;
 
+    @Column(nullable = false)
     private String studentName;
 
+    @Column(nullable = false)
     private String classNumber;
 
     //laptopSpec 관계 설정
