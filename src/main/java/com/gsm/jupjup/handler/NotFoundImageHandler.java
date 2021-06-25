@@ -1,4 +1,4 @@
-package com.gsm.jupjup.config.handler;
+package com.gsm.jupjup.handler;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

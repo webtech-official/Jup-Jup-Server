@@ -1,6 +1,5 @@
-package com.gsm.jupjup.config.security;
+package com.gsm.jupjup.security;
 
-import com.gsm.jupjup.advice.exception.CAuthenticationEntryPointException;
 import com.gsm.jupjup.advice.exception.CUserNotFoundException;
 import com.gsm.jupjup.model.Admin;
 import com.gsm.jupjup.repo.AdminRepo;

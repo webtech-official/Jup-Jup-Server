@@ -24,7 +24,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @ApiOperation(value = "카테고리 등록", notes = "카테고리 등록")
-    @PostMapping("/category")
+    @PostMapping("/admin/category")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -34,7 +34,7 @@ public class CategoryController {
     }
 
     @ApiOperation(value = "카테고리 전체 조회", notes = "카테고리 전체 조회")
-    @GetMapping("/category")
+    @GetMapping("/admin/category")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -43,7 +43,7 @@ public class CategoryController {
     }
 
     @ApiOperation(value = "카테고리 삭제", notes = "카테고리 삭제")
-    @DeleteMapping("/category/{idx}")
+    @DeleteMapping("/admin/category/{idx}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -53,7 +53,7 @@ public class CategoryController {
     }
 
     @ApiOperation(value = "카테고리 수정", notes = "카테고리 수정")
-    @PutMapping("/category/{idx}")
+    @PutMapping("/admin/category/{idx}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
