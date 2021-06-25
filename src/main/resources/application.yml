@@ -41,7 +41,7 @@ spring:
         temp:
           use_jdbc_metadata_defaults: false
         hbm2ddl:
-          auto: create
+          auto: none
 
   #Redis
   cache:

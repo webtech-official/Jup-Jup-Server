@@ -13,13 +13,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Notice extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long notice_Idx;
 
-    @Column(nullable = false, length = 10000)
+    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, length = 50000)
+    @Column(nullable = false, length = 1000)
     private String content;
 
     //Admin 외래키 매핑
