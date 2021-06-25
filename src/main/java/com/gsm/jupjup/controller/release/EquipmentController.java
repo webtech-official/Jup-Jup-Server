@@ -60,7 +60,7 @@ public class EquipmentController {
     })
     public CommonResult save(@ApiParam(value = "기자재 이미지", required = false) @RequestParam(value = "img_equipment",required = false) MultipartFile img_equipment,
                              @ApiParam(value = "기자재 이름", required = true) @RequestParam String name,
-                             @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
+                             @ApiParam(value = "기자재 설명", required = true) @RequestParam String content,
                              @ApiParam(value = "기자재 개수", required = true) @RequestParam int count,
                              @ApiParam(value = "기자재 카테고리", required = true) @RequestParam String category) throws Exception {
         EquipmentUploadDto equipmentUploadDto
@@ -102,7 +102,7 @@ public class EquipmentController {
     public CommonResult update( @ApiParam(value = "수정할 기자재 IDX", required = true) @PathVariable Long eq_idx,
                                 @ApiParam(value = "기자재 이미지", required = false) @RequestParam(value = "img_equipment",required = false) MultipartFile img_equipment,
                                 @ApiParam(value = "기자재 이름", required = true) @RequestParam String newName,
-                                @ApiParam(value = "기자재 유형", required = true) @RequestParam String content,
+                                @ApiParam(value = "기자재 설명", required = true) @RequestParam String content,
                                 @ApiParam(value = "기자재 개수", required = true) @RequestParam int count) throws Exception, NotFoundImageHandler {
         equipmentService.AllUpdate(
                 eq_idx,
