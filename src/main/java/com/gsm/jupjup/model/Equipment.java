@@ -15,10 +15,13 @@ public class Equipment extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long equ_Idx;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(length = 4000)
     private String content;
 
+    @Column(nullable = false)
     private int count;
 
     private String img_equipment;

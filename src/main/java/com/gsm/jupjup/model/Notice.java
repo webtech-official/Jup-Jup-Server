@@ -4,10 +4,7 @@ import com.gsm.jupjup.dto.equipment.EquipmentUploadDto;
 import com.gsm.jupjup.dto.notice.NoticeSaveDto;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Entity
@@ -19,8 +16,10 @@ public class Notice extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long notice_Idx;
 
+    @Column(nullable = false, length = 10000)
     private String title;
-    
+
+    @Column(nullable = false, length = 50000)
     private String content;
 
     //Admin 외래키 매핑

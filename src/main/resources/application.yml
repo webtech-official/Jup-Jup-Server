@@ -9,20 +9,39 @@ spring:
       settings:
         web-allow-others: true
 
+#  datasource:
+#    url: jdbc:h2:mem:jupjup
+#    driver-class-name: org.h2.Driver
+#    username: sa
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#    properties:
+#      hibernate:
+#        temp:
+#          use_jdbc_metadata_defaults: false
+#        hbm2ddl:
+#          auto: update
+#    show-sql: true
+#    open-in-view: false
+    # 데이터 베이스 설정
+
+
   datasource:
-    url: jdbc:h2:mem:jupjup
-    driver-class-name: org.h2.Driver
-    username: sa
+    url: jdbc:mysql://localhost:3306/test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 12345678
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    generate-ddl: true
+    database: mysql
     properties:
       hibernate:
         temp:
           use_jdbc_metadata_defaults: false
         hbm2ddl:
-          auto: update
-    show-sql: true
-    open-in-view: false
+          auto: create
 
   #Redis
   cache:
