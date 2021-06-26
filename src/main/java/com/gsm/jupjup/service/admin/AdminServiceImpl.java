@@ -69,7 +69,6 @@ public class AdminServiceImpl implements AdminService{
         String token = jwtTokenProvider.generateToken(admin);
         String refreshJwt = jwtTokenProvider.generateRefreshToken(admin);
         redisUtil.setDataExpire(refreshJwt, admin.getEmail(), jwtTokenProvider.REFRESH_TOKEN_VALIDATION_SECOND);
-        System.out.println("리프레쉬 넣어줌");
 
         Iterator<? extends GrantedAuthority> authorityIterator = admin.getAuthorities().iterator();
         String authority = authorityIterator.next().toString();
