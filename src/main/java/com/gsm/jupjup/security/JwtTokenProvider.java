@@ -32,7 +32,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
 //    public final static long TOKEN_VALIDATION_SECOND = 1000L * 86400;  //하루를 accessToken 만료 기간으로 잡는다
 //    public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 3600 * 24 * 210; //7개월을 refreshToken 만료 기간으로 잡는다.
 
-    public final static long TOKEN_VALIDATION_SECOND = 1000L * 60;  //  1분을 accessToken 만료 기간으로 잡는다
+    public final static long TOKEN_VALIDATION_SECOND = 1000L * 10;  //  1분을 accessToken 만료 기간으로 잡는다
     public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 3600; // 1시간을 refreshToken 만료 기간으로 잡는다.
 
     final static public String ACCESS_TOKEN_NAME = "accessToken";
